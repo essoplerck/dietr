@@ -17,7 +17,7 @@ class IngredientModel:
         # Return an example object
         ingredient = {
             'id': id,
-            'name': 'cilantro',
+            'name': 'Cilantro',
             'description': 'Also known as coriander.'
         }
 
