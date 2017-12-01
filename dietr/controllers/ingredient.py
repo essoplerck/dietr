@@ -11,6 +11,9 @@ class IngredientController:
         pass
 
     def view(self, id):
+        # Get the ingredient from the database
+        ingredient = self.model.get_ingredient(id)
+
         pass
 
     def __init__(self):

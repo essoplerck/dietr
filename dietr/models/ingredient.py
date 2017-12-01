@@ -14,4 +14,10 @@ class IngredientModel:
         pass
 
     def get_ingredient(self, id):
-        pass
+        # Return an example object
+        ingredient = {
+            'id': id,
+            'name': 'beer'
+        }
+
+        return ingredient
