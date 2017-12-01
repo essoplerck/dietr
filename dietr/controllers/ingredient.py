@@ -1,3 +1,5 @@
+from dietr.models.ingredient import IngredientModel
+
 class IngredientController:
     def add(self):
         pass
@@ -10,3 +12,6 @@ class IngredientController:
 
     def view(self, id):
         pass
+
+    def __init__(self):
+        self.model = IngredientModel()
