@@ -12,7 +12,7 @@ class Router:
     '''
     @app.route('/')
     def index():
-        return render_template('dashboard.html')
+        pass
 
     @app.route('/ingredient/<int:id>')
     @app.route('/ingredient/<int:id>/<string:name>')
