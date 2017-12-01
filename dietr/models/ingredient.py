@@ -17,8 +17,17 @@ class IngredientModel:
         # Return an example object
         ingredient = {
             'id': id,
-            'name': 'Cilantro',
-            'description': 'Also known as coriander.'
+            'name': 'Soy Sauce',
+            'description': 'Widely used in cooking and as condiment.',
+            'allergens': [
+                {
+                    'id': 1,
+                    'name': 'soy beans'
+                }, {
+                    'id': 2,
+                    'name': 'wheat'
+                }
+            ]
         }
 
         return ingredient
