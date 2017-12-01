@@ -1,3 +1,5 @@
+from flask import render_template
+
 from dietr.models.ingredient import IngredientModel
 
 class IngredientController:
@@ -14,8 +16,8 @@ class IngredientController:
         # Get the ingredient from the database
         ingredient = self.model.get_ingredient(id)
 
-        # Return the name of the ingredient
-        return ingredient['name']
+        # Return the template
+        return render_template('ingredient/view.html', ingredient = ingredient)
 
     def __init__(self):
         self.model = IngredientModel()

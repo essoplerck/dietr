@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+  {{ ingredient.name }}
+{% endblock %}
+
+{% block content %}
+  <h1>{{ ingredient.name }}</h1>
+  <p class="lead">{{ ingredient.description }}</p>
+{% endblock %}
