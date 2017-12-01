@@ -14,7 +14,8 @@ class IngredientController:
         # Get the ingredient from the database
         ingredient = self.model.get_ingredient(id)
 
-        pass
+        # Return the name of the ingredient
+        return ingredient['name']
 
     def __init__(self):
         self.model = IngredientModel()
