@@ -4,4 +4,14 @@ class IngredientModel:
     extract end update data using the CRUD principle. Data may be exchaned using
     a intermediate object.
     '''
-    pass
+    def add_ingredient(self):
+        pass
+
+    def edit_ingredient(self):
+        pass
+
+    def delete_ingredient(self):
+        pass
+
+    def get_ingredient(self, id):
+        pass
