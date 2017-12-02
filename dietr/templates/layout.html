@@ -25,7 +25,20 @@
 </head>
 
 <body>
-  {% block content %}{% endblock %}
+  <aside></aside>
+
+  <header>
+    <nav></nav>
+
+    <h1>Title</h1>
+    <p class="description">Leading text</p>
+  </header>
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer></footer>
 
   <script async src="/static/scripts/script.js"></script>
 </body>
