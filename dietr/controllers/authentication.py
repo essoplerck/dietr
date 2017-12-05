@@ -7,6 +7,12 @@ class AuthenticationController:
         pass
 
     def login(self):
+        if request.method == 'GET':
+            username = request.form['username']
+            password = request.form['password']
+
+            pass
+
         pass
 
     def logout(self):
