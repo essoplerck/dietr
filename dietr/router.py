@@ -23,7 +23,7 @@ class Router:
 
         return action(id)
 
-    @app.route('/login')
+    @app.route('/login', methods = ['GET', 'POST'])
     def login():
         controller  = SessionController()
         action      = controller.login
@@ -37,7 +37,7 @@ class Router:
 
         return action()
 
-    @app.route('/join')
+    @app.route('/join', methods = ['GET', 'POST'])
     def join():
         controller  = SessionController()
         action      = controller.join
