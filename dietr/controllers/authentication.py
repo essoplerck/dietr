@@ -1,5 +1,7 @@
 from flask import render_template, request
 
+from dietr.models.authentication import AuthenticationModel
+
 class AuthenticationController:
     def join(self):
         pass
@@ -9,3 +11,6 @@ class AuthenticationController:
 
     def logout(self):
         pass
+
+    def __init__(self):
+        self.model = AuthenticationModel()
