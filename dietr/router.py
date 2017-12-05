@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template
 
 from dietr.controllers.ingredient import IngredientController
-from dietr.controllers.authentication import AuthenticationController
+from dietr.controllers.session import SessionController
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -25,21 +25,21 @@ class Router:
 
     @app.route('/login')
     def login():
-        controller  = AuthenticationController()
+        controller  = SessionController()
         action      = controller.login
 
         return action()
 
     @app.route('/logout', methods = ['GET', 'POST'])
     def logout():
-        controller  = AuthenticationController()
+        controller  = SessionController()
         action      = controller.logout
 
         return action()
 
     @app.route('/join')
     def join():
-        controller  = AuthenticationController()
+        controller  = SessionController()
         action      = controller.join
 
         return action()

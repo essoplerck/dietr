@@ -1,8 +1,8 @@
 from flask import render_template, request
 
-from dietr.models.authentication import AuthenticationModel
+from dietr.models.session import SessionModel
 
-class AuthenticationController:
+class SessionController:
     def join(self):
         pass
 
@@ -19,4 +19,4 @@ class AuthenticationController:
         pass
 
     def __init__(self):
-        self.model = AuthenticationModel()
+        self.model = SessionModel()

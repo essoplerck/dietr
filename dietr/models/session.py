@@ -1,6 +1,6 @@
-class AuthenticationModel:
+class SessionModel:
     '''
-    The authentication model.
+    The session model.
     '''
     def generate_hash():
         pass
