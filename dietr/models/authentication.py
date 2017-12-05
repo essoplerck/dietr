@@ -2,6 +2,15 @@ class AuthenticationModel:
     '''
     The authentication model.
     '''
+    def generate_hash():
+        pass
+
+    def get_hash(password, salt):
+        pass
+
+    def get_salt():
+        pass
+
     def add_user(user):
         pass
 
