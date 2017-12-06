@@ -4,40 +4,46 @@
 
 ## Routes
 
-| URL                            | Controller  | Action   | Identifier      |
-|:-------------------------------|:------------|:---------|:----------------|
-| `/`                            | overview    | view     | none            |
-| `/about`                       | overview    | about    | none            |
-| `/contact`                     | overview    | contact  | none            |
-| `/allergies`                   | allergies   | view     | none            |
-| `/ingredient/<int:id>`         | ingredient  | view     | `<int:id>`      |
-| `/ingredient/add`              | ingredient  | add      | none            |
-| `/ingredient/<int:id>/edit`    | ingredient  | edit     | `<int:id>`      |
-| `/ingredient/<int:id>/delete`  | ingredient  | delete   | `<int:id>`      |
-| `/person/<string:name>`        | person      | view     | `<string:name>` |
-| `/person/add`                  | person      | view     | `<string:name>` |
-| `/person/<string:name>/edit`   | person      | view     | `<string:name>` |
-| `/person/<string:name>/delete` | person      | delete   | `<string:name>` |
-| `/people`                      | person      | overview | `<string:name>` |
-| `/profile`                     | profile     | view     | none            |
-| `/recipe/<int:id>`             | recipe      | view     | `<int:id>`      |
-| `/recipes`                     | recipe      | overview | `1`             |
-| `/recipes/page/<int:page>`     | recipe      | overview | `<page:int>`    |
-| `/login`                       | session     | login    | none            |
-| `/logout`                      | session     | logout   | none            |
-| `/join`                        | session     | join     | none            |
+| URL                            | Controller | Action   | Identifier      |
+|:------------------------------ |:---------- |:-------- |:--------------- |
+| `/`                            | overview   | view     | none            |
+| `/about`                       | overview   | about    | none            |
+| `/contact`                     | overview   | contact  | none            |
+| `/allergies`                   | allergies  | view     | none            |
+| `/allergies/edit`              | allergies  | edit     | none            |
+| `/ingredient/<int:id>`         | ingredient | view     | `<int:id>`      |
+| `/ingredient/add`              | ingredient | add      | none            |
+| `/ingredient/<int:id>/edit`    | ingredient | edit     | `<int:id>`      |
+| `/ingredient/<int:id>/delete`  | ingredient | delete   | `<int:id>`      |
+| `/pantry`                      | pantry     | view     | none            |
+| `/pantry/edit`                 | pantry     | edit     | none            |
+| `/person/<string:name>`        | person     | view     | `<string:name>` |
+| `/person/add`                  | person     | view     | `<string:name>` |
+| `/person/<string:name>/edit`   | person     | view     | `<string:name>` |
+| `/person/<string:name>/delete` | person     | delete   | `<string:name>` |
+| `/people`                      | person     | overview | `<string:name>` |
+| `/profile`                     | profile    | view     | none            |
+| `/profile/edit`                | profile    | edit     | none            |
+| `/recipe/<int:id>`             | recipe     | view     | `<int:id>`      |
+| `/recipes`                     | recipe     | overview | `1`             |
+| `/recipes/page/<int:page>`     | recipe     | overview | `<page:int>`    |
+| `/login`                       | session    | login    | none            |
+| `/logout`                      | session    | logout   | none            |
+| `/join`                        | session    | join     | none            |
 
 ## Controllers
 
 ### Overview
 
+#### Index
+
 URL scheme `/`
 
-### About
+#### About
 
 URL scheme `/about`
 
-### Contact
+#### Contact
 
 URL scheme `/contact`
 
@@ -59,7 +65,7 @@ Allows the user to edit their allergies
 
 #### View
 
-URL scheme `/ingredient/<int:id>`
+URL scheme `/ingredient/<int:id>`, `/ingredient/<int:id>/`
 
 Will display information for a certain ingredient like certain allergies and possible diets.
 
@@ -77,11 +83,25 @@ URL scheme `/ingredient/<int:id>/edit`
 
 **Maby don't do this, for testing only.** Edit an ingredient.
 
+Edit ingredient in the user's pantry.
+
 #### Delete
 
 URL scheme `/ingredient/<int:id>/delete`
 
 **Maby don't do this, for testing only.** Delete an ingredient.
+
+### Pantry
+
+#### View
+
+URL scheme `/pantry`
+
+Show the overview of the ingredient in the user's pantry.
+
+#### Edit
+
+URL scheme `/pantry/edit`
 
 ### Person
 
