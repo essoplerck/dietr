@@ -12,6 +12,22 @@ class Router:
     def index():
         pass
 
+    @app.route('/about')
+    def about():
+        pass
+
+    @app.route('/contact')
+    def contact():
+        pass
+
+    @app.route('/allergies')
+    def allergies():
+        pass
+
+    @app.route('/allergies/edit')
+    def allergies():
+        pass
+
     @app.route('/ingredient/<int:id>')
     @app.route('/ingredient/<int:id>/<string:name>')
     def ingredient(id, name = None):
@@ -42,6 +58,50 @@ class Router:
         action      = controller.delete
 
         return action(id)
+
+    @app.route('/pantry')
+    def pantry():
+        pass
+
+    @app.route('/pantry/edit')
+    def pantry_edit():
+        pass
+
+    @app.route('/person/<string:name>')
+    def person(name):
+        pass
+
+    @app.route('/person/add')
+    def person_add():
+        pass
+
+    @app.route('/person/<string:name>/edit')
+    def person_edit(name):
+        pass
+
+    @app.route('/person/<string:name>/delete')
+    def person_delete(name):
+        pass
+
+    @app.route('/people')
+    def people():
+        pass
+
+    @app.route('/profile')
+    def profile():
+        pass
+
+    @app.route('/recipe/<int:id>')
+    @app.route('/recipe/<int:id>/<string:name>')
+    def recipe(id, name = None):
+        pass
+
+    @app.route('/recipes', defaults = {
+        'page': 1
+    })
+    @app.route('/recipes/page/<int:page>')
+    def recipes(page):
+        pass
 
     @app.route('/login', methods = ['GET', 'POST'])
     def login():
