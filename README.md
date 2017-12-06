@@ -5,7 +5,7 @@
 ## Usage
 
 ```bash
-$ export FLASK_APP=dietr/router.py
+$ export FLASK_APP=dietr.py
 $ flask run --host=localhost --port=80
 ```
 
