@@ -25,7 +25,7 @@ class Router:
         return action(id)
 
     @app.route('/ingredient/add')
-    def ingredient():
+    def ingredient_add():
         controller  = IngredientController()
         action      = controller.add
 
@@ -33,7 +33,7 @@ class Router:
 
     @app.route('/ingredient/<int:id>/edit')
     @app.route('/ingredient/<int:id>/<string:name>/edit')
-    def ingredient(id, name = None):
+    def ingredient_edit(id, name = None):
         controller  = IngredientController()
         action      = controller.edit
 
@@ -41,14 +41,14 @@ class Router:
 
     @app.route('/ingredient/<int:id>/delete')
     @app.route('/ingredient/<int:id>/<string:name>/delete')
-    def ingredient(id, name = None):
+    def ingredient_delete(id, name = None):
         controller  = IngredientController()
         action      = controller.delete
 
         return action(id)
 
     @app.route('/ingredients/overview')
-    def ingredient():
+    def ingredient_overview():
         controller  = IngredientController()
         action      = controller.overview
 
