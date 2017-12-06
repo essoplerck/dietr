@@ -43,13 +43,6 @@ class Router:
 
         return action(id)
 
-    @app.route('/ingredients/overview')
-    def ingredient_overview():
-        controller  = IngredientController()
-        action      = controller.overview
-
-        return action()
-
     @app.route('/login', methods = ['GET', 'POST'])
     def login():
         controller  = SessionController()

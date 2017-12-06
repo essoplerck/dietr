@@ -31,6 +31,3 @@ class IngredientModel:
         }
 
         return ingredient
-
-    def get_ingredients(self):
-        pass

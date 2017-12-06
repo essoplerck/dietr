@@ -12,9 +12,6 @@ class IngredientController:
     def delete(self, id):
         pass
 
-    def overview(self):
-        pass
-
     def view(self, id):
         # Get the ingredient from the database
         ingredient = self.model.get_ingredient(id)
