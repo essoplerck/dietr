@@ -9,6 +9,17 @@ $ export FLASK_APP=dietr/router.py
 $ flask run --host=localhost --port=80
 ```
 
+Change the **SECRET_KEY** to ensure the safety of the program.
+
+```python
+import os
+
+# Set generate a 24 bit secret key
+SECRET_KEY = hex(int.from_bytes(os.urandom(24), byteorder='big'))
+
+del os
+```
+
 ## Releases
 
 ## Contributing
