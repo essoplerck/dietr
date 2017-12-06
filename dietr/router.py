@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 class Router:
+    # TODO create a dynamic router
     '''
     The router class is used to encapsulate the routing methods to prevent
     pollution of global namespace.
@@ -22,6 +23,36 @@ class Router:
         action      = controller.view
 
         return action(id)
+
+    @app.route('/ingredient/add')
+    def ingredient():
+        controller  = IngredientController()
+        action      = controller.add
+
+        return action()
+
+    @app.route('/ingredient/<int:id>/edit')
+    @app.route('/ingredient/<int:id>/<string:name>/edit')
+    def ingredient(id, name = None):
+        controller  = IngredientController()
+        action      = controller.edit
+
+        return action(id)
+
+    @app.route('/ingredient/<int:id>/delete')
+    @app.route('/ingredient/<int:id>/<string:name>/delete')
+    def ingredient(id, name = None):
+        controller  = IngredientController()
+        action      = controller.delete
+
+        return action(id)
+
+    @app.route('/ingredients/overview')
+    def ingredient():
+        controller  = IngredientController()
+        action      = controller.overview
+
+        return action()
 
     @app.route('/login', methods = ['GET', 'POST'])
     def login():
