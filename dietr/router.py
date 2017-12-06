@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask
 
 from dietr import app
 from dietr.controllers.ingredient import IngredientController
