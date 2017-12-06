@@ -1,10 +1,8 @@
 from flask import Flask, request, render_template
 
+from dietr import app
 from dietr.controllers.ingredient import IngredientController
 from dietr.controllers.session import SessionController
-
-app = Flask(__name__)
-app.config.from_object('config')
 
 class Router:
     # TODO create a dynamic router
