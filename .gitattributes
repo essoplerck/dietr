@@ -1,2 +1,27 @@
-# Auto detect text files and perform LF normalization
+# gitattributes
 * text=auto
+
+# config
+.editorconfig  text
+
+# debug
+*.log          binary
+
+# documentation
+*.md           text
+*.txt          text eol=crlf
+AUTHORS        text
+LICENSE        text
+
+# executables
+*.exe          binary
+
+# git config
+.gitattributes text
+.gitconfig     text
+.gitignore     text
+
+# source
+*.html         text
+*.json         text
+*.py           text
