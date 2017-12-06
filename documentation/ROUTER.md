@@ -209,8 +209,8 @@ class Router:
         pass
 
     @app.route('/recipes', defaults = {
-         'page': 1
-     }))
+        'page': 1
+    })
     @app.route('/recipes/page/<int:page>')
     def recipes(page):
         pass
