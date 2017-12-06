@@ -4,23 +4,28 @@
 
 ## Routes
 
-| URL                       | Controller  | Action  | Identifier          |
-|:--------------------------|:------------|:--------|:--------------------|
-| `/`                       | overview    | view    | none                |
-| `/about`                  |
-| `/contact`                |
-| `/diet/<string:name>`     | diet        | view    | `<string:name>`     |
-| `/diets`                  | diets       | view    | none                |
-| `/ingredient/<int:id>`    | ingredient  | view    | `<int:id>`          |
-| `/ingredients`            | ingredients | view    | none                |
-| `/recipe/<int:id>`        | recipe      | view    | `<int:id>`          |
-| `/recipes`                | recipes     | view    | none                |
-| `/user/<string:username>` | user        | view    | `<string:username>` |
-| `/users`                  | users       | view    | `1`                 |
-| `/users/page/<int:page>`  | users       | view    | `<int:page>`        |
-| `/login`                  | sessions    | login   | none                |
-| `/logout`                 | sessions    | logout  | none                |
-| `/register`               | sessions    | regiser | none                |
+| URL                            | Controller  | Action   | Identifier      |
+|:-------------------------------|:------------|:---------|:----------------|
+| `/`                            | overview    | view     | none            |
+| `/about`                       | overview    | about    | none            |
+| `/contact`                     | overview    | contact  | none            |
+| `/allergies`                   | allergies   | view     | none            |
+| `/person/<string:name>`        | person      | view     | `<string:name>` |
+| `/person/add`                  | person      | view     | `<string:name>` |
+| `/person/<string:name>/edit`   | person      | view     | `<string:name>` |
+| `/person/<string:name>/delete` | person      | delete   | `<string:name>` |
+| `/people`                      | person      | overview | `<string:name>` |
+| `/ingredient/<int:id>`         | ingredient  | view     | `<int:id>`      |
+| `/ingredient/add`              | ingredient  | add      | none            |
+| `/ingredient/<int:id>/edit`    | ingredient  | edit     | `<int:id>`      |
+| `/ingredient/<int:id>/delete`  | ingredient  | delete   | `<int:id>`      |
+| `/recipe/<int:id>`             | recipe      | view     | `<int:id>`      |
+| `/recipes`                     | recipe      | overview | `1`             |
+| `/recipes/page/<int:page>`     | recipe      | overview | `<page:int>`    |
+| `/profile`                     | profile     | view     | none            |
+| `/login`                       | session     | login    | none            |
+| `/logout`                      | session     | logout   | none            |
+| `/join`                        | session     | join     | none            |
 
 ## Controllers
 
@@ -28,23 +33,63 @@
 
 URL scheme `/`
 
-## About
+### About
 
 URL scheme `/about`
 
-## Contact
+### Contact
 
 URL scheme `/contact`
 
-### Diet
+### Allergies
 
-URL scheme `/diet/<string:name>`
+#### View
 
-### Diets
+URL scheme `/allergies`
 
-URL scheme `/diets`
+Shows the allergies of the user.
+
+#### Edit
+
+URL scheme `/allergies/edit`
+
+Allows the user to edit their allergies
+
+### Person
+
+#### View
+
+URL scheme `/person/<string:name>`
+
+Shows the allergies of a roommate
+
+#### Add
+
+URL scheme `/person/add`
+
+Add a roommate.
+
+#### Edit
+
+URL scheme `/person/<string:name>/edit`
+
+Edit the allergies of a person.
+
+#### Delete
+
+URL scheme `/person/<string:name>/delete`
+
+Delete a roommate.
+
+### People
+
+URL scheme `/people`
+
+Shows an overview of the user's roommate.
 
 ### Ingredient
+
+#### View
 
 URL scheme `/ingredient/<int:id>`
 
@@ -52,32 +97,50 @@ Will display information for a certain ingredient like certain allergies and pos
 
 For signed in users it will display if they can consume the item.
 
-### Ingredients
+#### Add
 
-URL scheme `/ingredients`  
-Alias `/pantry`
+URL scheme `/ingredient/add`
 
-Shows a list of popular ingredients.
+**Maby don't do this, for testing only.** Add an ingredient.
+
+#### Edit
+
+URL scheme `/ingredient/<int:id>/edit`
+
+**Maby don't do this, for testing only.** Edit an ingredient.
+
+#### Delete
+
+URL scheme `/ingredient/<int:id>/delete`
+
+**Maby don't do this, for testing only.** Delete an ingredient.
+
 
 ### Recipe
 
 URL scheme `/recipe/<int:id>`
 
-Will display information about a recipe like ingredients and avalible diets. **It will not display the steps due to legal issues**. It will instead link to the source.
+Will display information about a recipe like ingredients and allergies. **It will not display the steps due to legal issues**. It will instead link to the source.
 
-## Recipes
+### Recipes
 
-URL scheme `/recipes`
+URL scheme `/recipes` `/recipes/page/<int:page>`
 
 Will show a list of recipes. If a user is logged in it will filter on known diets and _preferences_ of the user.
 
-## User
+### Session
 
-URL scheme `/user/<string:username>/`
+#### login
 
-## Users
+URL scheme `/login`
 
-URL scheme `/users`, `/users/page/<int:page>`
+#### Logout
+
+URL scheme `/logout`
+
+#### Join
+
+URL scheme `/join`
 
 ```py
 class Router:
@@ -97,42 +160,74 @@ class Router:
     def contact():
         pass
 
-    @app.route('/diet/<string:name>')
-    def diet(name):
+    @app.route('/allergies')
+    def allergies():
         pass
 
-    @app.route('/diets')
-    def diets():
+    @app.route('/person/<string:name>')
+    def person(name):
+        pass
+
+    @app.route('/person/add')
+    def person_add():
+        pass
+
+    @app.route('/person/<string:name>/edit')
+    def person_edit(name):
+        pass
+
+    @app.route('/person/<string:name>/delete')
+    def person_delete(name):
+        pass
+
+    @app.route('/people')
+    def people():
         pass
 
     @app.route('/ingredient/<int:id>')
+    @app.route('/ingredient/<int:id>/<string:name>')
     def ingredient(id, name = None):
         pass
 
-    @app.route('/ingredients')
-    def ingredients():
+    @app.route('/ingredient/add')
+    def ingredient_add():
+        pass
+
+    @app.route('/ingredient/<int:id>/edit')
+    @app.route('/ingredient/<int:id>/<string:name>/edit')
+    def ingredient_edit(id, name = None):
+        pass
+
+    @app.route('/ingredient/<int:id>/delete')
+    @app.route('/ingredient/<int:id>/<string:name>/delete')
+    def ingredient_delete(id, name = None):
         pass
 
     @app.route('/recipe/<int:id>')
+    @app.route('/recipe/<int:id>/<string:name>')
     def recipe(id, name = None):
         pass
 
-    @app.route('/recipes')
-    def recipes():
+    @app.route('/recipes', defaults = {
+         'page': 1
+     }))
+    @app.route('/recipes/page/<int:page>')
+    def recipes(page):
         pass
 
     @app.route('/profile')
     def profile():
         pass
 
-    @app.route('/user/<string:username>')
-    def user(username):
+    @app.route('/login')
+    def login():
         pass
 
-    @app.route('/users', defaults = {
-        'page': 1
-    })
-    @app.route('/users/page/<int:page>')
-    def users(page):
+    @app.route('/logout')
+    def logout():
+        pass
+
+    @app.route('/join')
+    def join():
         pass
 ```
