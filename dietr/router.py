@@ -1,5 +1,3 @@
-from flask import Flask
-
 from dietr import app
 from dietr.controllers.ingredient import IngredientController
 from dietr.controllers.session import SessionController
