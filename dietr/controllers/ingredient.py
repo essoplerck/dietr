@@ -6,10 +6,13 @@ class IngredientController:
     def add(self):
         pass
 
+    def edit(self, id):
+        pass
+
     def delete(self, id):
         pass
 
-    def edit(self, id):
+    def overview(self):
         pass
 
     def view(self, id):
