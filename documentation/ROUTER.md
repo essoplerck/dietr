@@ -95,13 +95,15 @@ URL scheme `/ingredient/<int:id>/delete`
 
 #### View
 
-URL scheme `/pantry`
+URL scheme `/pantry`  
+ALIAS `/ingredients`
 
 Show the overview of the ingredient in the user's pantry.
 
 #### Edit
 
-URL scheme `/pantry/edit`
+URL scheme `/pantry/edit`  
+ALIAS `/ingredients/edit`
 
 ### Person
 
