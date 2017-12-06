@@ -10,19 +10,19 @@
 | `/about`                       | overview    | about    | none            |
 | `/contact`                     | overview    | contact  | none            |
 | `/allergies`                   | allergies   | view     | none            |
+| `/ingredient/<int:id>`         | ingredient  | view     | `<int:id>`      |
+| `/ingredient/add`              | ingredient  | add      | none            |
+| `/ingredient/<int:id>/edit`    | ingredient  | edit     | `<int:id>`      |
+| `/ingredient/<int:id>/delete`  | ingredient  | delete   | `<int:id>`      |
 | `/person/<string:name>`        | person      | view     | `<string:name>` |
 | `/person/add`                  | person      | view     | `<string:name>` |
 | `/person/<string:name>/edit`   | person      | view     | `<string:name>` |
 | `/person/<string:name>/delete` | person      | delete   | `<string:name>` |
 | `/people`                      | person      | overview | `<string:name>` |
-| `/ingredient/<int:id>`         | ingredient  | view     | `<int:id>`      |
-| `/ingredient/add`              | ingredient  | add      | none            |
-| `/ingredient/<int:id>/edit`    | ingredient  | edit     | `<int:id>`      |
-| `/ingredient/<int:id>/delete`  | ingredient  | delete   | `<int:id>`      |
+| `/profile`                     | profile     | view     | none            |
 | `/recipe/<int:id>`             | recipe      | view     | `<int:id>`      |
 | `/recipes`                     | recipe      | overview | `1`             |
 | `/recipes/page/<int:page>`     | recipe      | overview | `<page:int>`    |
-| `/profile`                     | profile     | view     | none            |
 | `/login`                       | session     | login    | none            |
 | `/logout`                      | session     | logout   | none            |
 | `/join`                        | session     | join     | none            |
@@ -55,6 +55,34 @@ URL scheme `/allergies/edit`
 
 Allows the user to edit their allergies
 
+### Ingredient
+
+#### View
+
+URL scheme `/ingredient/<int:id>`
+
+Will display information for a certain ingredient like certain allergies and possible diets.
+
+For signed in users it will display if they can consume the item.
+
+#### Add
+
+URL scheme `/ingredient/add`
+
+**Maby don't do this, for testing only.** Add an ingredient.
+
+#### Edit
+
+URL scheme `/ingredient/<int:id>/edit`
+
+**Maby don't do this, for testing only.** Edit an ingredient.
+
+#### Delete
+
+URL scheme `/ingredient/<int:id>/delete`
+
+**Maby don't do this, for testing only.** Delete an ingredient.
+
 ### Person
 
 #### View
@@ -85,36 +113,11 @@ Delete a roommate.
 
 URL scheme `/people`
 
-Shows an overview of the user's roommate.
+Shows an overview of the user's roommates.
 
-### Ingredient
+### Profile
 
-#### View
-
-URL scheme `/ingredient/<int:id>`
-
-Will display information for a certain ingredient like certain allergies and possible diets.
-
-For signed in users it will display if they can consume the item.
-
-#### Add
-
-URL scheme `/ingredient/add`
-
-**Maby don't do this, for testing only.** Add an ingredient.
-
-#### Edit
-
-URL scheme `/ingredient/<int:id>/edit`
-
-**Maby don't do this, for testing only.** Edit an ingredient.
-
-#### Delete
-
-URL scheme `/ingredient/<int:id>/delete`
-
-**Maby don't do this, for testing only.** Delete an ingredient.
-
+URL scheme `/profile`
 
 ### Recipe
 
