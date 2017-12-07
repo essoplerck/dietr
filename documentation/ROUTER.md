@@ -1,35 +1,66 @@
 # Router
 
-## Table of Contents
+## Table
+
+- [Routes](#routes)
+- [Controllers](#controllers)
+  - [Overview](#overview)
+    - [Index](#index)
+    - [About](#about)
+    - [Contact](#contact)
+  - [Allergies](#allergies)
+    - [View](#view)
+    - [Edit](#edit)
+  - [Ingredient](#ingredient)
+    - [View](#view)
+    - [Add](#add)
+    - [Edit](#edit)
+    - [Delete](#delete)
+  - [Pantry](#pantry)
+    - [View](#view)
+    - [Edit](#edit)
+  - [Person](#person)
+    - [View](#view)
+    - [Add](#add)
+    - [Edit](#edit)
+    - [Delete](#delete)
+  - [People](#people)
+  - [Profile](#profile)
+  - [Recipe](#recipe)
+  - [Recipes](#recipes)
+  - [Session](#session)
+    - [login](#login)
+    - [Logout](#logout)
+    - [Join](#join)
 
 ## Routes
 
-| URL                            | Controller | Action   | Identifier      |
-|:------------------------------ |:---------- |:-------- |:--------------- |
-| `/`                            | overview   | view     | none            |
-| `/about`                       | overview   | about    | none            |
-| `/contact`                     | overview   | contact  | none            |
-| `/allergies`                   | allergies  | view     | none            |
-| `/allergies/edit`              | allergies  | edit     | none            |
-| `/ingredient/<int:id>`         | ingredient | view     | `<int:id>`      |
-| `/ingredient/add`              | ingredient | add      | none            |
-| `/ingredient/<int:id>/edit`    | ingredient | edit     | `<int:id>`      |
-| `/ingredient/<int:id>/delete`  | ingredient | delete   | `<int:id>`      |
-| `/pantry`                      | pantry     | view     | none            |
-| `/pantry/edit`                 | pantry     | edit     | none            |
-| `/person/<string:name>`        | person     | view     | `<string:name>` |
-| `/person/add`                  | person     | view     | `<string:name>` |
-| `/person/<string:name>/edit`   | person     | view     | `<string:name>` |
-| `/person/<string:name>/delete` | person     | delete   | `<string:name>` |
-| `/people`                      | person     | overview | `<string:name>` |
-| `/profile`                     | profile    | view     | none            |
-| `/profile/edit`                | profile    | edit     | none            |
-| `/recipe/<int:id>`             | recipe     | view     | `<int:id>`      |
-| `/recipes`                     | recipe     | overview | `1`             |
-| `/recipes/page/<int:page>`     | recipe     | overview | `<page:int>`    |
-| `/login`                       | session    | login    | none            |
-| `/logout`                      | session    | logout   | none            |
-| `/join`                        | session    | join     | none            |
+| URL                            | Controller | Action   | Identifier |
+|:------------------------------ |:---------- |:-------- |:---------- |
+| `/`                            | overview   | view     | none       |
+| `/about`                       | overview   | about    | none       |
+| `/contact`                     | overview   | contact  | none       |
+| `/allergies`                   | allergies  | view     | none       |
+| `/allergies/edit`              | allergies  | edit     | none       |
+| `/ingredient/<int:id>`         | ingredient | view     | `id`       |
+| `/ingredient/add`              | ingredient | add      | none       |
+| `/ingredient/<int:id>/edit`    | ingredient | edit     | `id`       |
+| `/ingredient/<int:id>/delete`  | ingredient | delete   | `id`       |
+| `/pantry`                      | pantry     | view     | none       |
+| `/pantry/edit`                 | pantry     | edit     | none       |
+| `/person/<string:name>`        | person     | view     | `name`     |
+| `/person/add`                  | person     | view     | `name`     |
+| `/person/<string:name>/edit`   | person     | view     | `name`     |
+| `/person/<string:name>/delete` | person     | delete   | `name`     |
+| `/people`                      | person     | overview | `name`     |
+| `/profile`                     | profile    | view     | none       |
+| `/profile/edit`                | profile    | edit     | none       |
+| `/recipe/<int:id>`             | recipe     | view     | `id`       |
+| `/recipes`                     | recipe     | overview | `1`        |
+| `/recipes/page/<int:page>`     | recipe     | overview | `page`     |
+| `/login`                       | session    | login    | none       |
+| `/logout`                      | session    | logout   | none       |
+| `/join`                        | session    | join     | none       |
 
 ## Controllers
 
@@ -96,14 +127,14 @@ URL scheme `/ingredient/<int:id>/delete`
 #### View
 
 URL scheme `/pantry`  
-ALIAS `/ingredients`
+Alias `/ingredients`
 
 Show the overview of the ingredient in the user's pantry.
 
 #### Edit
 
 URL scheme `/pantry/edit`  
-ALIAS `/ingredients/edit`
+Alias `/ingredients/edit`
 
 ### Person
 
