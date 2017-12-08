@@ -98,7 +98,8 @@ Allows the user to edit their allergies
 
 URL scheme `/ingredient/<int:id>`, `/ingredient/<int:id>/`
 
-Will display information for a certain ingredient like certain allergies and possible diets.
+Will display information for a certain ingredient like certain allergies and
+possible diets.
 
 For signed in users it will display if they can consume the item.
 
@@ -176,7 +177,9 @@ URL scheme `/profile`
 
 URL scheme `/recipe/<int:id>`
 
-Will display information about a recipe like ingredients and allergies. **It will not display the steps due to legal issues**. It will instead link to the source.
+Will display information about a recipe like ingredients and allergies. **It
+will not display the steps due to legal issues**. It will instead link to the
+source. May be removed in the future.
 
 ### Recipes
 
@@ -198,8 +201,11 @@ URL scheme `/logout`
 
 URL scheme `/join`
 
+Allows a user to register with this service.
+
 ```py
 class Router:
+    # TODO create a dynamic router
     '''
     The router class is used to encapsulate the routing methods to prevent
     pollution of global namespace.
@@ -220,6 +226,49 @@ class Router:
     def allergies():
         pass
 
+    @app.route('/allergies/edit')
+    def allergies_edit():
+        pass
+
+    @app.route('/ingredient/<int:id>')
+    @app.route('/ingredient/<int:id>/<string:name>')
+    def ingredient(id, name = None):
+        controller  = IngredientController()
+        action      = controller.view
+
+        return action(id)
+
+    @app.route('/ingredient/add')
+    def ingredient_add():
+        controller  = IngredientController()
+        action      = controller.add
+
+        return action()
+
+    @app.route('/ingredient/<int:id>/edit')
+    @app.route('/ingredient/<int:id>/<string:name>/edit')
+    def ingredient_edit(id, name = None):
+        controller  = IngredientController()
+        action      = controller.edit
+
+        return action(id)
+
+    @app.route('/ingredient/<int:id>/delete')
+    @app.route('/ingredient/<int:id>/<string:name>/delete')
+    def ingredient_delete(id, name = None):
+        controller  = IngredientController()
+        action      = controller.delete
+
+        return action(id)
+
+    @app.route('/pantry')
+    def pantry():
+        pass
+
+    @app.route('/pantry/edit')
+    def pantry_edit():
+        pass
+
     @app.route('/person/<string:name>')
     def person(name):
         pass
@@ -229,7 +278,7 @@ class Router:
         pass
 
     @app.route('/person/<string:name>/edit')
-    def person_edit(name):
+    def person_edit(name):s
         pass
 
     @app.route('/person/<string:name>/delete')
@@ -240,23 +289,8 @@ class Router:
     def people():
         pass
 
-    @app.route('/ingredient/<int:id>')
-    @app.route('/ingredient/<int:id>/<string:name>')
-    def ingredient(id, name = None):
-        pass
-
-    @app.route('/ingredient/add')
-    def ingredient_add():
-        pass
-
-    @app.route('/ingredient/<int:id>/edit')
-    @app.route('/ingredient/<int:id>/<string:name>/edit')
-    def ingredient_edit(id, name = None):
-        pass
-
-    @app.route('/ingredient/<int:id>/delete')
-    @app.route('/ingredient/<int:id>/<string:name>/delete')
-    def ingredient_delete(id, name = None):
+    @app.route('/profile')
+    def profile():
         pass
 
     @app.route('/recipe/<int:id>')
@@ -271,19 +305,24 @@ class Router:
     def recipes(page):
         pass
 
-    @app.route('/profile')
-    def profile():
-        pass
-
-    @app.route('/login')
+    @app.route('/login', methods = ['GET', 'POST'])
     def login():
-        pass
+        controller  = SessionController()
+        action      = controller.login
 
-    @app.route('/logout')
+        return action()
+
+    @app.route('/logout', methods = ['GET', 'POST'])
     def logout():
-        pass
+        controller  = sx()
+        action      = controller.logout
 
-    @app.route('/join')
+        return action()
+
+    @app.route('/join', methods = ['GET', 'POST'])
     def join():
-        pass
+        controller  = SessionController()
+        action      = controller.join
+
+        return action()
 ```

@@ -25,7 +25,7 @@ class Router:
         pass
 
     @app.route('/allergies/edit')
-    def allergies():
+    def allergies_edit():
         pass
 
     @app.route('/ingredient/<int:id>')
