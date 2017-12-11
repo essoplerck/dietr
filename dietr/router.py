@@ -2,7 +2,6 @@ from . import app
 from .controllers.ingredient import IngredientController
 from .controllers.session import SessionController
 
-
 class Router:
     routes = {}
 
