@@ -1,6 +1,6 @@
 from flask import render_template, request
 
-from dietr.models.session import SessionModel
+from ..models.session import SessionModel
 
 class SessionController:
     def join(self):

@@ -1,6 +1,6 @@
-from dietr import app
-from dietr.controllers.ingredient import IngredientController
-from dietr.controllers.session import SessionController
+from . import app
+from .controllers.ingredient import IngredientController
+from .controllers.session import SessionController
 
 class Router:
     # TODO create a dynamic router

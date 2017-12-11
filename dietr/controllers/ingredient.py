@@ -1,6 +1,6 @@
 from flask import render_template
 
-from dietr.models.ingredient import IngredientModel
+from ..models.ingredient import IngredientModel
 
 class IngredientController:
     def add(self):
