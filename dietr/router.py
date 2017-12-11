@@ -11,7 +11,7 @@ class Router:
         @app.route('/')
         @app.route('/<path:path>')
         def __resolve_route(path = ''):
-            return self.resolve_route('/{}'.format(path))
+            return self.resolve_route('/' + path)
 
     def register_route(self, url, action):
         pass
