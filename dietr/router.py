@@ -4,12 +4,6 @@ from .controllers.session import SessionController
 
 
 class Router:
-    # TODO create a dynamic router
-    '''
-    The router class is used to encapsulate the routing methods to prevent
-    pollution of global namespace.
-    '''
-
     routes = {}
 
     def __init__(self):
