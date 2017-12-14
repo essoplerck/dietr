@@ -46,8 +46,11 @@
 | `/ingredient/add`              | ingredient | add      | none       |
 | `/ingredient/<int:id>/edit`    | ingredient | edit     | `id`       |
 | `/ingredient/<int:id>/delete`  | ingredient | delete   | `id`       |
-| `/pantry`                      | pantry     | view     | none       |
-| `/pantry/edit`                 | pantry     | edit     | none       |
+| `/pantry`                      | pantry     | overview | none       |
+| `/pantry/add`                  | pantry     | add      | none       |
+| `/pantry/<int:id>`             | pantry     | view     | `id`       |
+| `/pantry/<int:id>/edit`        | pantry     | edit     | `id`       |
+| `/pantry/<int:id>/delete`      | pantry     | delete   | `id`        |
 | `/person/<string:name>`        | person     | view     | `name`     |
 | `/person/add`                  | person     | view     | `name`     |
 | `/person/<string:name>/edit`   | person     | view     | `name`     |
