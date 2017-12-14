@@ -1,2 +1,5 @@
+from ..models.overview import OverviewModel
+
 class OverviewController:
-    pass
+    def __init__(self):
+        self.model = OverviewModel()
