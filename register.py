@@ -30,7 +30,7 @@ def register():
         pwd=request.form["pwd"]
         rpwd=request.form["rpwd"]
         email=request.form["email"]
-        if pwd==rpwd or len(pwd)<8:
+        if pwd==rpwd and len(pwd)>=8:
             key=""
             for val in range(7):
                 key=key+chr(65+random.randint(0,25))

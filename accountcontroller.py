@@ -7,14 +7,16 @@ class AccountController:
     def __init__(self):
         acc=AccountModel()
 
-    def add_account(name, username, password, email):
-        key=""
-        for val in range(7):
-            key=key+chr(65+random.randint(0,25))
+    def add_account(name, username, password, confirm_password, email):
+        if password==confirm_password and len(password)>8:
+            key=""
+            for val in range(7):
+                key=key+chr(65+random.randint(0,25))
 
-        acc.add_account(name, username, password, email, key)
+            acc.add_account(name, username, password, email, key)
 
-        return render_template("registered.html", mail=email)
+            return render_template("registered.html", mail=email)
+        return render_template("register.html")
 
     def login(email, password):
         data=acc.get_account(email, password)
