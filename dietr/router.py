@@ -10,7 +10,7 @@ class Router:
             return self.resolve_route('/' + path)
 
     def register_route(self, url, action):
-        pass
+        self.routes[url] = action
 
     def default_route(self, *args, **kwargs):
         pass
