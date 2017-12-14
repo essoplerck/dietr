@@ -9,7 +9,9 @@ class Router:
         def __resolve_route(path = ''):
             return self.resolve_route('/' + path)
 
-    def register_route(self, url, action):
+    def register_route(self, url, action, methods = ['GET', 'POST']):
+        action.methods = methods
+
         self.routes[url] = action
 
     def default_route(self, *args, **kwargs):
