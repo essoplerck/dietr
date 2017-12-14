@@ -14,8 +14,9 @@ class IngredientModel:
         pass
 
     def get_ingredient(self, id):
-        # Return an example object
-        ingredient = database.query(f'SELECT * FROM ingredient \
-                                       WHERE id = (id}'
+        # Prepare query
+        query = f'SELECT *          \
+                    FROM ingredient \
+                   WHERE id = {id}'
 
         return ingredient
