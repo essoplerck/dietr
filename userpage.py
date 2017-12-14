@@ -7,10 +7,10 @@ app = Flask(__name__)
 mysql=MySQL()
 
 #Dit is lokale server shit. Wordt aangepast naar online server shit wanneer dat een keer beschikbaar is
-app.config["MYSQL_DATABASE_USER"]="root"
-app.config["MYSQL_DATABASE_PASSWORD"]=""
-app.config["MYSQL_DATABASE_DB"]="dietr"
-app.config["MYSQL_DATABASE_HOST"]="localhost"
+app.config["MYSQL_DATABASE_USER"]="renswnc266_dietr"
+app.config["MYSQL_DATABASE_PASSWORD"]="qvuemzxu"
+app.config["MYSQL_DATABASE_DB"]="renswnc266_dietr"
+app.config["MYSQL_DATABASE_HOST"]="185.182.57.56"
 mysql.init_app(app)
 
 #Hashen moet ook nog een keer gebeuren
