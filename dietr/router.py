@@ -1,10 +1,8 @@
 from . import app
 
 class Router:
-    routes = {}
-
     def __init__(self):
-        pass
+        self.routes = {}
 
         @app.route('/')
         @app.route('/<path:path>')
