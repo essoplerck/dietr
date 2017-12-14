@@ -51,4 +51,4 @@ class IngredientModel:
                     FROM ingredient \
                 ORDER BY name'
 
-        return ingredient
+        return ingredients
