@@ -29,3 +29,5 @@ class Router:
             return self.default_route()
 
 router = Router()
+
+from .controllers.overview import OverviewController

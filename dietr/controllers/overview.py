@@ -1,3 +1,4 @@
+from ..router import router
 from ..models.overview import OverviewModel
 
 class OverviewController:
@@ -6,3 +7,5 @@ class OverviewController:
 
     def view():
         return 'Hello world!'
+
+router.register_route('/test', OverviewController.view)
