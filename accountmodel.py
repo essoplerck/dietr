@@ -4,7 +4,12 @@ class AccountModel:
     def add_account(name, username, password, email, confirm_key):
         query="insert into account (name, username, password, email, confirm_key) values (%s, %s, %s, %s, %s);"
         data=(name, username, password, email, confirm_key)
-        exec_query(query, data)
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(query, data)
+        conn.commit()
+        conn.close()
+        cursor.close()
         pass
 
     def get_account(email, password):
@@ -49,14 +54,26 @@ class AccountModel:
         cursor.close()
         pass
 
-    def update_account(username, password, email, ide):
-        query="update account set username=%s, password=%s, email=%s where id=%s;"
+    def update_account(name, username, password, email, ide):
+        query="update account set name=%s, username=%s, password=%s, email=%s where id=%s;"
         data=(username, password, email, ide)
-        exec_query(query, data)
-        pass
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(query, values)
+        conn.commit()
+        userdata=cursor.fetchone()
+        conn.close()
+        cursor.close()
+        return userdata
 
-    def update_account(username, email, ide):
-        query="update account set username=%s, email=%s where id=%s;"
+    def update_account(name, username, email, ide):
+        query="update account set name=%s, username=%s, email=%s where id=%s;"
         data=(username, email, ide)
-        exec_query(query, data)
-        pass
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(query, values)
+        conn.commit()
+        userdata=cursor.fetchone()
+        conn.close()
+        cursor.close()
+        return userdata
