@@ -14,7 +14,7 @@ class Router:
 
         self.routes[url] = action
 
-    def default_route(self, *args, **kwargs):
+    def default_route(self):
         pass
 
     def resolve_route(self, path):
