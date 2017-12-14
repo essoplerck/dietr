@@ -44,3 +44,11 @@ class IngredientModel:
                    WHERE id = {id}'
 
         return ingredient
+
+    def get_ingredients(self):
+        # Prepare query
+        query = f'SELECT *          \
+                    FROM ingredient \
+                ORDER BY name'
+
+        return ingredient
