@@ -3,6 +3,9 @@ from flask import render_template
 from ..models.ingredient import IngredientModel
 
 class IngredientController:
+    def __init__(self):
+        self.model = IngredientModel()
+
     def add(self):
         pass
 
@@ -18,6 +21,3 @@ class IngredientController:
 
         # Return the template
         return render_template('ingredient/view.html', ingredient = ingredient)
-
-    def __init__(self):
-        self.model = IngredientModel()
