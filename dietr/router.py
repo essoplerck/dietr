@@ -7,7 +7,7 @@ class Router:
         @app.route('/')
         @app.route('/<path:path>')
         def resolve_route(path = ''):
-            return self.resolve_route('/' + path)
+            return self.resolve_route(path)
 
     def register_route(self, url, action, methods = ['GET', 'POST']):
         action.methods = methods
@@ -18,6 +18,9 @@ class Router:
         pass
 
     def resolve_route(self, path):
+        # Add leading slash for path
+        path = f'/{path}'
+
         # Check if route is in list of routes
         if path in self.routes:
             return self.routes[path]()
