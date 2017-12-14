@@ -15,6 +15,19 @@ class IngredientModel:
 
     def get_ingredient(self, id):
         # Return an example object
-        ingredient = sql.query('fSELECT * FROM ingredient \
-                                 WHERE id = (id} '`.format(idds)s)
+        ingredient = {
+            'id': id,
+            'name': 'Soy Sauce',
+            'description': 'Widely used in cooking and as condiment.',
+            'allergens': [
+                {
+                    'id': 1,
+                    'name': 'soy beans'
+                }, {
+                    'id': 2,
+                    'name': 'wheat'
+                }
+            ]
+        }
+
         return ingredient
