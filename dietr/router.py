@@ -16,9 +16,11 @@ class Router:
         pass
 
     def resolve_route(self, path):
-        # print url
-        print(path)
+        # Check if route is in list of routes
+        if path in self.routes:
+            return self.routes[path]()
 
-        return path
+        else:
+            return self.default_route()
 
 router = Router()
