@@ -1,3 +1,9 @@
+class Ingredient:
+    def __init__(self, id, description, name):
+        self.id          = id
+        self.description = description
+        self.name        = name
+
 class IngredientModel:
     '''
     The ingredient model. This class is used to communicate with the database to
@@ -5,24 +11,18 @@ class IngredientModel:
     a intermediate object.
     '''
     def add_ingredient(self, ingredient):
-        # Unpack tuple with data
-        (description, name, id) = ingredient
-
         # Prepare query
         query = f'INSERT INTO ingredients (description, name) \
-                       VALUES ({description}, {name})'
+                       VALUES ({ingredient.description}, {ingredient.name})'
 
         pass
 
     def edit_ingredient(self, ingredient):
-        # Unpack tuple with data
-        (description, name, id) = ingredient
-
         # Prepare query
-        query = f'UPDATE ingredients                  \
-                     SET description = {description}, \
-                         name        = {name}         \
-                   WHERE id          = {id}'
+        query = f'UPDATE ingredients                             \
+                     SET description = {ingredient.description}, \
+                         name        = {ingredient.name}         \
+                   WHERE id          = {ingredient.id}'
 
         pass
 
