@@ -31,7 +31,7 @@ class Router:
 
             if match:
                 # Get identifiers
-                identifiers = match.groups() or ()
+                identifiers = match.groups()
                 action      = self.routes[route]
 
                 return action(identifiers)
