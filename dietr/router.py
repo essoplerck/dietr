@@ -1,3 +1,5 @@
+from functools import wraps
+
 from . import app
 
 class Router:
@@ -6,6 +8,7 @@ class Router:
 
     def register_route(self, route, methods = ['GET', 'POST']):
         def route_decorator(action):
+            @wraps(action)
             def wrapper(*args, **kwargs):
                 # Set allowed methods
                 action.methods = methods
