@@ -8,4 +8,4 @@ class OverviewController:
     def view():
         return 'Hello world!'
 
-router.register_route('/test', OverviewController.view)
+router.register_route('/', OverviewController.view)
