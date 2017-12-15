@@ -5,11 +5,11 @@ class PantryModel:
     def edit_ingredient(self, ingredient):
         pass
 
-    def delete_ingredient(self, id):
+    def delete_ingredient(self, index):
         pass
 
-    def get_ingredient(self, id):
+    def get_ingredient(self, index):
         pass
 
-    def get_pantry_ingredients(self, id):
+    def get_ingredients(self):
         pass

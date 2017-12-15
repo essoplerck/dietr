@@ -7,13 +7,13 @@ class PantryController:
     def add(self):
         pass
 
-    def edit(self, id):
+    def edit(self, index):
         pass
 
-    def delete(self, id):
+    def delete(self, index):
         pass
 
-    def view(self, id):
+    def view(self, index):
         pass
 
     def overview(self):
