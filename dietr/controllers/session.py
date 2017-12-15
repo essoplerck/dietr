@@ -3,6 +3,9 @@ from flask import request
 from ..models.session import SessionModel
 
 class SessionController:
+    def __init__(self):
+        self.model = SessionModel()
+
     def join(self):
         pass
 
@@ -17,6 +20,3 @@ class SessionController:
 
     def logout(self):
         pass
-
-    def __init__(self):
-        self.model = SessionModel()
