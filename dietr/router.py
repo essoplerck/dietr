@@ -6,12 +6,10 @@ class Router:
     def __init__(self):
         self.routes = {}
 
+    def register_route(self, route, methods = ['GET', 'POST']):
+        pass
 
-    def register_route(self, url, action, methods = ['GET', 'POST']):
-        # Compile regular expression
-        # route = re.compile(f'^{url}$')
 
-        self.routes[url] = action
 
     def default_route(self):
         pass
