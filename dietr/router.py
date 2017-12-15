@@ -5,9 +5,14 @@ class Router:
         self.routes = {}
 
     def register_route(self, route, methods = ['GET', 'POST']):
-        pass
+        def route_decorator(action):
+            def wrapper(*args, **kwargs):
+                # Set allowed methods
+                action.methods = methods
 
-
+                return action
+            return wrapper
+        return route_decorator
 
     def default_route(self):
         pass
