@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import request
 
 from ..models.session import SessionModel
 
