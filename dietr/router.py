@@ -13,8 +13,10 @@ class Router:
             return self.resolve_route(path)
 
     def register_route(self, url, action, methods = ['GET', 'POST']):
+        # Compile regular expression
+        route = re.compile(f'^{url}$')
 
-        self.routes[url] = action
+        self.routes[route] = action
 
     def default_route(self):
         pass
@@ -25,7 +27,7 @@ class Router:
 
         for route in self.routes:
             # Check if route is in list of routes
-            match = re.match(route, path)
+            match = route.match(path)
 
             if match:
                 # Get identifiers

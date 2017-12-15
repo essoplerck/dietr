@@ -1,5 +1,3 @@
-import re
-
 from ..router import router
 from ..models.overview import OverviewModel
 
@@ -12,4 +10,4 @@ class OverviewController:
 
 controller = OverviewController()
 
-router.register_route(r'^/$', controller.view)
+router.register_route('/', controller.view)
