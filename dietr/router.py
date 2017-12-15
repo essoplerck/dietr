@@ -1,28 +1,44 @@
+import re
+
 from . import app
-from .controllers.ingredient import IngredientController
-from .controllers.session import SessionController
 
 class Router:
-    routes = {}
-
     def __init__(self):
-        pass
+        self.routes = {}
 
+        # Intercept all requests
         @app.route('/')
         @app.route('/<path:path>')
-        def __resolve_route(path = ''):
-            return self.resolve_route('/' + path)
+        def resolve_route(path = ''):
+            return self.resolve_route(path)
 
-    def register_route(self, url, action):
-        pass
+    def register_route(self, url, action, methods = ['GET', 'POST']):
+        # Compile regular expression
+        # route = re.compile(f'^{url}$')
 
-    def default_route(self, *args, **kwargs):
+        self.routes[url] = action
+
+    def default_route(self):
         pass
 
     def resolve_route(self, path):
-        # print url
-        print(path)
+        # Add leading slash for path
+        path = f'/{path}'
 
-        return path
+        for route in self.routes:
+            # Check if route is in list of routes
+            match = re.match(route, path)
+
+            if match:
+                # Get identifiers
+                identifiers = match.groups() or ()
+                action      = self.routes[route]
+
+                return action(identifiers)
+
+        # No route found
+        return self.default_route()
 
 router = Router()
+
+from .controllers.overview import OverviewController
