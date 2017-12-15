@@ -32,7 +32,8 @@ class AccountController:
 
     def view_account(ide):
         data=acc.get_account(ide)
-        return render_template("user.html", account=data)
+        account={"name": data[1], "username": data[2], "email": data[4]}
+        return render_template("user.html", account=account)
 
     def edit_account(name, username, password, email, ide):
         data=acc.update_account(username, password, email, ide)
