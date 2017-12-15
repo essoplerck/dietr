@@ -1,4 +1,7 @@
 class PantryModel:
+    '''Model for the pantry pages. This model will handle all ineractions
+    with the database.
+    '''
     def add_ingredient(self, ingredient):
         pass
 

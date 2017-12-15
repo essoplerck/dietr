@@ -1,6 +1,6 @@
 class SessionModel:
-    '''
-    The session model.
+    '''Model for the authentication pages. This model will handle all
+    ineractions with the database and cryptography.
     '''
     def generate_hash():
         pass

@@ -3,6 +3,9 @@ from flask import request
 from ..models.session import SessionModel
 
 class SessionController:
+    '''Controller for the authentication pages. This controller will contain
+    actions for all routes.
+    '''
     def __init__(self):
         self.model = SessionModel()
 

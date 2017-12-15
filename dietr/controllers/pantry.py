@@ -1,6 +1,9 @@
 from ..models.pantry import PantryModel
 
 class PantryController:
+    '''Controller for the pantry pages. This controller will contain
+    actions for all routes.
+    '''
     def __init__(self):
         self.model = PantryModel()
 

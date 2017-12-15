@@ -5,10 +5,8 @@ class Ingredient:
         self.name        = name
 
 class IngredientModel:
-    '''
-    The ingredient model. This class is used to communicate with the database to
-    extract end update data using the CRUD principle. Data may be exchaned using
-    a intermediate object.
+    '''Model for the ingredient pages. This model will handle all ineractions
+    with the database.
     '''
     def add_ingredient(self, ingredient):
         # Prepare query
