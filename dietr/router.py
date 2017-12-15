@@ -6,13 +6,13 @@ class Router:
     def __init__(self):
         self.routes = {}
 
+        # Intercept all requests
         @app.route('/')
         @app.route('/<path:path>')
         def resolve_route(path = ''):
             return self.resolve_route(path)
 
     def register_route(self, url, action, methods = ['GET', 'POST']):
-        action.methods = methods
 
         self.routes[url] = action
 
