@@ -5,9 +5,5 @@ class OverviewController:
     def __init__(self):
         self.model = OverviewModel()
 
-    def view(self, identifiers):
+    def view(self):
         return 'Hello world!'
-
-controller = OverviewController()
-
-router.register_route(r'^/$', controller.view)

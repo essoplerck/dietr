@@ -1,5 +1,3 @@
-import re
-
 from . import app
 
 class Router:
@@ -15,22 +13,7 @@ class Router:
         pass
 
     def resolve_route(self, path):
-        # Add leading slash for path
-        path = f'/{path}'
-
-        for route in self.routes:
-            # Check if route is in list of routes
-            match = re.match(route, path)
-
-            if match:
-                # Get identifiers
-                identifiers = match.groups() or ()
-                action      = self.routes[route]
-
-                return action(identifiers)
-
-        # No route found
-        return self.default_route()
+        pass
 
 router = Router()
 
