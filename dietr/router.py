@@ -13,8 +13,6 @@ class Router:
             return self.resolve_route(path)
 
     def register_route(self, url, action, methods = ['GET', 'POST']):
-        # Compile regular expression
-        # route = re.compile(f'^{url}$')
 
         self.routes[url] = action
 
