@@ -7,7 +7,7 @@ class SessionController:
         pass
 
     def login(self):
-        if request.method == 'GET':
+        if request.method == 'POST':
             username = request.form['username']
             password = request.form['password']
 
