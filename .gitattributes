@@ -1,0 +1,26 @@
+# gitattributes
+* text=auto
+
+# config
+.editorconfig  text
+
+# debug
+*.log          text
+
+# documentation
+*.md           text
+*.txt          text eol=crlf
+AUTHORS        text
+LICENSE        text
+
+# git config
+.gitattributes text
+.gitconfig     text
+.gitignore     text
+
+# source
+*.conf         text
+*.ini          text
+*.pid          text
+*.py           text
+*.types        text

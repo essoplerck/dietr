@@ -1,0 +1,12 @@
+# gitignore
+__pycache__
+
+# debug
+*.log
+
+# executables
+*.exe
+*.hex
+
+# libraries
+*.lib
