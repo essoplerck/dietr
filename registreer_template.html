@@ -1,20 +1,20 @@
 
-{% if errors[0] is 1 %}
+{% if errors[0] == 1 -%}
   <div id="No_first_name" class="alert alert-success">Je hebt je voornaam niet ingevuld.</div>
-{% endif %}
+{%- endif %}
 
-{% if errors[1] is 1 %}
+{% if errors[1] == 1 -%}
   <div id="No_last_name" class="alert alert-success">Je hebt je achternaam niet ingevuld.</div>
-{% endif %}
+{%- endif %}
 
-{% if errors[4] is 1 %}
+{% if errors[4] == 1 -%}
   <div id="Incorrect_mail" class="alert alert-success">Je hebt geen geldig e-mailadres ingevuld.</div>
-{% endif %}
+{%- endif %}
 
-{% if errors[2] is 1 %}
+{% if errors[2] == 1 -%}
   <div id="Incorrect_password" class="alert alert-success">Je wachtwoord voldoet niet aan de eisen.</div>
-{% endif %}
+{%- endif %}
 
-{% if errors[3] is 1 %}
+{% if errors[3] == 1 -%}
   <div id="Different_password" class="alert alert-success">Je wachtwoord komt niet overeen.</div>
-{% endif %}
+{%- endif %}
