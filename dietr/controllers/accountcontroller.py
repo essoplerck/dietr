@@ -18,8 +18,21 @@ class AccountController:
         elif name[len(name)-1]==" ":
             data[1]=1
 
-        if len(password)<8:
+        if len(password)<8 or len(password)>20:
             data[2]=1
+        else:
+            lets=0
+            nums=0
+            chars=0
+            for char in password:
+                if char.isdigit():
+                    nums+=1
+                elif char.isalpha():
+                    lets+=1
+                else:
+                    chars+=1
+            if lets==0 or nums==0 or chars==0:
+                data[2]=1
         if not (password==confirm_password):
             data[3]=1
 
