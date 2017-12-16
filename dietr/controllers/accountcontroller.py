@@ -1,5 +1,5 @@
 from flask import render_template
-from . import AccountModel
+from ..models.accountmodel import AccountModel
 
 class AccountController:
     #The account controller. Links the model with the view.
