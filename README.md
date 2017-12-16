@@ -5,8 +5,7 @@
 ## Usage
 
 ```bash
-$ export FLASK_APP=dietr.py
-$ flask run --host=localhost --port=80
+python3 dietr.py
 ```
 
 Change the **SECRET_KEY** to ensure the safety of the program.
@@ -26,4 +25,4 @@ del os
 
 ## Copyright and license
 
-Code and documentation copyright 2017 Camilla Kuijper, Daan Renken, Glenn van de Loo, Nabil Driuch, Rens Wolters, Sem van Nieuwenhuizen and Tieke Stellingwerf. Code released under the [MIT license](LICENSE).
+Code and documentation copyright 2017 dietr.io. Code released under the [MIT license](LICENSE).
