@@ -8,8 +8,10 @@ class AccountModel:
         cursor=conn.cursor()
         cursor.execute(query, data)
         conn.commit()
+        userdata=cursor.fetchone()
         conn.close()
         cursor.close()
+        add_person(userdata[0], name)
         pass
 
     def get_account(email, password):
@@ -59,7 +61,7 @@ class AccountModel:
         data=(username, password, email, ide)
         conn=mysql.connect()
         cursor=conn.cursor()
-        cursor.execute(query, values)
+        cursor.execute(query, data)
         conn.commit()
         userdata=cursor.fetchone()
         conn.close()
@@ -71,9 +73,43 @@ class AccountModel:
         data=(username, email, ide)
         conn=mysql.connect()
         cursor=conn.cursor()
-        cursor.execute(query, values)
+        cursor.execute(query, data)
         conn.commit()
         userdata=cursor.fetchone()
         conn.close()
         cursor.close()
         return userdata
+
+    def get_persons(ide):
+        query="select * from personen where account_id=%s;"
+        data=(ide)
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(query, data)
+        conn.commit()
+        userdata=cursor.fetchall()
+        conn.close()
+        cursor.close()
+        return userdata
+
+    def add_person(ide, name):
+        query="insert into personen (account_id, name) values (%s, %s);"
+        data=(ide, name)
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(query, data)
+        conn.commit()
+        conn.close()
+        cursor.close()
+        pass
+
+    def delete_person(ide, name):
+        query="delete from personen where account_id=%s and name=%s"
+        data=(ide, name)
+        conn=mysql.connect()
+        cursor=conn.cursor()
+        cursor.execute(query, data)
+        conn.commit()
+        conn.close()
+        cursor.close()
+        pass
