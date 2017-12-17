@@ -70,12 +70,15 @@ class AccountController:
     def view_account(ide):
         data=acc.get_account(ide)
         account={"name": data[1], "username": data[2], "email": data[4]}
-        return render_template("user.html", account=account)
+        persons=acc.get+persons(ide)
+        return render_template("user.html", account=account, persons=persons)
 
     def edit_account(name, username, password, email, ide):
         data=acc.update_account(username, password, email, ide)
-        return render_template("user.html", account=data)
+        persons=acc.get+persons(ide)
+        return render_template("user.html", account=data, persons=persons)
 
     def edit_account(name, username, email, ide):
         data=acc.update_account(name, username, email, ide)
-        return render_template("user.html", account=data)
+        persons=acc.get+persons(ide)
+        return render_template("user.html", account=data, persons=persons)
