@@ -81,7 +81,7 @@ class AccountModel:
         return userdata
 
     def get_persons(ide):
-        query="select * from personen where account_id=%s;"
+        query="select * from person where account_id=%s;"
         data=(ide)
         conn=mysql.connect()
         cursor=conn.cursor()
@@ -93,7 +93,7 @@ class AccountModel:
         return userdata
 
     def add_person(ide, name):
-        query="insert into personen (account_id, name) values (%s, %s);"
+        query="insert into person (account_id, name) values (%s, %s);"
         data=(ide, name)
         conn=mysql.connect()
         cursor=conn.cursor()
@@ -104,7 +104,7 @@ class AccountModel:
         pass
 
     def delete_person(ide, name):
-        query="delete from personen where account_id=%s and name=%s"
+        query="delete from person where account_id=%s and name=%s"
         data=(ide, name)
         conn=mysql.connect()
         cursor=conn.cursor()
