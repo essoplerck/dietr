@@ -2,6 +2,16 @@
 
 ## Installing
 
+```bash
+pip3 install -r requirements.txt
+```
+
+This project is build using python version `3.6`. To check your python version simply run:
+
+```bash
+python3 -V
+```
+
 ## Usage
 
 ```bash
