@@ -6,9 +6,9 @@ import requests
 import pymysql
 
 conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvuemzxu", db="renswnc266_test", use_unicode=True, charset="utf8")
-myCursor = conn.cursor()
 
 def trade_spider(begin,eind):
+        myCursor = conn.cursor()
         begin = begin*1000
         eind = eind*1000
         url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(begin) + '&Nrpp=5024' + str(eind)
@@ -37,11 +37,13 @@ def trade_spider(begin,eind):
                 get_ingredienten(receptenurl, lastrecipeid)
                 print('')
         conn.commit()
+        myCursor.close()
         conn.close()
         print('data inserted')
 
 
 def get_ingredienten(itemurl, lastrecipeid):
+    myCursor = conn.cursor()
     sourcecode=requests.get(itemurl)
     plaintext = sourcecode.text
     soup = BeautifulSoup(plaintext, "html.parser")
@@ -62,12 +64,13 @@ def get_ingredienten(itemurl, lastrecipeid):
                 Getproducten(ingredienten,lastproductid)
         recept_product_relatietabel(lastrecipeid, lastproductid)
     conn.commit()
+    myCursor.close()
 
 
 def Getproducten(ingredienten,lastproductid):
     browser = webdriver.PhantomJS()
     browser.get('https://www.ah.nl/zoeken?rq='+str(ingredienten)+'&searchType=global')
-    time.sleep(3)
+    time.sleep(4)
     soup=BeautifulSoup(browser.page_source, "html.parser")
     for p in soup.findAll('div', {'class': 'lane row product-lane search-lane'}):
         p = p.a
@@ -77,9 +80,10 @@ def Getproducten(ingredienten,lastproductid):
 
 
 def allergiespider(url, lastproductid):
+    myCursor = conn.cursor()
     browser = webdriver.PhantomJS()
     browser.get(url)
-    time.sleep(3)
+    time.sleep(4)
     soup=BeautifulSoup(browser.page_source, "html.parser")
     for p in soup.findAll('div', {'class': 'section__content'}):
         for x in p.find_all(text=re.compile('Bevat:')):
@@ -99,9 +103,11 @@ def allergiespider(url, lastproductid):
                     myCursor.execute("""INSERT INTO category(name) VALUES(%s) """, allergie)
                     lastallergieid = myCursor.lastrowid
                 product_allergie_relatietabel(lastproductid,lastallergieid)
+    myCursor.close()
 
 
 def recept_product_relatietabel(lastrecipeid, lastproductid):
+    myCursor = conn.cursor()
     myCursor.execute("SELECT * FROM recipe_ingredient_relation WHERE recipe_id=%s AND ingredient_id=%s;", (lastrecipeid, lastproductid))
     id = myCursor.fetchall()
 
@@ -110,8 +116,10 @@ def recept_product_relatietabel(lastrecipeid, lastproductid):
         print('nieuwe relatie')
     else:
         print('oude relatie')
+    myCursor.close()
 
 def product_allergie_relatietabel(lastproductid, lastallergieid):
+    myCursor = conn.cursor()
     myCursor.execute("SELECT * FROM category_ingredient_relation WHERE ingredient_id=%s AND category_id=%s;", (lastproductid, lastallergieid))
     id = myCursor.fetchall()
     if not id:
@@ -119,6 +127,12 @@ def product_allergie_relatietabel(lastproductid, lastallergieid):
         print('nieuwe  relatie')
     else:
         print('oude  relatie')
+    myCursor.close()
 
-
-trade_spider(0, 1)
+while True:
+    try:
+        print('Starting...')
+        trade_spider(1, 2)
+        pass
+    except Exception as e:
+        print('Something went wrong: ' + repr(e))
