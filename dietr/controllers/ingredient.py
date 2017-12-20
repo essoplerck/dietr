@@ -1,5 +1,6 @@
 from flask import render_template
 
+from .. import app
 from ..models.ingredient import Ingredient, IngredientModel
 
 class IngredientController:
@@ -31,3 +32,24 @@ class IngredientController:
 
         # Return the template
         return render_template('ingredient/view.html', ingredient = ingredient)
+
+controller = IngredientController()
+
+@app.route('/ingredient/<int:id>')
+@app.route('/ingredient/<int:id>/<string:name>')
+def ingredient(id, name = None):
+    return controller.view(id)
+
+@app.route('/ingredient/add')
+def ingredient_add():
+    return controller.add()
+
+@app.route('/ingredient/<int:id>/edit')
+@app.route('/ingredient/<int:id>/<string:name>/edit')
+def ingredient_edit(id, name = None):
+    return controller.edit(id)
+
+@app.route('/ingredient/<int:id>/delete')
+@app.route('/ingredient/<int:id>/<string:name>/delete')
+def ingredient_delete(id, name = None):
+    return controller.delete(id)

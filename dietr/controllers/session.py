@@ -1,5 +1,6 @@
 from flask import request
 
+from .. import app
 from ..models.session import SessionModel
 
 class SessionController:
@@ -7,6 +8,7 @@ class SessionController:
     actions for all routes.
     '''
     def __init__(self):
+        # Get the model for the ingredient pages
         self.model = SessionModel()
 
     def join(self):
@@ -23,3 +25,17 @@ class SessionController:
 
     def logout(self):
         pass
+
+controller = SessionController()
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+    return controller.login()
+
+@app.route('/logout', methods = ['GET', 'POST'])
+def logout():
+    return controller.logout()
+
+@app.route('/join', methods = ['GET', 'POST'])
+def join():
+    return controller.join()
