@@ -5,9 +5,9 @@ import re
 import requests
 import pymysql
 
-def trade_spider(begin,eind):
-        begin = begin*1000
-        eind = eind*1000
+def trade_spider(start,stop):
+        begin = start*1000
+        eind = stop*1000
         url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(begin) + '&Nrpp=5024' + str(eind)
         SourceCode = requests.get(url)
         PlainText = SourceCode.text
