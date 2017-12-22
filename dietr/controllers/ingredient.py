@@ -10,7 +10,7 @@ model = IngredientModel()
 def view_ingredient(id, name = None):
     '''The view action allows users to view an ingredient.'''
     # Get the ingredient from the database
-    ingredient = self.model.get_ingredient(id)
+    ingredient = model.get_ingredient(id)
 
     # Return the template
     return render_template('ingredient/view.html', ingredient = ingredient)
