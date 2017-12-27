@@ -5,44 +5,74 @@ class IngredientModel:
     with the database.
     '''
     def add_ingredient(self, ingredient):
+        # Get a cursor
+        cursor = database.cursor()
+
         # Prepare query
-        query = f'INSERT INTO ingredients (description, name) \
-                       VALUES ({ingredient.description}, {ingredient.name})'
+        cursor.execute('''INSERT INTO ingredients (description, name)
+                               VALUES (%s, %s)''')
 
         pass
 
     def edit_ingredient(self, ingredient):
+        # Get a cursor
+        cursor = database.cursor()
+
         # Prepare query
-        query = f'UPDATE ingredients                             \
-                     SET description = {ingredient.description}, \
-                         name        = {ingredient.name}         \
-                   WHERE id          = {ingredient.id}'
+        cursor.execute('''UPDATE ingredients
+                             SET description = %s,
+                                 name        = %s
+                           WHERE id          = %s''')
 
         pass
 
     def delete_ingredient(self, id):
-        # Prepare query
-        query = f'DELETE FROM allergen             \
-                        WHERE ingredient_id = {id} \
-                  DELETE FROM ingredient           \
-                        WHERE id = {id}            \
-                  DELETE FROM recipes_ingredient   \
-                        WHERE ingredient_id = {id}'
+        # Get a cursor
+        cursor = database.cursor(MySQL.cursors.DictCursor)
 
-        pass
+        # Prepare query
+        cursor.execute('''DELETE FROM allergen
+                                WHERE ingredient_id = %s
+                          DELETE FROM ingredient
+                                WHERE id = %s
+                          DELETE FROM recipes_ingredient
+                                WHERE ingredient_id = %s'''
 
     def get_ingredient(self, id):
+        # Get a cursor
+        cursor = database.cursor()
+
         # Prepare query
-        query = f'SELECT *          \
-                    FROM ingredient \
-                   WHERE id = {id}'
+        cursor.execute('''SELECT *
+                            FROM ingredient
+                           WHERE id = %s''', (id,))
+
+        result = cursor.fetchone()
+
+        ingredient = {
+            'id': result[0],
+            'name': result[1]
+        }
 
         return ingredient
 
     def get_ingredients(self):
+        ingredients = []
+
+        # Get a cursor
+        cursor = database.cursor()
+
         # Prepare query
-        query = f'SELECT *          \
-                    FROM ingredient \
-                ORDER BY name'
+        cursor.execute('''SELECT *
+                            FROM ingredient
+                        ORDER BY name''')
+
+        results = cursor.fetchall()
+
+        for result in results:
+            ingredients.append({
+                'id': result[0],
+                'name': result[1]
+            })
 
         return ingredients
