@@ -1,7 +1,7 @@
 from flask import render_template
 
 from .. import app
-from ..models.ingredient import Ingredient, IngredientModel
+from ..models.ingredient import IngredientModel
 
 model = IngredientModel()
 

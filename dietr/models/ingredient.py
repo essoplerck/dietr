@@ -1,8 +1,3 @@
-class Ingredient:
-    def __init__(self, id, description, name):
-        self.id          = id
-        self.description = description
-        self.name        = name
 
 class IngredientModel:
     '''Model for the ingredient pages. This model will handle all ineractions
