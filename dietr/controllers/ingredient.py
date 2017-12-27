@@ -9,12 +9,11 @@ model = IngredientModel()
 @app.route('/ingredient/<int:id>/<string:name>')
 def view_ingredient(id, name = None):
     '''The view action allows users to view an ingredient.'''
-
     # Get the ingredient from the database
     ingredient = model.get_ingredient(id)
 
     # Get the allergens of that ingredient
-    allergens = model.get_allergens(ingredient['id'])
+    allergens = model.get_allergens(id)
 
     # Return the template
     return render_template('ingredient/view.html', ingredient = ingredient,
