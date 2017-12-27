@@ -11,9 +11,11 @@ connection = database.connect(host        = '185.182.57.56',
 app = Flask(__name__)
 app.config.from_object('config')
 
+'''
 @app.teardown_appcontext
 def teardown(exception):
     # Close database
     connection.close()
+'''
 
 from .controllers import ingredient, session
