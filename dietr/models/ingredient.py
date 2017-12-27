@@ -38,6 +38,8 @@ class IngredientModel:
                           DELETE FROM recipes_ingredient
                                 WHERE ingredient_id = %s'''
 
+        pass
+
     def get_ingredient(self, id):
         # Get a cursor
         cursor = database.cursor()
