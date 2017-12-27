@@ -8,36 +8,38 @@ import pymysql
 conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvuemzxu", db="renswnc266_test", use_unicode=True, charset="utf8")
 
 def trade_spider(begin,eind):
-        myCursor = conn.cursor()
-        begin = begin*1000
-        eind = eind*1000
-        url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(begin) + '&Nrpp=' + str(eind)
-        SourceCode = requests.get(url)
-        PlainText = SourceCode.text
-        soup = BeautifulSoup(PlainText, "html.parser")
+        mycursor = conn.cursor()
+        tab = eind-begin
+        i = begin
+        while i <= tab:
+            print(i)
+            url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)
+            SourceCode = requests.get(url)
+            PlainText = SourceCode.text
+            soup = BeautifulSoup(PlainText, "html.parser")
 
-        for figure in soup.findAll('figure', {'class': ''}):
-            for link in figure.findAll('a'):
-                receptenurl = 'https://www.ah.nl' + link.get('href')
-                recepten = receptenurl.split('/')[-1]
-                #print(recepten)
-                print(receptenurl)
+            for figure in soup.findAll('figure', {'class': ''}):
+                for link in figure.findAll('a'):
+                    receptenurl = 'https://www.ah.nl' + link.get('href')
+                    recepten = receptenurl.split('/')[-1]
+                    #print(recepten)
+                    print(receptenurl)
 
-                myCursor.execute("SELECT * FROM recipe WHERE name=%s;", (recepten))
-                id = myCursor.fetchall()
+                    mycursor.execute("SELECT * FROM recipe WHERE name=%s;", (recepten))
+                    id = mycursor.fetchall()
 
-                if id:
-                    for t in id:
-                        line = ' '.join(str(x) for x in t)
-                    lastrecipeid = line.split(' ')[0]
-                else:
-                    myCursor.execute("""INSERT INTO recipe(name,url) VALUES(%s,%s) """, (recepten, receptenurl))
-                    lastrecipeid = myCursor.lastrowid
-
-                get_ingredienten(receptenurl, lastrecipeid)
+                    if id:
+                        for t in id:
+                            line = ' '.join(str(x) for x in t)
+                        lastrecipeid = line.split(' ')[0]
+                    else:
+                         mycursor.execute("""INSERT INTO recipe(name,url) VALUES(%s,%s) """, (recepten, receptenurl))
+                         lastrecipeid = mycursor.lastrowid
+                         get_ingredienten(receptenurl, lastrecipeid)
                 #print('')
+            i += 1
         conn.commit()
-        myCursor.close()
+        mycursor.close()
         conn.close()
         print('data inserted')
 
@@ -137,8 +139,8 @@ def product_allergie_relatietabel(lastproductid, lastallergieid):
 
 
 try:
-    trade_spider(0, 1)
+    trade_spider(0, 17)
 except Exception as e:
     print('Something went wrong: ' + repr(e) + 'starting over...')
-    trade_spider(0, 1)
+    trade_spider(0, 17)
 

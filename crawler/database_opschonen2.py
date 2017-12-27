@@ -7,7 +7,7 @@ myCursor = conn.cursor()
 def allergeen(max):
 
     i=1
-    while i<150:
+    while i<max:
         myCursor.execute("SELECT * FROM recipe_ingredient_relation WHERE recipe_id=%s;", (i))
         id = myCursor.fetchall()
 
@@ -16,7 +16,8 @@ def allergeen(max):
                 line = ' '.join(str(x) for x in t)
                 lastrecipeid = line.split(' ')[0]
         else:
-            myCursor.execute("""DELETE From recipe WHERE id Like '%s' """ %id)
+            myCursor.execute("DELETE FROM recipe WHERE id=%s;", (i))
+            #myCursor.execute("""DELETE From recipe WHERE id Like '%s' """ %id)
             #myCursor.execute("""DELETE FROM recipe WHERE id LIKE %s""", (id))
             print(i)
         i+=1
