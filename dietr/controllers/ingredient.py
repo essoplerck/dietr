@@ -15,7 +15,8 @@ def view_ingredient(id, name = None):
     allergens = model.get_allergens(ingredient['id'])
 
     # Return the template
-    return render_template('ingredient/view.html', ingredient = ingredient)
+    return render_template('ingredient/view.html', ingredient = ingredient,
+                                                   allergens  = allergens)
 
 @app.route('/ingredient/add')
 def add_ingredient():
