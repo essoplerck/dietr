@@ -8,7 +8,11 @@ class IngredientModel:
         query = '''INSERT INTO ingredients (description, name)
                         VALUES (%s, %s)'''
 
-        pass
+        cursor = connection.cursor()
+        cursor.execute(query)
+
+        # Execute query
+        connection.commit()
 
     def edit_ingredient(self, ingredient):
         query = '''UPDATE ingredients
@@ -16,7 +20,11 @@ class IngredientModel:
                           name        = %s
                     WHERE id          = %s'''
 
-        pass
+        cursor = connection.cursor()
+        cursor.execute(query)
+
+        # Execute query
+        connection.commit()
 
     def delete_ingredient(self, id):
         query = '''DELETE FROM allergen
@@ -26,7 +34,11 @@ class IngredientModel:
                    DELETE FROM recipes_ingredient
                          WHERE ingredient_id = %s'''
 
-        pass
+        cursor = connection.cursor()
+        cursor.execute(query)
+
+        # Execute query
+        connection.commit()
 
     def get_ingredient(self, id):
         query = '''SELECT *
