@@ -1,6 +1,9 @@
 # gitignore
 __pycache__
 
+# binaries
+*.pyc
+
 # debug
 *.log
 
