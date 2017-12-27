@@ -12,6 +12,8 @@ def view_ingredient(id, name = None):
     # Get the ingredient from the database
     ingredient = model.get_ingredient(id)
 
+    allergens = model.get_allergens(ingredient['id'])
+
     # Return the template
     return render_template('ingredient/view.html', ingredient = ingredient)
 

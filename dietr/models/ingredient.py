@@ -56,6 +56,29 @@ class IngredientModel:
 
         return ingredient
 
+    def get_allergens(self, id):
+        # Get a cursor
+        cursor = database.cursor()
+
+        # Prepare query
+        cursor.execute('''SELECT category.id, category.name
+                            FROM category
+                                 INNER JOIN category_ingredient_relation
+                                         ON category.id = category_ingredient_relation.id
+                           WHERE ingredient_id = %s''', (id,))
+
+        results = cursor.fetchall()
+
+        allergens = []
+
+        for result in results:
+            allergens.append({
+                'id': result[0],
+                'name': result[1]
+            })
+
+        return allergens
+
     def get_ingredients(self):
         ingredients = []
 
