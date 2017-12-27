@@ -1,3 +1,4 @@
+from .. import database
 
 class IngredientModel:
     '''Model for the ingredient pages. This model will handle all ineractions
