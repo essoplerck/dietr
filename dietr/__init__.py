@@ -26,10 +26,27 @@ def login_required(action):
     '''
     @wraps(action)
     def login_decorator(*arg, **kwargs):
+        print(session.get('user_id'))
+
         # Check if user is logged in
         if 'user_id' in session:
             return action(*arg, **kwargs)
         return redirect(url_for('login'))
     return login_decorator
 
-from .controllers import ingredient, session
+#from .controllers import ingredient, session
+
+@app.route('/')
+@login_required
+def index():
+    return 'Hello, world!'
+
+@app.route('/login')
+def login():
+    return 'Login'
+
+@app.route('/set')
+def set():
+    session['user_id'] = 1
+
+    return session.get('user_id')
