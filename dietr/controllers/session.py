@@ -7,18 +7,54 @@ model = SessionModel()
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
+    '''The login action allows user to login.'''
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
 
-        pass
+        # Get the user from the database
+        user = model.get_user(username)
 
-    pass
+        salt = user['salt']
+        hash = model.get_hash(password, salt)
+
+        # Check if the passwords (hashes) match
+        if hash == user['hash']:
+            # Add user session key
+
+        else:
+            error['password'] = 'Password or username is incorect'
+
+        # Return template
+
+    else:
+        # Return template
 
 @app.route('/logout', methods = ['GET', 'POST'])
 def logout():
-    pass
+    '''The logout action allows user to logout.'''
+
+    if request.method == 'POST':
+        # Remove user sessin key
+
+        # Redirect user
+
+    else:
+        # Return template
 
 @app.route('/join', methods = ['GET', 'POST'])
 def join():
-    pass
+    '''The join action allows user to register.'''
+
+    if request.method == 'POST':
+        # Get form data
+        user = {}
+
+        (email, username) = model.does_user_exist(user['email'],
+                                                  user['username'])
+
+        # Redirect
+
+    else:
+        # return template
