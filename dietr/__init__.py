@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import Flask
+from flask import Flask, session, redirect, url_for
 
 import pymysql as sql
 
@@ -27,12 +27,9 @@ def login_required(action):
     @wraps(action)
     def login_decorator(*arg, **kwargs):
         # Check if user is logged in
-        if session['user_id']:
+        if 'user_id' in session:
             return action(*arg, **kwargs)
-
-        else:
-            return redirect('/login')
-
+        return redirect(url_for('login'))
     return login_decorator
 
 from .controllers import ingredient, session
