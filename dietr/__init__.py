@@ -1,7 +1,7 @@
 from functools import wraps
 
 from flask import Flask, session, redirect, url_for
-from flask.ext.session import Session
+from flask_session import Session
 
 import pymysql as sql
 
