@@ -20,21 +20,19 @@ def teardown(exception):
     connection.close()
 '''
 
-def login_required():
+def login_required(action):
     '''Decorator for the login required method. This decorator will check if the
     user is logged in. If not it will redirect to the login page.
     '''
-    def login_decorator(action):
-        @wraps
-        def wrapper(*arg, **kwargs):
-            # Check if user is logged in
-            if session['user_id']:
-                return action
+    @wraps(action)
+    def login_decorator(*arg, **kwargs):
+        # Check if user is logged in
+        if session['user_id']:
+            return action(*arg, **kwargs)
 
-            else:
-                return redirect('/login')
+        else:
+            return redirect('/login')
 
-        return wrapper
     return login_decorator
 
 from .controllers import ingredient, session
