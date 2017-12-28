@@ -1,6 +1,7 @@
 from functools import wraps
 
 from flask import Flask, session, redirect, url_for
+from flask.ext.session import Session
 
 import pymysql as sql
 
@@ -12,6 +13,8 @@ connection = sql.connect(host        = '185.182.57.56',
 
 app = Flask(__name__)
 app.config.from_object('config')
+
+Session(app)
 
 '''
 @app.teardown_appcontext
