@@ -22,7 +22,6 @@ def login():
         # Check if the passwords (hashes) match
         if hash == user['hash']:
             # Add user session key
-
             pass
 
         else:
@@ -31,12 +30,10 @@ def login():
             pass
 
         # Return template
-
         pass
 
     else:
         # Return template
-
         pass
 
 @app.route('/logout', methods = ['GET', 'POST'])
@@ -48,30 +45,37 @@ def logout():
         # Remove user sessin key
 
         # Redirect user
-
         pass
 
     else:
         # Return template
-
         pass
 
 @app.route('/join', methods = ['GET', 'POST'])
 def join():
     '''The join action allows user to register.'''
 
+    errors = {}
+
     if request.method == 'POST':
         # Get form data
         user = {}
 
-        (email, username) = model.does_user_exist(user['email'],
-                                                  user['username'])
+        count = model.does_user_exist(user['email'] user['username'])
+
+        if count['email']:
+            error['email'] = 'There already is a user with this email address.'
+
+        if count['username']:
+            error['username'] = 'This user name is already in use'
+
+        if error['email'] or error['username']:
+            # Redirect
+            pass
 
         # Redirect
-
         pass
 
     else:
-        # return template
-
+        # Return template
         pass
