@@ -61,7 +61,7 @@ def join():
         # Get form data
         user = {}
 
-        count = model.does_user_exist(user['email'] user['username'])
+        count = model.does_user_exist(user['email'], user['username'])
 
         if count['email']:
             error['email'] = 'There already is a user with this email address.'
