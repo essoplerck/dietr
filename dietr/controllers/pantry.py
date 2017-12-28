@@ -1,23 +1,29 @@
+from .. import app
 from ..models.pantry import PantryModel
 
-class PantryController:
-    '''Controller for the pantry pages. This controller will contain
-    actions for all routes.
-    '''
-    def __init__(self):
-        self.model = PantryModel()
+model = PantryModel()
 
-    def add(self):
-        pass
+@app.route('/pantry/add')
+def add_pantry(self):
 
-    def edit(self, index):
-        pass
+    pass
 
-    def delete(self, index):
-        pass
+@app.route('/pantry/<int:index>/edit')
+def edit_pantry(self, index):
 
-    def view(self, index):
-        pass
+    pass
 
-    def overview(self):
-        pass
+@app.route('/pantry/<int:index>/delete')
+def delete_pantry(self, index):
+
+    pass
+
+@app.route('/pantry/<int:index>')
+def view_pantry(self, index):
+
+    pass
+
+@app.route('/pantry')
+def overview_pantry(self):
+
+    pass
