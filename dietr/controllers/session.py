@@ -23,13 +23,21 @@ def login():
         if hash == user['hash']:
             # Add user session key
 
+            pass
+
         else:
             error['password'] = 'Password or username is incorect'
 
+            pass
+
         # Return template
+
+        pass
 
     else:
         # Return template
+
+        pass
 
 @app.route('/logout', methods = ['GET', 'POST'])
 def logout():
@@ -40,8 +48,12 @@ def logout():
 
         # Redirect user
 
+        pass
+
     else:
         # Return template
+
+        pass
 
 @app.route('/join', methods = ['GET', 'POST'])
 def join():
@@ -56,5 +68,9 @@ def join():
 
         # Redirect
 
+        pass
+
     else:
         # return template
+
+        pass
