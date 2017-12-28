@@ -1,6 +1,6 @@
 from flask import request
 
-from .. import app
+from .. import app, login_required
 from ..models.session import SessionModel
 
 model = SessionModel()
@@ -40,6 +40,7 @@ def login():
         pass
 
 @app.route('/logout', methods = ['GET', 'POST'])
+@login_required
 def logout():
     '''The logout action allows user to logout.'''
 
