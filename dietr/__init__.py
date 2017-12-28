@@ -15,4 +15,4 @@ app = Flask(__name__,
             static_folder   = 'static')
 
 app.config.from_object('config')
-app.register_blueprint(api)
+app.register_blueprint(api, url_prefix = '/api')
