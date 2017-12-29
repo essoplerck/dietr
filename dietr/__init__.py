@@ -1,19 +1,5 @@
-from flask import Flask
+from flask import Blueprint
 
-import pymysql as sql
-
-connection = sql.connect(host        = '185.182.57.56',
-                         user        = 'renswnc266_dietr',
-                         password    = 'qvuemzxu',
-                         db          = 'renswnc266_dietr',
-                         cursorclass = sql.cursors.DictCursor)
-
-app = Flask(__name__,
-            template_folder = 'templates',
-            static_folder   = 'static')
-
-app.config.from_object('config')
-
-from .api import app as api
-
-app.register_blueprint(api, url_prefix = '/api')
+app = Blueprint('dietr', __name__,
+                template_folder = 'templates',
+                static_folder   = 'static')
