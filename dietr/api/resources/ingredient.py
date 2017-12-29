@@ -11,6 +11,14 @@ class Ingredients(Resource):
 
         ingredient = cursor.fetchone()
 
+        cursor.execute('''SELECT category.id, category.name
+                            FROM category
+                                 INNER JOIN category_ingredient_relation
+                                 ON category.id = category_ingredient_relation.id
+                           WHERE ingredient_id = %s''', id)
+
+        ingredient['allergies'] = cursor.fetchall()
+
         return ingredient
 
 api.add_resource(Ingredients, '/ingredients/<int:id>')
