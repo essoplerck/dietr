@@ -14,6 +14,6 @@ app = Flask(__name__,
 
 app.config.from_object('config')
 
-from .api import api
+from .api import app as api
 
 app.register_blueprint(api, url_prefix = '/api')

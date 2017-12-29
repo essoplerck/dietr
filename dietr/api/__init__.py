@@ -1,7 +1,9 @@
 from flask import Blueprint
+from flask_restful import Api
 
-api = Blueprint('api', __name__)
+from .. import connection
 
-@api.route('/hello')
-def hello():
-    return 'Hello, world!\n'
+app = Blueprint('api', __name__)
+api = Api(app)
+
+from .resources import ingredient
