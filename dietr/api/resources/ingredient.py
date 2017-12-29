@@ -34,3 +34,16 @@ class IngredientsOverview(Resource):
         return ingredients
 
 api.add_resource(IngredientsOverview, '/ingredients')
+
+class IngredientsSearch(Resource):
+    def get(self, query):
+        cursor = connection.cursor()
+        cursor.execute('''SELECT *
+                            FROM ingredient
+                           WHERE name LIKE %s''', f'%{query}%')
+
+        ingredients = cursor.fetchone()
+
+        return ingredients
+
+api.add_resource(IngredientsSearch, '/ingredients/search/<string:query>')
