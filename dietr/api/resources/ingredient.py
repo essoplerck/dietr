@@ -22,3 +22,15 @@ class Ingredients(Resource):
         return ingredient
 
 api.add_resource(Ingredients, '/ingredients/<int:id>')
+
+class IngredientsOverview(Resource):
+    def get(self):
+        cursor = connection.cursor()
+        cursor.execute('''SELECT *
+                            FROM ingredient''')
+
+        ingredients = cursor.fetchall()
+
+        return ingredients
+
+api.add_resource(IngredientsOverview, '/ingredients')
