@@ -37,19 +37,4 @@ def login_required(action):
         return redirect(url_for('login'))
     return login_decorator
 
-#from .controllers import ingredient, session
-
-@app.route('/')
-@login_required
-def index():
-    return 'Hello, world!'
-
-@app.route('/login')
-def login():
-    return 'Login'
-
-@app.route('/set')
-def set():
-    session['user_id'] = 1
-
-    return session.get('user_id')
+from .controllers import ingredient, overview, session
