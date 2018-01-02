@@ -19,7 +19,9 @@ def delete_person(name):
 
 @app.route('/persons/<string:name>')
 def view_person(name):
-    pass
+    person = model.get_person(name)
+
+    return render_template('/person/view.html', person = person)
 
 @app.route('/persons')
 def overview_person():
