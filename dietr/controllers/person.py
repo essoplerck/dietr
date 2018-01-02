@@ -5,19 +5,19 @@ from ..models.person import PersonModel
 
 model = PersonModel()
 
-@app.route('/persons/add')
+@app.route('/person/add')
 def add_person():
     pass
 
-@app.route('/persons/<string:name>/edit')
+@app.route('/person/<string:name>/edit')
 def edit_person(name):
     pass
 
-@app.route('/persons/<string:name>/delete')
+@app.route('/person/<string:name>/delete')
 def delete_person(name):
     pass
 
-@app.route('/persons/<string:name>')
+@app.route('/person/<string:name>')
 def view_person(name):
     person = model.get_person(name)
 
