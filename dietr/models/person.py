@@ -2,17 +2,15 @@ class PersonModel:
     '''Model for the person pages. This model will handle all ineractions
     with the database.
     '''
-    def add_person(self, ingredient):
+    def add_person(self, person):
         pass
 
-    def edit_person(self, ingredient):
+    def edit_person(self, person):
         pass
 
-    def delete_person(self, index):
+    def delete_person(self, name):
         pass
 
-    def get_person(self, index):
-        pass
 
     def get_persons(self):
         user_id = 1
