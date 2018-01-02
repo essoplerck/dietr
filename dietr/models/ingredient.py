@@ -21,7 +21,7 @@ class IngredientModel:
                     WHERE id          = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query)
+        cursor.execute(query, None)
 
         # Execute query
         connection.commit()
@@ -35,7 +35,7 @@ class IngredientModel:
                          WHERE ingredient_id = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query)
+        cursor.execute(query, (id, id, id))
 
         # Execute query
         connection.commit()
@@ -46,7 +46,7 @@ class IngredientModel:
                     WHERE id = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query, (id,))
+        cursor.execute(query, id)
 
         ingredient = cursor.fetchone()
 
@@ -60,7 +60,7 @@ class IngredientModel:
                    WHERE ingredient_id = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query, (id,))
+        cursor.execute(query, id)
 
         allergens = cursor.fetchall()
 
