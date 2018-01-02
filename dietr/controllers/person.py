@@ -1,3 +1,5 @@
+from flask import render_template
+
 from .. import app
 from ..models.person import PersonModel
 
@@ -23,4 +25,4 @@ def view_person(name):
 def overview_person():
     persons = model.get_persons()
 
-    pass
+    return render_template('/person/overview.html', persons = persons)

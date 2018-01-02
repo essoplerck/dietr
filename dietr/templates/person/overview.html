@@ -1,0 +1,7 @@
+<ul>
+  {% for person in persons %}
+    <li>
+      <a href="/person/{{ person.name }}">{{ person.name }}</a>
+    </li>
+  {% endfor %}
+</ul>
