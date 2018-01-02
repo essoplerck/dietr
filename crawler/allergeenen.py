@@ -43,4 +43,4 @@ def recept(idrecept):
         print(naam)
 
 
-allergeen('gluten')
+allergeen('')
