@@ -21,4 +21,6 @@ def view_person(self, name):
 
 @app.route('/persons')
 def overview_person(self):
+    persons = model.get_persons()
+
     pass

@@ -15,4 +15,15 @@ class PersonModel:
         pass
 
     def get_persons(self):
-        pass
+        user_id = 1
+
+        query = '''SELECT *
+                     FROM person
+                    WHERE account_id = %s'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, user_id)
+
+        persons = cursor.fetchall()
+
+        return persons
