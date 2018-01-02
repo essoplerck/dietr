@@ -4,23 +4,23 @@ from ..models.person import PersonModel
 model = PersonModel()
 
 @app.route('/persons/add')
-def add_person(self):
+def add_person():
     pass
 
 @app.route('/persons/<string:name>/edit')
-def edit_person(self, name):
+def edit_person(name):
     pass
 
 @app.route('/persons/<string:name>/delete')
-def delete_person(self, name):
+def delete_person(name):
     pass
 
 @app.route('/persons/<string:name>')
-def view_person(self, name):
+def view_person(name):
     pass
 
 @app.route('/persons')
-def overview_person(self):
+def overview_person():
     persons = model.get_persons()
 
     pass
