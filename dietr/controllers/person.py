@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import request, render_template
 
 from .. import app
 from ..models.person import PersonModel
@@ -19,19 +19,10 @@ def edit_person(name):
     person['ingredients'] = model.get_ingredients(person['id'])
 
     if request.method == 'POST':
-        format = re.compile('^(allergy|ingredient)-([0-9])$')
+        ingredients = request.form['ingredients']
 
-        for key, value in request.form.items():
-            # Check if form name starts with allergy or ingredient
-            match = format.search(key)
-
-            if not match:
-                break
-
-            type  = match.group(1)
-            index = int(match.group(2)) - 1
-
-            print(type, index)
+        for ingredient in ingredients.split(','):
+            print(ingredient)
 
     return render_template('/person/edit.html', errors = errors,
                                                 person = person)
@@ -44,6 +35,7 @@ def delete_person(name):
 def view_person(name):
     person = model.get_person(name)
 
+    # Fetch allergies of said person
     person['allergies']   = model.get_allergies(person['id'])
     person['ingredients'] = model.get_ingredients(person['id'])
 
