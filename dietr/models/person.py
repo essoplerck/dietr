@@ -19,8 +19,20 @@ class PersonModel:
     def edit_person(self, person):
         pass
 
-    def delete_person(self, name):
-        pass
+    def remove_person(self, id):
+        # @FIXME this trows an error
+        query = '''DELETE FROM person
+                         WHERE person.id = %s
+                   DELETE FROM person_category_relation
+                         WHERE person_id = %s
+                   DELETE FROM person_ingredient_relation
+                         WHERE person_ingredient_relation.person_id = %s'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, (id, id, id))
+
+        # Execute query
+        connection.commit()
 
     def get_person(self, name):
         user_id = 1

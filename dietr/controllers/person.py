@@ -58,9 +58,20 @@ def edit_person(name):
                                                 person = person,
                                                 data   = data)
 
-@app.route('/person/<string:name>/delete', methods = ['GET', 'POST'])
-def delete_person(name):
-    pass
+@app.route('/person/<string:name>/remove', methods = ['GET', 'POST'])
+def remove_person(name):
+    person = model.get_person(name)
+
+    if not person:
+        return render_template('error/not_found.html'), 404
+
+    if request.method == 'POST':
+        print(person['id'])
+        model.remove_person(person['id'])
+
+        return redirect('persons')
+
+    return render_template('/person/remove.html', person = person)
 
 @app.route('/person/<string:name>')
 def view_person(name):
