@@ -15,8 +15,8 @@ def edit_person(name):
 
     person = model.get_person(name)
 
-    person['allergies'] = model.get_allergies(person['id'])
-    person['ingredients'] = {}
+    person['allergies']   = model.get_allergies(person['id'])
+    person['ingredients'] = model.get_ingredients(person['id'])
 
 
 @app.route('/person/<string:name>/delete')
@@ -27,7 +27,8 @@ def delete_person(name):
 def view_person(name):
     person = model.get_person(name)
 
-    person['allergies'] = model.get_allergies(person['id'])
+    person['allergies']   = model.get_allergies(person['id'])
+    person['ingredients'] = model.get_ingredients(person['id'])
 
     return render_template('/person/view.html', person = person)
 

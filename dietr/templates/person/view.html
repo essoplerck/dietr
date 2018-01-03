@@ -1,9 +1,19 @@
 <h1>{{ person.name }}</h1>
 
+<h3>Allergies</h3>
 <ul>
   {% for allergy in person.allergies %}
     <li>
       <a href="/allergy/{{ allergy.id }}">{{ allergy.name }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<h3>Ingredients</h3>
+<ul>
+  {% for ingredient in person.ingredients %}
+    <li>
+      <a href="/ingredient/{{ ingredient.id }}">{{ ingredient.name }}</a>
     </li>
   {% endfor %}
 </ul>

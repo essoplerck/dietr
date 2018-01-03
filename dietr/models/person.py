@@ -42,6 +42,20 @@ class PersonModel:
 
         return allergens
 
+    def get_ingredients(self, id):
+        query = '''SELECT ingredient.id, ingredient.name
+                     FROM ingredient
+                          INNER JOIN person_ingredient_relation
+                                  ON ingredient.id = person_ingredient_relation.ingredient_id
+                    WHERE person_id = %s'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, id)
+
+        allergens = cursor.fetchall()
+
+        return allergens
+
     def get_persons(self):
         user_id = 1
 
