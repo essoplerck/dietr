@@ -9,7 +9,7 @@ class IngredientModel:
                         VALUES (%s, %s)'''
 
         cursor = connection.cursor()
-        cursor.execute(query)
+        cursor.execute(query, None)
 
         # Execute query
         connection.commit()
