@@ -1,0 +1,27 @@
+<form action="/person/{{ person.name }}/edit" method="post">
+  <label>Ingredient name</label>
+  <br>
+
+  {% for ingredient in person.ingredients %}
+    <input name="ingredient-{{ loop.index }}" type="text" value="{{ ingredient.name }}">
+    <hr>
+  {% endfor %}
+
+  <input name="ingredient-{{ person.ingredients | length + 1 }}" type="text">
+  <hr>
+
+  <label>Allergy name</label>
+  <br>
+
+  {% for allergy in person.allergies %}
+    <input name="allergy-{{ loop.index }}" type="text" value="{{ allergy.name }}">
+    <hr>
+  {% endfor %}
+
+  <input name="allergy-{{ person.allergies | length + 1 }}" type="text">
+  <hr>
+
+  <br>
+
+  <button class="button" name="remove" type="submit">Edit</button>
+</form>
