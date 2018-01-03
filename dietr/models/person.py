@@ -34,16 +34,16 @@ class PersonModel:
         # Execute query
         connection.commit()
 
-    def get_person(self, name):
+    def get_person(self, url):
         user_id = 1
 
         query = '''SELECT *
                      FROM person
                     WHERE account_id = %s
-                      AND name = %s'''
+                      AND url = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query, (user_id, name))
+        cursor.execute(query, (user_id, url))
 
         person = cursor.fetchone()
 

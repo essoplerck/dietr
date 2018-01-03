@@ -15,7 +15,7 @@ def add_person():
             'name': request.form['name']
         }
 
-        # @FIXME unsafe
+        # @FIXME unsafe, can produse invalid urls
         #  Encode url
         url = urllib.parse.quote(person['name'].lower())
 
@@ -34,11 +34,11 @@ def add_person():
 
     return render_template('/person/add.html')
 
-@app.route('/person/<string:name>/edit', methods = ['GET', 'POST'])
-def edit_person(name):
+@app.route('/person/<string:url>/edit', methods = ['GET', 'POST'])
+def edit_person(url):
     errors = {}
 
-    person = model.get_person(name)
+    person = model.get_person(url)
 
     person['allergies']   = model.get_allergies(person['id'])
     person['ingredients'] = model.get_ingredients(person['id'])
@@ -58,9 +58,9 @@ def edit_person(name):
                                                 person = person,
                                                 data   = data)
 
-@app.route('/person/<string:name>/remove', methods = ['GET', 'POST'])
-def remove_person(name):
-    person = model.get_person(name)
+@app.route('/person/<string:url>/remove', methods = ['GET', 'POST'])
+def remove_person(url):
+    person = model.get_person(url)
 
     if not person:
         return render_template('error/not_found.html'), 404
@@ -73,9 +73,9 @@ def remove_person(name):
 
     return render_template('/person/remove.html', person = person)
 
-@app.route('/person/<string:name>')
-def view_person(name):
-    person = model.get_person(name)
+@app.route('/person/<string:url>')
+def view_person(url):
+    person = model.get_person(url)
 
     if not person:
         return render_template('error/not_found.html'), 404
