@@ -1,27 +1,15 @@
-import pymysql
+import threading
+from time import sleep
+from random import randint
 
-conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvuemzxu", db="renswnc266_test", use_unicode=True, charset="utf8")
-myCursor = conn.cursor()
-f = open('file2.txt','w')
+def som(x,y):
+    i=0
+    while i in range(10):
+        wow = str(int(x)*int(y))
+        i += 1
+        print(wow)
 
-def ingredient(idrecept):
-    i = 1
-    while i <= idrecept:
-        myCursor.execute("SELECT * FROM category WHERE id=%s", i)
-        id = myCursor.fetchall()
-        for t in id:
-            line = ' '.join(str(x) for x in t)
-            naam = line.split(' ')[1]
-            print(naam)
-            try:
-                f.write(naam+"\n")
-            except:
-                print('deze lukte helaas niet')
-        i=i+1
-    f.close()
+for _ in range(1000000):
+    t = threading.Thread(target=som, args=(randint(0, 9), randint(0, 9)))
+    t.start()
 
-
-
-
-
-ingredient(800)
