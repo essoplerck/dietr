@@ -11,7 +11,13 @@ def add_person():
 
 @app.route('/person/<string:name>/edit')
 def edit_person(name):
-    pass
+    errors = {}
+
+    person = model.get_person(name)
+
+    person['allergies'] = model.get_allergies(person['id'])
+    person['ingredients'] = {}
+
 
 @app.route('/person/<string:name>/delete')
 def delete_person(name):
@@ -20,6 +26,8 @@ def delete_person(name):
 @app.route('/person/<string:name>')
 def view_person(name):
     person = model.get_person(name)
+
+    person['allergies'] = model.get_allergies(person['id'])
 
     return render_template('/person/view.html', person = person)
 
