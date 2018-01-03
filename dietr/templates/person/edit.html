@@ -4,6 +4,7 @@
 
   {% for ingredient in person.ingredients %}
     <input name="ingredient-{{ loop.index }}" type="text" value="{{ ingredient.name }}">
+    <input name="ingredient-{{ loop.index }}-id" type="text" value="{{ ingredient.id }}">
     <hr>
   {% endfor %}
 
@@ -15,6 +16,7 @@
 
   {% for allergy in person.allergies %}
     <input name="allergy-{{ loop.index }}" type="text" value="{{ allergy.name }}">
+    <input name="allergy-{{ loop.index }}-id" type="text" value="{{ allergy.id }}">
     <hr>
   {% endfor %}
 
