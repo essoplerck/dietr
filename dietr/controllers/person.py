@@ -1,6 +1,7 @@
-from flask import request, render_template
+from flask import url_for, redirect, request, render_template
 
 import json
+import urllib
 
 from .. import app
 from ..models.person import PersonModel
@@ -9,7 +10,29 @@ model = PersonModel()
 
 @app.route('/person/add', methods = ['GET', 'POST'])
 def add_person():
-    pass
+    if request.method == 'POST':
+        person = {
+            'name': request.form['name']
+        }
+
+        # @FIXME unsafe
+        #  Encode url
+        url = urllib.parse.quote(person['name'].lower())
+
+        person['url'] = url
+
+        '''
+        ingredients = json.loads(request.form['ingredients'])
+
+        for ingredient in ingredients:
+            print(ingredient['id'])
+        '''
+
+        model.add_person(person)
+
+        return redirect(f'person/{url}')
+
+    return render_template('/person/add.html')
 
 @app.route('/person/<string:name>/edit', methods = ['GET', 'POST'])
 def edit_person(name):

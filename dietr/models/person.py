@@ -5,7 +5,16 @@ class PersonModel:
     with the database.
     '''
     def add_person(self, person):
-        pass
+        user_id = 1
+
+        query = '''INSERT INTO person (account_id, name, url)
+                        VALUES (%s, %s, %s)'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, (user_id, person['name'], person['url']))
+
+        # Execute query
+        connection.commit()
 
     def edit_person(self, person):
         pass
