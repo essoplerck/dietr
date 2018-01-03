@@ -1,5 +1,7 @@
 from flask import request, render_template
 
+import json
+
 from .. import app
 from ..models.person import PersonModel
 
@@ -18,14 +20,20 @@ def edit_person(name):
     person['allergies']   = model.get_allergies(person['id'])
     person['ingredients'] = model.get_ingredients(person['id'])
 
-    if request.method == 'POST':
-        ingredients = request.form['ingredients']
+    data = {
+        'allergies':   json.dumps(person['allergies']),
+        'ingredients': json.dumps(person['ingredients'])
+    }
 
-        for ingredient in ingredients.split(','):
-            print(ingredient)
+    if request.method == 'POST':
+        ingredients = json.loads(request.form['ingredients'])
+
+        for ingredient in ingredients:
+            print(ingredient['id'])
 
     return render_template('/person/edit.html', errors = errors,
-                                                person = person)
+                                                person = person,
+                                                data   = data)
 
 @app.route('/person/<string:name>/delete', methods = ['GET', 'POST'])
 def delete_person(name):

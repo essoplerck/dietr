@@ -8,10 +8,7 @@
   {% endfor %}
 
   <textarea name="ingredients">
-    {%- for ingredient in person.ingredients -%}
-      {%- if loop.index > 1 %},{% endif -%}
-      {{ ingredient.id }}
-    {%- endfor -%}
+    {{ data.ingredients }}
   </textarea>
   <hr>
 
@@ -24,10 +21,7 @@
   {% endfor %}
 
   <textarea name="allergies">
-    {%- for allergy in person.allergies -%}
-      {%- if loop.index > 1 %},{% endif -%}
-      {{ allergy.id }}
-    {%- endfor -%}
+    {{ data.allergies }}
   </textarea>
   <hr>
 
