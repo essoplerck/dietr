@@ -77,6 +77,9 @@ def remove_person(name):
 def view_person(name):
     person = model.get_person(name)
 
+    if not person:
+        return render_template('error/not_found.html'), 404
+
     # Fetch allergies of said person
     person['allergies']   = model.get_allergies(person['id'])
     person['ingredients'] = model.get_ingredients(person['id'])
