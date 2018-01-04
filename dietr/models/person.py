@@ -17,19 +17,31 @@ class PersonModel:
         connection.commit()
 
     def edit_person(self, person):
-        pass
+        user_id = 1
 
-    def remove_person(self, id):
-        # @FIXME this trows an error
-        query = '''DELETE FROM person
-                         WHERE person.id = %s
-                   DELETE FROM person_category_relation
-                         WHERE person_id = %s
-                   DELETE FROM person_ingredient_relation
-                         WHERE person_ingredient_relation.person_id = %s'''
+        query = '''UPDATE person
+                      SET name       = %s,
+                          url        = %s
+                    WHERE id         = %s
+                      AND account_id = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query, (id, id, id))
+        cursor.execute(query, (person['name'], person['url'], person['name'],
+                                                              user_id))
+
+        # Execute query
+        connection.commit()
+
+    def remove_person(self, id):
+        cursor = connection.cursor()
+        cursor.execute('''DELETE FROM person
+                                WHERE person.id = %s''', id)
+
+        cursor.execute('''DELETE FROM person_category_relation
+                                WHERE person_id = %s''', id)
+
+        cursor.execute('''DELETE FROM person_ingredient_relation
+                                WHERE person_ingredient_relation.person_id = %s''', id)
 
         # Execute query
         connection.commit()

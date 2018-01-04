@@ -36,10 +36,9 @@ def add_person():
 
 @app.route('/person/<string:url>/edit', methods = ['GET', 'POST'])
 def edit_person(url):
-    errors = {}
-
     person = model.get_person(url)
 
+    person['name']        = request.form['name']
     person['allergies']   = model.get_allergies(person['id'])
     person['ingredients'] = model.get_ingredients(person['id'])
 
@@ -54,8 +53,7 @@ def edit_person(url):
         for ingredient in ingredients:
             print(ingredient['id'])
 
-    return render_template('/person/edit.html', errors = errors,
-                                                person = person,
+    return render_template('/person/edit.html', person = person,
                                                 data   = data)
 
 @app.route('/person/<string:url>/remove', methods = ['GET', 'POST'])
