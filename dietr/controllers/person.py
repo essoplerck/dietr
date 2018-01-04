@@ -8,31 +8,18 @@ from ..models.person import PersonModel
 
 model = PersonModel()
 
+invalid_characters = re.compile('[^a-z]')
+
 @app.route('/person/add', methods = ['GET', 'POST'])
 def add_person():
     if request.method == 'POST':
+        name = request.form['name']
+        url  = invalid_characters.sub('_', name.lower())
+
         person = {
-            'name': request.form['name']
+            'name': name,
+            'url':  url
         }
-
-        url = []
-
-        valid_characters = re.compile('([a-z0-9])')
-
-        # Replace non valid characters
-        for character in person['name']:
-            match = valid_characters.search(character.lower())
-            print(character.lower())
-
-            if match:
-                url.append(character)
-
-            else:
-                url.append('_')
-
-        url = ''.join(url)
-
-        person['url'] = url
 
         '''
         ingredients = json.loads(request.form['ingredients'])
