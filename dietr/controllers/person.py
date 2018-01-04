@@ -1,7 +1,7 @@
 from flask import url_for, redirect, request, render_template
 
 import json
-import urllib
+import re
 
 from .. import app
 from ..models.person import PersonModel
@@ -15,9 +15,22 @@ def add_person():
             'name': request.form['name']
         }
 
-        # @FIXME unsafe, can produse invalid urls
-        #  Encode url
-        url = urllib.parse.quote(person['name'].lower())
+        url = []
+
+        valid_characters = re.compile('([a-z0-9])')
+
+        # Replace non valid characters
+        for character in person['name']:
+            match = valid_characters.search(character.lower())
+            print(character.lower())
+
+            if match:
+                url.append(character)
+
+            else:
+                url.append('_')
+
+        url = ''.join(url)
 
         person['url'] = url
 
