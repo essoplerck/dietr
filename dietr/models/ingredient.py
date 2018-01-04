@@ -5,37 +5,36 @@ class IngredientModel:
     with the database.
     '''
     def add_ingredient(self, ingredient):
-        query = '''INSERT INTO ingredients (description, name)
+        query = '''INSERT INTO ingredient (description, name)
                         VALUES (%s, %s)'''
 
         cursor = connection.cursor()
-        cursor.execute(query, None)
+        cursor.execute(query, (ingredient['name'], ingredient['id']))
 
         # Execute query
         connection.commit()
 
     def edit_ingredient(self, ingredient):
-        query = '''UPDATE ingredients
-                      SET description = %s,
-                          name        = %s
-                    WHERE id          = %s'''
+        query = '''UPDATE ingredient
+                      SET name = %s
+                    WHERE id   = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query, None)
+        cursor.execute(query, (ingredient['name'], ingredient['id']))
 
         # Execute query
         connection.commit()
 
     def delete_ingredient(self, id):
-        query = '''DELETE FROM allergen
-                         WHERE ingredient_id = %s
-                   DELETE FROM ingredient
-                         WHERE id = %s
-                   DELETE FROM recipes_ingredient
-                         WHERE ingredient_id = %s'''
-
         cursor = connection.cursor()
-        cursor.execute(query, (id, id, id))
+        cursor.execute('''DELETE FROM allergen
+                                WHERE ingredient_id = %s''', id)
+
+        cursor.execute('''DELETE FROM ingredient
+                                WHERE id = %s ''', id)
+
+        cursor.execute('''DELETE FROM recipes_ingredient
+                                WHERE ingredient_id = %s''', id)
 
         # Execute query
         connection.commit()
