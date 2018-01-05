@@ -12,7 +12,9 @@ model = AuthenticationModel()
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     '''The login action allows user to login.'''
-    ''''
+    user  = {}
+    error = {}
+
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -20,18 +22,16 @@ def login():
         # Get the user from the database
         user = model.get_user(username)
 
-        # Check if the passwords (hashes) match
-        if pbkdf2_sha256.verify(password, user['hash']):
+        # Check if the password matches the hash
+        if model.verify_hash(password, user['hash']):
             # Add user session key
-            session['id']=user['id']
-            #Return de template van de userpage
+            session['user_id'] = user['id']
+
+            return redirect(url_for('/profile')), 302
+
         else:
-            errors={'login': 'Password or username is incorect'}
-            #Return de template van de inlogpage (als die er is)
-    else:
-        #Return de template van de inlogpage (als die er is)
-    '''
-    pass
+            error['login']: 'Password or username is incorect'
+    return render_template('/authentication/login.html', error = error)
 
 @app.route('/logout', methods = ['GET', 'POST'])
 @login_required
@@ -43,7 +43,6 @@ def logout():
 
         # Redirect user
         return redirect(url_for('/dashboard')), 302
-
     return render_template('/authentication/logout.html')
 
 # @TODO move validation to model
@@ -150,7 +149,6 @@ def join():
 
             return redirect(url_for('/dashboard')), 302
 
-    else:
-        # Return template
-        return render_template('/authentication/join.html', error = error,
-                                                            user  = None)
+    # Return template
+    return render_template('/authentication/join.html', error = error,
+                                                        user  = None)
