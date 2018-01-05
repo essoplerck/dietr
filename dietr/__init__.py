@@ -1,9 +1,10 @@
 from functools import wraps
 
 from flask import Flask, session, redirect, url_for
-from flask_session import Session
 
 import pymysql as sql
+
+from .sessions import RedisSessionInterface
 
 connection = sql.connect(host        = '185.182.57.56',
                          user        = 'renswnc266_dietr',
@@ -13,8 +14,7 @@ connection = sql.connect(host        = '185.182.57.56',
 
 app = Flask(__name__)
 app.config.from_object('config')
-
-Session(app)
+app.session_interface = RedisSessionInterface()
 
 '''
 @app.teardown_appcontext
