@@ -9,9 +9,7 @@ connection = sql.connect(host        = '185.182.57.56',
                          db          = 'renswnc266_dietr',
                          cursorclass = sql.cursors.DictCursor)
 
-app = Flask(__name__,
-            template_folder = 'templates',
-            static_folder   = 'static')
+app = Flask(__name__)
 
 app.config.from_object('config')
 
@@ -38,18 +36,18 @@ def login_required(action):
         return redirect(url_for('login'))
     return login_decorator
 
-from .api import blueprint as api
+from .api import app as api
 
-app.register_blueprint(api)
+app.register_blueprint(api, url_prefix = '/api')
 
-from .views import authentication
-from .views import ingredient
-from .views import overview
-from .views import pantry
-from .views import person
+from .authentication.views import authentication
+from .ingredient.views     import ingredient
+from .overview.views       import overview
+from .pantry.views         import pantry
+from .person.views         import person
 
-app.register_blueprint(authentication.blueprint)
-app.register_blueprint(ingredient.blueprint)
-app.register_blueprint(overview.blueprint)
-app.register_blueprint(pantry.blueprint)
-app.register_blueprint(person.blueprint)
+app.register_blueprint(authentication)
+app.register_blueprint(ingredient)
+app.register_blueprint(overview)
+app.register_blueprint(pantry)
+app.register_blueprint(person)

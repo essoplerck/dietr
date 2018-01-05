@@ -1,17 +1,19 @@
-from flask import Blueprint, request, render_template, url_for, session
-
 import re
 
+from flask import Blueprint, request, render_template, url_for, session
+
 from .. import login_required
-from ..models.authentication import AuthenticationModel
+
+from .model import AuthenticationModel
 
 PATTERN_EMAIL = re.compile(r'^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$')
 
-blueprint = Blueprint('authentication', __name__)
+authentication = Blueprint('authentication', __name__,
+                           template_folder = 'templates')
 
 model = AuthenticationModel()
 
-@blueprint.route('/login', methods = ['GET', 'POST'])
+@authentication.route('/login', methods = ['GET', 'POST'])
 def login():
     '''The login action allows user to login.'''
     error = {}
@@ -32,9 +34,9 @@ def login():
 
         else:
             error['login']: 'Password or username is incorect'
-    return render_template('/authentication/login.html', error = error)
+    return render_template('login.html', error = error)
 
-@blueprint.route('/logout', methods = ['GET', 'POST'])
+@authentication.route('/logout', methods = ['GET', 'POST'])
 @login_required
 def logout():
     '''The logout action allows users to logout.'''
@@ -44,10 +46,10 @@ def logout():
 
         # Redirect user
         return redirect(url_for('/dashboard')), 302
-    return render_template('/authentication/logout.html')
+    return render_template('logout.html')
 
 # @TODO move validation to model
-@blueprint.route('/join', methods = ['GET', 'POST'])
+@authentication.route('/join', methods = ['GET', 'POST'])
 def join():
     '''The join action allows users to register.'''
     error = {}
@@ -151,5 +153,4 @@ def join():
             return redirect(url_for('/dashboard')), 302
 
     # Return template
-    return render_template('/authentication/join.html', error = error,
-                                                        user  = None)
+    return render_template('join.html', error = error, user = None)

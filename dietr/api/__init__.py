@@ -3,7 +3,7 @@ from flask_restful import Api
 
 from .. import connection
 
-blueprint = Blueprint('api', __name__, url_prefix = '/api')
-api = Api(blueprint)
+app = Blueprint('api', __name__)
+api = Api(app)
 
 from .resources import ingredient

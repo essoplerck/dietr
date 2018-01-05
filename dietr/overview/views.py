@@ -1,21 +1,21 @@
 from flask import Blueprint, render_template
 
-blueprint = Blueprint('overview', __name__)
+overview = Blueprint('overview', __name__, template_folder = 'templates')
 
-@blueprint.route('/')
-@blueprint.route('/dashboard')
+@overview.route('/')
+@overview.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
 
-@blueprint.route('/about')
+@overview.route('/about')
 def about():
     return render_template('about.html')
 
-@blueprint.route('/contact')
+@overview.route('/contact')
 def contact():
     return render_template('contact.html')
 
-@blueprint.route('/legal')
+@overview.route('/legal')
 def legal():
     # Return the template
     return render_template('legal.html')
