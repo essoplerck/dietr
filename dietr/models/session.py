@@ -4,17 +4,20 @@ class SessionModel:
     '''Model for the authentication pages. This model will handle all
     ineractions with the database and cryptography.
     '''
-    def generate_hash(self):
-        pass
 
-    def generate_salt(self):
-        pass
+    def add_person(id, name):
+        query="insert into person (account_id, name) values (%s, %s);"
+        cursor=connection.cursor()
+        cursor.execute(query, (id, name))
+        return None
 
-    def get_hash(self, password, salt):
-        pass
-
-    def add_user(self, user):
-        pass
+    def add_user(self, username, name, hash, email):
+        query="insert into account (name, username, hash, email) values (%s, %s, %s, %s, %s);"
+        cursor=connection.cursor()
+        cursor.execute(query, (name, username, hash, email))
+        userdata=cursor.fetchone()
+        add_person(userdata[0], name)
+        return None
 
     def get_user(self, username):
         query = '''SELECT *
