@@ -1,17 +1,17 @@
-import json
-import re
+import json, re
 
-from flask import url_for, redirect, request, render_template
+from flask import Blueprint, redirect, render_template, request, url_for
 
-from .. import app
 from ..models.person import PersonModel
+
+blueprint = Blueprint('', __name__)
 
 model = PersonModel()
 
 # List of invalid characters. Negated, all but a-z are invalid
 invalid_characters = re.compile('[^a-z]')
 
-@app.route('/person/add', methods = ['GET', 'POST'])
+@blueprint.route('/person/add', methods = ['GET', 'POST'])
 def add_person():
     '''The add action allows users to add an person.'''
     if request.method == 'POST':
@@ -33,7 +33,7 @@ def add_person():
 
     return render_template('/person/add.html')
 
-@app.route('/person/<string:url>/edit', methods = ['GET', 'POST'])
+@blueprint.route('/person/<string:url>/edit', methods = ['GET', 'POST'])
 def edit_person(url):
     '''The edit action allows users to change a person.'''
     person = model.get_person(url)
@@ -60,7 +60,7 @@ def edit_person(url):
     return render_template('/person/edit.html', person = person,
                                                 data   = data)
 
-@app.route('/person/<string:url>/remove', methods = ['GET', 'POST'])
+@blueprint.route('/person/<string:url>/remove', methods = ['GET', 'POST'])
 def remove_person(url):
     '''The remove action allows users to remove a person.'''
     person = model.get_person(url)
@@ -77,7 +77,7 @@ def remove_person(url):
 
     return render_template('/person/remove.html', person = person)
 
-@app.route('/person/<string:url>')
+@blueprint.route('/person/<string:url>')
 def view_person(url):
     '''The view action allows users to view a person.'''
     person = model.get_person(url)
@@ -92,7 +92,7 @@ def view_person(url):
 
     return render_template('/person/view.html', person = person)
 
-@app.route('/persons')
+@blueprint.route('/persons')
 def overview_person():
     '''The overview action allows users to view all their persons.'''
     persons = model.get_persons()

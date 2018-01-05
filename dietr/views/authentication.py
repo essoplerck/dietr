@@ -1,15 +1,17 @@
-from flask import request, render_template, url_for, session
+from flask import Blueprint, request, render_template, url_for, session
 
 import re
 
-from .. import app, login_required
+from .. import login_required
 from ..models.authentication import AuthenticationModel
 
 PATTERN_EMAIL = re.compile(r'^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$')
 
+blueprint = Blueprint('authentication', __name__)
+
 model = AuthenticationModel()
 
-@app.route('/login', methods = ['GET', 'POST'])
+@blueprint.route('/login', methods = ['GET', 'POST'])
 def login():
     '''The login action allows user to login.'''
     error = {}
@@ -32,7 +34,7 @@ def login():
             error['login']: 'Password or username is incorect'
     return render_template('/authentication/login.html', error = error)
 
-@app.route('/logout', methods = ['GET', 'POST'])
+@blueprint.route('/logout', methods = ['GET', 'POST'])
 @login_required
 def logout():
     '''The logout action allows users to logout.'''
@@ -45,7 +47,7 @@ def logout():
     return render_template('/authentication/logout.html')
 
 # @TODO move validation to model
-@app.route('/join', methods = ['GET', 'POST'])
+@blueprint.route('/join', methods = ['GET', 'POST'])
 def join():
     '''The join action allows users to register.'''
     error = {}

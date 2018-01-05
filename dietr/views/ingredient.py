@@ -1,31 +1,32 @@
-from flask import render_template
+from flask import Blueprint, render_template
 
-from .. import app
 from ..models.ingredient import IngredientModel
+
+blueprint = Blueprint('ingredient', __name__)
 
 model = IngredientModel()
 
-@app.route('/ingredient/add')
+@blueprint.route('/ingredient/add')
 def add_ingredient():
     '''The add action allows users to add an ingredient.'''
     pass
 
-@app.route('/ingredient/<int:id>/edit')
-@app.route('/ingredient/<int:id>/<string:name>/edit')
+@blueprint.route('/ingredient/<int:id>/edit')
+@blueprint.route('/ingredient/<int:id>/<string:name>/edit')
 def edit_ingredient(id, name = None):
     '''The edit action allows users to change an ingredient.'''
     pass
 
-@app.route('/ingredient/<int:id>/remove')
-@app.route('/ingredient/<int:id>/<string:name>/remove')
+@blueprint.route('/ingredient/<int:id>/remove')
+@blueprint.route('/ingredient/<int:id>/<string:name>/remove')
 def remove_ingredient(id, name = None):
     '''The remove action allows users to remove an ingredient for the
     database.
     '''
     pass
 
-@app.route('/ingredient/<int:id>')
-@app.route('/ingredient/<int:id>/<string:name>')
+@blueprint.route('/ingredient/<int:id>')
+@blueprint.route('/ingredient/<int:id>/<string:name>')
 def view_ingredient(id, name = None):
     '''The view action allows users to view an ingredient.'''
     ingredient = model.get_ingredient(id)

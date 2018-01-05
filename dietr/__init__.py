@@ -38,8 +38,18 @@ def login_required(action):
         return redirect(url_for('login'))
     return login_decorator
 
-from .api import app as api
+from .api import blueprint as api
 
-app.register_blueprint(api, url_prefix = '/api')
+app.register_blueprint(api)
 
-from .controllers import authentication, ingredient, overview, pantry, person
+from .views import authentication
+from .views import ingredient
+from .views import overview
+from .views import pantry
+from .views import person
+
+app.register_blueprint(authentication.blueprint)
+app.register_blueprint(ingredient.blueprint)
+app.register_blueprint(overview.blueprint)
+app.register_blueprint(pantry.blueprint)
+app.register_blueprint(person.blueprint)

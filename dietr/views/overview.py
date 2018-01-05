@@ -1,24 +1,25 @@
-from flask import render_template
+from flask import Blueprint, render_template
 
-from .. import app
 from ..models.overview import OverviewModel
+
+blueprint = Blueprint('overview', __name__)
 
 model = OverviewModel()
 
-@app.route('/')
-@app.route('/dashboard')
+@blueprint.route('/')
+@blueprint.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/about')
+@blueprint.route('/about')
 def about():
     return render_template('about.html')
 
-@app.route('/contact')
+@blueprint.route('/contact')
 def contact():
     return render_template('contact.html')
 
-@app.route('/legal')
+@blueprint.route('/legal')
 def legal():
     # Return the template
     return render_template('legal.html')
