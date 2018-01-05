@@ -9,6 +9,9 @@ class AuthenticationModel:
     def generate_hash(password, salt = None):
         return pbkdf2_sha256.hash(user['password'])
 
+    def verify_hash(password, hash, salt = None):
+        return pbkdf2_sha256.verify(password, hash)
+
     def add_person(user):
         query = '''INSERT INTO person (account_id, name, url)
                         VALUES (%s, %s)'''
