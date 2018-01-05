@@ -29,7 +29,7 @@ def login_required(action):
     '''
     @wraps(action)
     def login_decorator(*arg, **kwargs):
-        print(session.get('user_id'))
+        print(session)
 
         # Check if user is logged in
         if 'user_id' in session:
@@ -50,6 +50,6 @@ def login():
 
 @app.route('/set')
 def set():
-    session['user_id'] = 1
+    session['user_id'] = '1'
 
-    return session.get('user_id')
+    return 'ok'
