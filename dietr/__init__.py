@@ -9,7 +9,9 @@ connection = sql.connect(host        = '185.182.57.56',
                          db          = 'renswnc266_dietr',
                          cursorclass = sql.cursors.DictCursor)
 
-app = Flask(__name__)
+app = Flask(__name__,
+            template_folder = 'templates',
+            static_folder   = 'static')
 
 app.config.from_object('config')
 
@@ -35,5 +37,9 @@ def login_required(action):
             return action(*arg, **kwargs)
         return redirect(url_for('login'))
     return login_decorator
+
+from .api import app as api
+
+app.register_blueprint(api, url_prefix = '/api')
 
 from .controllers import authentication, ingredient, overview, pantry, person
