@@ -2,7 +2,7 @@ from passlib.hash import pbkdf2_sha256
 
 from .. import connection
 
-class SessionModel:
+class AuthenticationModel:
     '''Model for the authentication pages. This model will handle all
     ineractions with the database and cryptography.
     '''

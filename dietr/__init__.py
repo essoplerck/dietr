@@ -35,4 +35,4 @@ def login_required(action):
         return redirect(url_for('login'))
     return login_decorator
 
-from .controllers import ingredient, overview, pantry, person, session
+from .controllers import authentication, ingredient, overview, pantry, person

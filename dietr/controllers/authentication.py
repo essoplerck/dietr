@@ -3,11 +3,11 @@ from flask import request, render_template, url_for, session
 import re
 
 from .. import app, login_required
-from ..models.session import SessionModel
+from ..models.authentication import AuthenticationModel
 
 PATTERN_EMAIL = re.compile(r'^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$')
 
-model = SessionModel()
+model = AuthenticationModel()
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
