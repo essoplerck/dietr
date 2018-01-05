@@ -1,10 +1,6 @@
 from flask import Blueprint, render_template
 
-from ..models.overview import OverviewModel
-
 blueprint = Blueprint('overview', __name__)
-
-model = OverviewModel()
 
 @blueprint.route('/')
 @blueprint.route('/dashboard')

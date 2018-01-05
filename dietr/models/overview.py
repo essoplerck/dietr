@@ -1,2 +1,0 @@
-class OverviewModel:
-    pass
