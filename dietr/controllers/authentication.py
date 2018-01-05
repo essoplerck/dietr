@@ -12,7 +12,6 @@ model = AuthenticationModel()
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     '''The login action allows user to login.'''
-    user  = {}
     error = {}
 
     if request.method == 'POST':
