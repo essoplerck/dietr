@@ -1,35 +1,45 @@
+from passlib.hash import pbkdf2_sha256
+
 from .. import connection
 
 class SessionModel:
     '''Model for the authentication pages. This model will handle all
     ineractions with the database and cryptography.
     '''
+    def generate_hash(password, salt = None):
+        return pbkdf2_sha256.hash(user['password'])
 
-    def add_person(id, name):
-        query="insert into person (account_id, name) values (%s, %s);"
-        cursor=connection.cursor()
-        cursor.execute(query, (id, name))
-        return None
+    def add_person(user):
+        query = '''INSERT INTO person (account_id, name, url)
+                        VALUES (%s, %s)'''
 
-    def add_user(self, username, name, hash, email):
-        query="insert into account (name, username, hash, email) values (%s, %s, %s, %s, %s);"
-        cursor=connection.cursor()
-        cursor.execute(query, (name, username, hash, email))
-        userdata=cursor.fetchone()
-        add_person(userdata[0], name)
-        return None
+        cursor = connection.cursor()
+        cursor.execute(query, (user['id'], user['name'], user['url']))
+
+        # Execute query
+        return connection.commit()
+
+    def add_user(self, user):
+        query = '''INSERT INTO account (name, username, hash, email)
+                        VALUES (%s, %s, %s, %s, %s)'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, (user['name'], user['username'], user['hash'],
+                                                               user['email']))
+
+        # Execute query
+        return connection.commit()
 
     def get_user(self, username):
         query = '''SELECT *
                      FROM user
-                    WHERE úsername = %s'''
+                    WHERE username = %s'''
 
         cursor = connection.cursor()
         cursor.execute(query, (username,))
 
-        user = cursor.fetchone()
-
-        return user
+        # Return user
+        return cursor.fetchone()
 
     def does_user_exist(self, email, username):
         query = '''SELECT (
@@ -45,4 +55,5 @@ class SessionModel:
         cursor = connection.cursor()
         cursor.execute(query, (email, username))
 
+        # Retrun number of matching mail adresses and usernames
         return cursor.fetchone()

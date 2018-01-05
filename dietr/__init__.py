@@ -2,7 +2,6 @@ from functools import wraps
 
 from flask import Flask, session, redirect, url_for
 from flask_session import Session
-from passlib.hash import pbkdf2_sha256
 
 import pymysql as sql
 
@@ -14,7 +13,6 @@ connection = sql.connect(host        = '185.182.57.56',
 
 app = Flask(__name__)
 app.config.from_object('config')
-app.secret_key='\x95\x9d\xceq\x81=M\xa4y\xea\xfd\x10\x15\x12\x138"\xcdh\xcah\x83\xa4\x85'
 
 Session(app)
 
@@ -31,8 +29,6 @@ def login_required(action):
     '''
     @wraps(action)
     def login_decorator(*arg, **kwargs):
-        print(session.get('user_id'))
-
         # Check if user is logged in
         if 'user_id' in session:
             return action(*arg, **kwargs)

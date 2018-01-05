@@ -1,14 +1,18 @@
-from flask import request, session
+from flask import request, render_template, url_for, session
+
+import re
 
 from .. import app, login_required
 from ..models.session import SessionModel
+
+PATTERN_EMAIL = re.compile(r'^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$')
 
 model = SessionModel()
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     '''The login action allows user to login.'''
-
+    ''''
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -26,49 +30,81 @@ def login():
             #Return de template van de inlogpage (als die er is)
     else:
         #Return de template van de inlogpage (als die er is)
+    '''
+    pass
 
-@app.route('/logout', methods = ['POST'])
+@app.route('/logout', methods = ['GET', 'POST'])
 @login_required
 def logout():
-    '''The logout action allows user to logout.'''
+    '''The logout action allows users to logout.'''
+    if request.method == 'POST':
+        # Remove user sessin key
+        session.pop('user_id', None)
 
-    # Remove user sessin key
-    session.pop('id', None)
-    # Redirect user
-    #Return de template van de uitlogpage (als die er is), of de homepage
+        # Redirect user
+        return redirect(url_for('/dashboard')), 302
 
+    return render_template('/authentication/logout.html')
+
+# @TODO move validation to model
 @app.route('/join', methods = ['GET', 'POST'])
 def join():
-    '''The join action allows user to register.'''
-
-    errors = {}
+    '''The join action allows users to register.'''
+    error = {}
 
     if request.method == 'POST':
         # Get form data
-        user = {}
-        user['name']=request.form('name')
-        user['username']=request.form('username')
-        user['password']=request.form('password')
-        user['confirm_password']=request.form('confirm_password')
-        user['email']=request.form('email')
+        user = {
+            'username': request.form('username'),
+            'email':    request.form('email')
+        }
 
-        count = model.does_user_exist(user['email'], user['username'])
+        # @TODO move to model
+        # Check if email adress is valid
+        if PATTERN_EMAIL.match(user['email']):
+            error['email'] = 'You have not entered a valid mail address.'
 
-        if count['email']:
-            errors['email'] = 'There already is a user with this email address.'
+        first_name  = request.form('first-name')
+        middle_name = request.form('middle-name')
+        last_name   = request.form('last-name')
 
-        if count['username']:
-            errors['username'] = 'This user name is already in use.'
+        # Check if user has enterd a name
+        if not first_name:
+            error['name'] = 'You have not entered a first name.'
 
-        if len(user['name'].split(' '))==0:
-            errors['name']='You have not entered a name.'
-        elif user['name'][0]==' ':
-            errors['name']='You have not entered a first name.'
-        elif user['name'][len(user['name'])-1]==' ':
-            errors['name']='You have not entered a last name.'
+        if not last_name:
+            error['name'] = 'You have not entered a last name.'
 
-        if len(user['password'])<8 or len(user['password'])>20:
-            errors['password']='Your password is not the required length.'
+        # Concat names
+        if middle_name:
+            user['name'] = f'{first_name} {middle_name} {last_name}'
+
+        else:
+            user['name'] = f'{first_name} {last_name}'
+
+        # Fetch the passwords
+        password        = request.form('password'),
+        password_verify = request.form('confirm-password')
+
+        if password is password_verify:
+            # Get hash
+            pass
+
+        else:
+            error['password'] = 'Passwords do not match'
+
+        # Check for errors
+        if errors:
+            # Show errors
+            return render_template('/authentication/join.html', error = error,
+                                                                user  = user)
+
+        # Check password length
+        if len(user['password']) < 8:
+            error['password'] = 'Your password is too short.'
+
+        # @TODO replace with regex
+        # Check if password is valid
         else:
             lets=0
             nums=0
@@ -80,22 +116,41 @@ def join():
                     lets+=1
                 else:
                     chars+=1
+
             if lets==0 or nums==0 or chars==0:
-                errors['password']='Your password does not contain a letter, number and special character.'
+                error['password']='Your password does not contain a letter, number and special character.'
 
-        if not (user['password']==user['confirm_password']):
-            errors['confirm_password']='Your entered passwords are not the same.'
+        # Check for errors
+        if errors:
+            # Show errors
+            return render_template('/authentication/join.html', error = error,
+                                                                user  = user)
 
-        if len(user['email'].split(' '))==0 or len(user['email'].split('@'))!=2 or len(user['email'].split('.'))<2:
-            errors['email']='You have not entered a valid E-mailadress.'
+        # Check if user exit
+        count = model.does_user_exist(user['email'], user['username'])
 
-        if len(errors)==0:
-            hash=[pbkdf2_sha256.hash(user['password'])]
-            model.add_user(user['username'], user['name'], hash, user['email'])
-            #Return naar de geregistreerdpagina
+        if count['email']:
+            error['email'] = 'There already is a user with this email address.'
+
+        if count['username']:
+            error['username'] = 'This user name is already in use.'
+
+        # Check for errors
+        if errors:
+            # Show errors
+            return render_template('/authentication/join.html', error = error,
+                                                                user  = user)
+
         else:
-            #Return naar de registreerpagina
+            # Register user
+            model.add_user(user)
+
+            # Add user id to sesson
+            sessions['user_id'] = user['id']
+
+            return redirect(url_for('/dashboard')), 302
 
     else:
-        # Return naar de registreerpagina
-        pass
+        # Return template
+        return render_template('/authentication/join.html', error = error,
+                                                            user  = None)
