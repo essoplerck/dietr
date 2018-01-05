@@ -12,7 +12,7 @@ class AccountModel:
         conn.close()
         cursor.close()
         add_person(userdata[0], name)
-        pass
+        return None
 
     def get_account(email, password):
         query="select * from account where email=%s and password=%s"
@@ -26,7 +26,7 @@ class AccountModel:
             return userdata
         conn.close()
         cursor.close()
-        pass
+        return None
 
     def get_account(email, username):
         query="select * from account where email=%s and username=%s"
@@ -54,7 +54,7 @@ class AccountModel:
             return userdata
         conn.close()
         cursor.close()
-        pass
+        return None
 
     def update_account(name, username, password, email, ide):
         query="update account set name=%s, username=%s, password=%s, email=%s where id=%s;"
@@ -101,7 +101,7 @@ class AccountModel:
         conn.commit()
         conn.close()
         cursor.close()
-        pass
+        return None
 
     def delete_person(ide, name):
         query="delete from person where account_id=%s and name=%s"
@@ -112,4 +112,4 @@ class AccountModel:
         conn.commit()
         conn.close()
         cursor.close()
-        pass
+        return None
