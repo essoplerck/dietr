@@ -1,6 +1,5 @@
 # gitignore
 __pycache__
-flask_session
 
 # binaries
 *.pyc
