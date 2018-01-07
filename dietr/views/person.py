@@ -1,5 +1,4 @@
 import json
-import re
 
 from flask import Blueprint, redirect, render_template, request, url_for
 
@@ -8,9 +7,6 @@ from ..models.person import PersonModel
 blueprint = Blueprint('', __name__)
 
 model = PersonModel()
-
-# List of invalid characters. Negated, all but a-z are invalid
-invalid_characters = re.compile('[^a-z]')
 
 
 @blueprint.route('/person/add', methods=['GET', 'POST'])
@@ -23,7 +19,7 @@ def add_person():
         id = model.get_count()
 
         person = {
-            'id': id
+            'id': id,
             'name': name
         }
 
