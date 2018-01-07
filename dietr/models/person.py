@@ -1,5 +1,6 @@
 from .. import connection
 
+
 class PersonModel:
     '''Model for the person pages. This model will handle all ineractions
     with the database.
@@ -8,11 +9,11 @@ class PersonModel:
         '''Insert a person into the database.'''
         user_id = 1
 
-        query = '''INSERT INTO person (account_id, name, url)
+        query = '''INSERT INTO person (id, name, user_id)
                         VALUES (%s, %s, %s)'''
 
         cursor = connection.cursor()
-        cursor.execute(query, (user_id, person['name'], person['url']))
+        cursor.execute(query, (person['name'], person['id'], user_id))
 
         # Execute query
         return connection.commit()
@@ -21,15 +22,12 @@ class PersonModel:
         '''Update a person in the database. Person id will be preserved.'''
         user_id = 1
 
-        query = '''UPDATE person
-                      SET name       = %s,
-                          url        = %s
-                    WHERE id         = %s
-                      AND account_id = %s'''
-
         cursor = connection.cursor()
-        cursor.execute(query, (person['name'], person['url'], person['name'],
-                                                              user_id))
+        cursor.execute('''UPDATE person
+                             SET name       = %s,
+                           WHERE id         = %s
+                             AND user_id = %s''', (person['name'], person['id'],
+                                                                   user_id))
 
         # Execute query
         return connection.commit()
@@ -42,31 +40,31 @@ class PersonModel:
 
         cursor = connection.cursor()
         cursor.execute('''DELETE FROM person
-                                WHERE id         = %s
-                                  AND account_id = %s''', (id, user_id))
+                                WHERE id      = %s
+                                  AND user_id = %s''', (id, user_id))
 
         cursor.execute('''DELETE FROM person_category_relation
-                                WHERE person_id  = %s
-                                  AND account_id = %s''', (id, user_id))
+                                WHERE person_id = %s
+                                  AND user_id   = %s''', (id, user_id))
 
         cursor.execute('''DELETE FROM person_ingredient_relation
-                                WHERE person_id  = %s
-                                  AND account_id = %s''', (id, user_id))
+                                WHERE person_id = %s
+                                  AND user_id   = %s''', (id, user_id))
 
         # Execute query
         return connection.commit()
 
-    def get_person(self, url):
+    def get_person(self, id):
         '''Fetch a person from the database.'''
         user_id = 1
 
         query = '''SELECT *
                      FROM person
-                    WHERE account_id = %s
-                      AND url = %s'''
+                    WHERE id      = %s
+                      AND user_id = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query, (user_id, url))
+        cursor.execute(query, (index, user_id))
 
         # Return person
         return cursor.fetchone()
@@ -99,13 +97,29 @@ class PersonModel:
         # Return ingredients
         return cursor.fetchall()
 
+    def get_count(self):
+        '''Fetch the highest person id for a given user. This is used to
+        genereate a index for a person.
+        '''
+        user_id = 1
+
+        query = '''SELECT MAX(id) AS count
+                     FROM person
+                    WHERE user_id = %s'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, user_id)
+
+        # Return persons
+        return cursor.fetchall()
+
     def get_persons(self):
         '''Fetch a list of all persons.'''
         user_id = 1
 
         query = '''SELECT *
                      FROM person
-                    WHERE account_id = %s
+                    WHERE user_id = %s
                  ORDER BY name'''
 
         cursor = connection.cursor()

@@ -11,18 +11,20 @@ from redis import Redis
 from werkzeug.datastructures import CallbackDict
 from flask.sessions import SessionInterface, SessionMixin
 
+
 def total_seconds(td):
     return td.days * 60 * 60 * 24 + td.seconds
 
+
 class RedisSession(CallbackDict, SessionMixin):
-    def __init__(self, initial = None, sid = None, new = False):
+    def __init__(self, initial=None, sid=None, new=False):
         def on_update(self):
             self.modified = True
 
         CallbackDict.__init__(self, initial, on_update)
 
-        self.sid      = sid
-        self.new      = new
+        self.sid = sid
+        self.new = new
         self.modified = False
 
 
