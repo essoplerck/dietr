@@ -2,6 +2,7 @@ from flask_restful import Resource
 
 from .. import api, connection
 
+
 class Ingredients(Resource):
     def get(self, id):
         cursor = connection.cursor()
@@ -21,7 +22,9 @@ class Ingredients(Resource):
 
         return ingredient
 
+
 api.add_resource(Ingredients, '/ingredients/<int:id>')
+
 
 class IngredientsOverview(Resource):
     def get(self):
@@ -33,7 +36,9 @@ class IngredientsOverview(Resource):
 
         return ingredients
 
+
 api.add_resource(IngredientsOverview, '/ingredients')
+
 
 class IngredientsSearch(Resource):
     def get(self, query):
@@ -45,5 +50,6 @@ class IngredientsSearch(Resource):
         ingredients = cursor.fetchone()
 
         return ingredients
+
 
 api.add_resource(IngredientsSearch, '/ingredients/search/<string:query>')

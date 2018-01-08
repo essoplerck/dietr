@@ -1,5 +1,6 @@
 from .. import connection
 
+
 class IngredientModel:
     '''Model for the ingredient pages. This model will handle all ineractions
     with the database.
@@ -15,6 +16,7 @@ class IngredientModel:
         # Execute query
         return connection.commit()
 
+
     def edit_ingredient(self, ingredient):
         '''Update an ingredient in the database. Ingredient id will be
         preserved.
@@ -28,6 +30,7 @@ class IngredientModel:
 
         # Execute query
         return connection.commit()
+
 
     def remove_ingredient(self, id):
         '''Delete an ingredient from the database. Will also remove related
@@ -49,6 +52,7 @@ class IngredientModel:
         # Execute queries
         return connection.commit()
 
+
     def get_ingredient(self, id):
         '''Fetch an ingredient from the database.'''
         query = '''SELECT *
@@ -60,6 +64,7 @@ class IngredientModel:
 
         # Return ingredient
         return cursor.fetchone()
+
 
     def get_allergens(self, id):
         '''Fetch a list of allergens for a ingredient.'''
@@ -74,6 +79,7 @@ class IngredientModel:
 
         # Return allergens
         return cursor.fetchall()
+
 
     def get_ingredients(self):
         '''Fetch a list of all ingredients.'''

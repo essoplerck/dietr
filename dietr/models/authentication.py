@@ -2,12 +2,14 @@ from passlib.hash import pbkdf2_sha256
 
 from .. import connection
 
+
 class AuthenticationModel:
     '''Model for the authentication pages. This model will handle all
     ineractions with the database and cryptography.
     '''
     def generate_hash(password, salt = None):
         return pbkdf2_sha256.hash(user['password'])
+
 
     def verify_hash(password, hash, salt = None):
         return pbkdf2_sha256.verify(password, hash)
@@ -33,6 +35,7 @@ class AuthenticationModel:
         # Execute query
         return connection.commit()
 
+
     def get_user(self, username):
         query = '''SELECT *
                      FROM user
@@ -43,6 +46,7 @@ class AuthenticationModel:
 
         # Return user
         return cursor.fetchone()
+
 
     def does_user_exist(self, email, username):
         query = '''SELECT (
