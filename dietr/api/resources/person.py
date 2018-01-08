@@ -1,14 +1,10 @@
 from flask import session
-from flask_restful import Resource, fields, marshal_with
+from flask_restful import Resource
 
 from .. import api, connection
 
 
 prefix = '/persons/<int:handle>'
-
-resource_fields = {
-    'flag': fields.Integer
-}
 
 
 class PersonsAllergies(Resource):
@@ -35,8 +31,8 @@ class PersonsAllergies(Resource):
     def post(self, handle, id, flag=0):
         user = 1
 
-        query = '''INSERT INTO person_category_relation (person_id, category_id, flag)
-                   SELECT person.id, %s, 0
+        query = '''INSERT INTO person_category_relation (person_id, category_id)
+                   SELECT person.id, %s
                      FROM person_category_relation AS pc
                           INNER JOIN person
                              ON person.id   = pc.person_id
@@ -78,8 +74,8 @@ class PersonsIngredients(Resource):
     def post(self, handle, id, flag=0):
         user = 1
 
-        query = '''INSERT INTO person_ingredient_relation (person_id, ingredient_id, flag)
-                     SELECT person.id, %s, 0
+        query = '''INSERT INTO person_ingredient_relation (person_id, ingredient_id)
+                     SELECT person.id, %s
                        FROM person_category_relation AS pc
                             INNER JOIN person
                                ON person.id   = pc.person_id
