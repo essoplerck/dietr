@@ -47,7 +47,7 @@ class IngredientsSearch(Resource):
                             FROM ingredient
                            WHERE name LIKE %s''', f'%{query}%')
 
-        ingredients = cursor.fetchone()
+        ingredients = cursor.fetchall()
 
         return ingredients
 
