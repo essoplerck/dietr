@@ -7,27 +7,28 @@ class PersonModel:
     '''
     def add_person(self, person):
         '''Insert a person into the database.'''
-        user_id = 1
+        user = 1
 
-        query = '''INSERT INTO person (id, name, user_id)
+        query = '''INSERT INTO person (id, name, account_id)
                         VALUES (%s, %s, %s)'''
 
         cursor = connection.cursor()
-        cursor.execute(query, (person['name'], person['id'], user_id))
+        cursor.execute(query, (person['name'], person['id'], user))
 
         # Execute query
         return connection.commit()
 
     def edit_person(self, person):
         '''Update a person in the database. Person id will be preserved.'''
-        user_id = 1
+        user = 1
 
         cursor = connection.cursor()
         cursor.execute('''UPDATE person
                              SET name       = %s,
                            WHERE id         = %s
-                             AND user_id = %s''', (person['name'], person['id'],
-                                                   user_id))
+                             AND account_id = %s''', (person['name'],
+                                                      person['id'],
+                                                      user))
 
         # Execute query
         return connection.commit()
@@ -36,35 +37,35 @@ class PersonModel:
         '''Delete a person from the database. Will also remove related
         tables.
         '''
-        user_id = 1
+        user = 1
 
         cursor = connection.cursor()
         cursor.execute('''DELETE FROM person
-                                WHERE id      = %s
-                                  AND user_id = %s''', (id, user_id))
+                                WHERE id         = %s
+                                  AND account_id = %s''', (id, user))
 
         cursor.execute('''DELETE FROM person_category_relation
-                                WHERE person_id = %s
-                                  AND user_id   = %s''', (id, user_id))
+                                WHERE person_id  = %s
+                                  AND account_id = %s''', (id, user))
 
         cursor.execute('''DELETE FROM person_ingredient_relation
-                                WHERE person_id = %s
-                                  AND user_id   = %s''', (id, user_id))
+                                WHERE person_id  = %s
+                                  AND account_id = %s''', (id, user))
 
         # Execute query
         return connection.commit()
 
     def get_person(self, id):
         '''Fetch a person from the database.'''
-        user_id = 1
+        user = 1
 
         query = '''SELECT *
                      FROM person
-                    WHERE id      = %s
-                      AND user_id = %s'''
+                    WHERE id         = %s
+                      AND account_id = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query, (index, user_id))
+        cursor.execute(query, (id, user))
 
         # Return person
         return cursor.fetchone()
@@ -75,7 +76,7 @@ class PersonModel:
                      FROM category
                           INNER JOIN person_category_relation
                                   ON category.id = person_category_relation.category_id
-                    WHERE person_id = %s'''
+                    WHERE person_id  = %s'''
 
         cursor = connection.cursor()
         cursor.execute(query, id)
@@ -89,7 +90,7 @@ class PersonModel:
                      FROM ingredient
                           INNER JOIN person_ingredient_relation
                                   ON ingredient.id = person_ingredient_relation.ingredient_id
-                    WHERE person_id = %s'''
+                    WHERE person_id  = %s'''
 
         cursor = connection.cursor()
         cursor.execute(query, id)
@@ -101,29 +102,29 @@ class PersonModel:
         '''Fetch the highest person id for a given user. This is used to
         genereate a index for a person.
         '''
-        user_id = 1
+        user = 1
 
         query = '''SELECT MAX(id) AS count
                      FROM person
-                    WHERE user_id = %s'''
+                    WHERE account_id = %s'''
 
         cursor = connection.cursor()
-        cursor.execute(query, user_id)
+        cursor.execute(query, user)
 
         # Return persons
         return cursor.fetchall()
 
     def get_persons(self):
         '''Fetch a list of all persons.'''
-        user_id = 1
+        user = 1
 
         query = '''SELECT *
                      FROM person
-                    WHERE user_id = %s
+                    WHERE account_id = %s
                  ORDER BY name'''
 
         cursor = connection.cursor()
-        cursor.execute(query, user_id)
+        cursor.execute(query, user)
 
         # Return persons
         return cursor.fetchall()
