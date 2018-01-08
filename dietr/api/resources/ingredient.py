@@ -14,8 +14,8 @@ class Ingredients(Resource):
 
         cursor.execute('''SELECT category.id, category.name
                             FROM category
-                                 INNER JOIN category_ingredient_relation
-                                 ON category.id = category_ingredient_relation.id
+                                 INNER JOIN category_ingredient_relation AS ci
+                                    ON category.id = ci.id
                            WHERE ingredient_id = %s''', id)
 
         ingredient['allergies'] = cursor.fetchall()

@@ -38,16 +38,16 @@ class IngredientModel:
         '''
         cursor = connection.cursor()
         cursor.execute('''DELETE FROM ingredient
-                                WHERE id = %s ''', id)
+                           WHERE id = %s''', id)
 
         cursor.execute('''DELETE FROM allergen
-                                WHERE ingredient_id = %s''', id)
+                           WHERE ingredient_id = %s''', id)
 
         cursor.execute('''DELETE FROM recipes_ingredient
-                                WHERE ingredient_id = %s''', id)
+                           WHERE ingredient_id = %s''', id)
 
         cursor.execute('''DELETE FROM person_ingredient_relation
-                                WHERE ingredient_id = %s''', id)
+                           WHERE ingredient_id = %s''', id)
 
         # Execute queries
         return connection.commit()
