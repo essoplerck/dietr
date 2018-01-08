@@ -1,8 +1,7 @@
 let script = window.script || {};
 
-script.ingredient = {
-  // Get a ingredient
-  get: id => {
+class Ingredient {
+  get(id) {
     fetch(`/api/ingredients/${id}`, {
       method: 'GET'
     }).then(response => {
@@ -18,10 +17,10 @@ script.ingredient = {
       console.log(response)
     })
     .catch(error => {});
-  },
+  }
 
   // Get a overview of all ingredients
-  overview: () => {
+  overview() {
     fetch(`/api/ingredients`, {
       method: 'GET'
     }).then(response => {
@@ -37,10 +36,10 @@ script.ingredient = {
       console.log(response)
     })
     .catch(error => {});
-  },
+  }
 
   // Search the database for ingredients
-  search: query => {
+  search(query) {
     fetch(`/api/ingredients/search/${query}`, {
       method: 'GET'
     }).then(response => {
@@ -57,4 +56,6 @@ script.ingredient = {
     })
     .catch(error => {});
   }
-};
+}
+
+script.ingredient = new Ingredient();
