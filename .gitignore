@@ -1,5 +1,7 @@
 # gitignore
 __pycache__
+bin
+lib
 
 # binaries
 *.pyc
