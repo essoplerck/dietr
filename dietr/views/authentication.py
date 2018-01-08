@@ -1,4 +1,5 @@
-from flask import Blueprint, request, render_template, url_for, session
+from flask import Blueprint, request, redirect, render_template, url_for, \
+                  session
 
 import re
 
@@ -11,10 +12,12 @@ blueprint = Blueprint('authentication', __name__)
 
 model = AuthenticationModel()
 
-@blueprint.route('/login', methods = ['GET', 'POST'])
+@blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     '''The login action allows user to login.'''
     error = {}
+
+    print('user_id' in session)
 
     if request.method == 'POST':
         username = request.form['username']
@@ -28,13 +31,13 @@ def login():
             # Add user session key
             session['user_id'] = user['id']
 
-            return redirect(url_for('/profile')), 302
+            return redirect('/dashboard'), 302
 
         else:
             error['login']: 'Password or username is incorect'
     return render_template('/authentication/login.html', error = error)
 
-@blueprint.route('/logout', methods = ['GET', 'POST'])
+@blueprint.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     '''The logout action allows users to logout.'''
@@ -55,18 +58,20 @@ def join():
     if request.method == 'POST':
         # Get form data
         user = {
-            'username': request.form('username'),
-            'email':    request.form('email')
+            'username': request.form['username'],
+            'email':    request.form['email']
         }
 
+        '''
         # @TODO move to model
         # Check if email adress is valid
         if PATTERN_EMAIL.match(user['email']):
             error['email'] = 'You have not entered a valid mail address.'
+        '''
 
-        first_name  = request.form('first-name')
-        middle_name = request.form('middle-name')
-        last_name   = request.form('last-name')
+        first_name  = request.form['first-name']
+        middle_name = request.form['middle-name']
+        last_name   = request.form['last-name']
 
         # Check if user has enterd a name
         if not first_name:
@@ -83,26 +88,28 @@ def join():
             user['name'] = f'{first_name} {last_name}'
 
         # Fetch the passwords
-        password        = request.form('password'),
-        password_verify = request.form('confirm-password')
+        password        = request.form['password']
+        password_verify = request.form['confirm-password']
 
-        if password is password_verify:
+        if password == password_verify:
             # Get hash
-            pass
+            user['hash'] = model.generate_hash(password)
 
         else:
             error['password'] = 'Passwords do not match'
 
         # Check for errors
-        if errors:
+        if error:
             # Show errors
-            return render_template('/authentication/join.html', error = error,
-                                                                user  = user)
+            print(error)
+            return render_template('/authentication/join.html', error=error,
+                                                                user=user)
 
         # Check password length
-        if len(user['password']) < 8:
+        if len(password) < 8:
             error['password'] = 'Your password is too short.'
 
+        '''
         # @TODO replace with regex
         # Check if password is valid
         else:
@@ -119,12 +126,14 @@ def join():
 
             if lets==0 or nums==0 or chars==0:
                 error['password']='Your password does not contain a letter, number and special character.'
+        '''
 
         # Check for errors
-        if errors:
+        if error:
             # Show errors
-            return render_template('/authentication/join.html', error = error,
-                                                                user  = user)
+            print(error)
+            return render_template('/authentication/join.html', error=error,
+                                                                user=user)
 
         # Check if user exit
         count = model.does_user_exist(user['email'], user['username'])
@@ -136,20 +145,22 @@ def join():
             error['username'] = 'This user name is already in use.'
 
         # Check for errors
-        if errors:
+        if error:
             # Show errors
-            return render_template('/authentication/join.html', error = error,
-                                                                user  = user)
+            print(error)
+            return render_template('/authentication/join.html', error=error,
+                                                                user=user)
 
         else:
             # Register user
             model.add_user(user)
 
+            user = model.get_user(user['username'])
+
             # Add user id to sesson
             sessions['user_id'] = user['id']
 
-            return redirect(url_for('/dashboard')), 302
+            return redirect(url_for('dashboard')), 302
 
     # Return template
-    return render_template('/authentication/join.html', error = error,
-                                                        user  = None)
+    return render_template('/authentication/join.html', error=error)

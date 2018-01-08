@@ -1,32 +1,23 @@
 from passlib.hash import pbkdf2_sha256
 
-from .. import connection
+from .. import app, connection
 
 
 class AuthenticationModel:
     '''Model for the authentication pages. This model will handle all
     ineractions with the database and cryptography.
     '''
-    def generate_hash(password, salt = None):
-        return pbkdf2_sha256.hash(user['password'])
+    def generate_hash(self, password, salt = None):
+        return pbkdf2_sha256.hash(password)
 
 
-    def verify_hash(password, hash, salt = None):
+    def verify_hash(self, password, hash, salt = None):
         return pbkdf2_sha256.verify(password, hash)
 
-    def add_person(user):
-        query = '''INSERT INTO person (account_id, name, url)
-                        VALUES (%s, %s)'''
-
-        cursor = connection.cursor()
-        cursor.execute(query, (user['id'], user['name'], user['url']))
-
-        # Execute query
-        return connection.commit()
 
     def add_user(self, user):
         query = '''INSERT INTO account (name, username, hash, email)
-                        VALUES (%s, %s, %s, %s, %s)'''
+                        VALUES (%s, %s, %s, %s)'''
 
         cursor = connection.cursor()
         cursor.execute(query, (user['name'], user['username'], user['hash'],
@@ -38,7 +29,7 @@ class AuthenticationModel:
 
     def get_user(self, username):
         query = '''SELECT *
-                     FROM user
+                     FROM account
                     WHERE username = %s'''
 
         cursor = connection.cursor()
@@ -51,11 +42,11 @@ class AuthenticationModel:
     def does_user_exist(self, email, username):
         query = '''SELECT (
                           SELECT COUNT(email)
-                            FROM users
+                            FROM account
                            WHERE email = %s
                           ) AS email, (
                           SELECT COUNT(username)
-                            FROM users
+                            FROM account
                            WHERE username = %s
                           ) AS username'''
 
