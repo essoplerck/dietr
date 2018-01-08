@@ -1,4 +1,4 @@
-+from flask import session
+from flask import session
 from flask_restful import Resource, fields, marshal_with
 
 from .. import api, connection
