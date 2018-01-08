@@ -7,4 +7,4 @@ from .. import connection
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(blueprint)
 
-from .resources import ingredient
+from .resources import ingredient, person
