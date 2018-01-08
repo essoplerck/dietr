@@ -5,7 +5,7 @@
 
   <meta charset="utf-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#55ebd6">
 
   <meta name="author" content="">
@@ -14,31 +14,16 @@
 
   <meta name="referrer" content="never">
 
-  <style></style>
-
-  <noscript>
-    <link href="/static/styles/style.css" rel="stylesheet">
-  </noscript>
-
   <link href="/manifest.json" rel="manifest">
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link href="/static/styles/style.css" rel="stylesheet">
 </head>
 
 <body>
-  <aside></aside>
-
-  <header>
-    <nav></nav>
-
-    <h1>Title</h1>
-    <p class="description">Leading text</p>
-  </header>
-
   <main>
     {% block content %}{% endblock %}
   </main>
-
-  <footer></footer>
 
   <script async src="/static/scripts/script.js"></script>
 </body>
