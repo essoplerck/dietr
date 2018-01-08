@@ -7,7 +7,7 @@ from .. import api, connection
 prefix = '/persons/<int:handle>'
 
 resource_fields = {
-    'flag': fields.Integer
+    'flag': fields.Int
 }
 
 
@@ -41,14 +41,6 @@ class PersonsAllergies(Resource):
                             FROM person
                            WHERE person.account_id = %
                              AND person.handle     = %s), (%s), (0)'''
-
-        query = '''INSERT INTO person_category_relation (person_id, category_id, flag)
-                   SELECT person.id, %s, 0
-                     FROM person_category_relation AS pc
-                          INNER JOIN person
-                             ON person.id   = pc.person_id
-                    WHERE person.account_id = %s
-                      AND person.handle     = %s'''
 
         cursor = connection.cursor()
         status = cursor.execute(query, (id, user, handle))
@@ -91,14 +83,6 @@ class PersonsIngredients(Resource):
                             FROM person
                            WHERE person.account_id = %
                              AND person.handle     = %s), (%s), (0)'''
-
-        query = '''INSERT INTO person_ingredient_relation (person_id, ingredient_id, flag)
-                   SELECT person.id, %s, 0
-                     FROM person_category_relation AS pc
-                          INNER JOIN person
-                             ON person.id   = pc.person_id
-                    WHERE person.account_id = %s
-                      AND person.handle     = %s'''
 
         cursor = connection.cursor()
         status = cursor.execute(query, (id, user, handle))
