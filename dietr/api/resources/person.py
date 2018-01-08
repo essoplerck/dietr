@@ -7,7 +7,7 @@ from .. import api, connection
 prefix = '/persons/<int:handle>'
 
 resource_fields = {
-    'flag': fields.Int
+    'flag': fields.Integer
 }
 
 
