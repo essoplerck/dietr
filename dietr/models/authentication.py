@@ -7,13 +7,11 @@ class AuthenticationModel:
     '''Model for the authentication pages. This model will handle all
     ineractions with the database and cryptography.
     '''
-    def generate_hash(self, password, salt = None):
+    def generate_hash(self, password, salt=None):
         return pbkdf2_sha256.hash(password)
 
-
-    def verify_hash(self, password, hash, salt = None):
+    def verify_hash(self, password, hash, salt=None):
         return pbkdf2_sha256.verify(password, hash)
-
 
     def add_user(self, user):
         query = '''INSERT INTO account (name, username, hash, email)
@@ -21,11 +19,10 @@ class AuthenticationModel:
 
         cursor = connection.cursor()
         cursor.execute(query, (user['name'], user['username'], user['hash'],
-                                                               user['email']))
+                               user['email']))
 
         # Execute query
         return connection.commit()
-
 
     def get_user(self, username):
         query = '''SELECT *
@@ -50,29 +47,28 @@ class AuthenticationModel:
         return cursor.fetchone()
 
     def update_user_with_password(self, user):
-        query='''UPDATE account
-                 SET name = %s, username = %s, hash = %s, email = %s
-                 WHERE id = %s'''
+        query = '''UPDATE account
+                      SET name = %s, username = %s, hash = %s, email = %s
+                    WHERE id = %s'''
 
         cursor = connection.cursor()
         cursor.execute(query, (user['name'], user['username'], user['hash'],
-                                             user['email'], user['id']))
+                               user['email'], user['id']))
 
         # Execute query
         return connection.commit()
 
     def update_user_without_password(self, user):
-        query='''UPDATE account
-                 SET name = %s, username = %s, email = %s
-                 WHERE id = %s'''
+        query = '''UPDATE account
+                      SET name = %s, username = %s, email = %s
+                    WHERE id = %s'''
 
         cursor = connection.cursor()
         cursor.execute(query, (user['name'], user['username'], user['email'],
-                                                               user['id']))
+                               user['id']))
 
         # Execute query
         return connection.commit()
-
 
     def does_user_exist(self, email, username):
         query = '''SELECT (

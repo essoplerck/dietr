@@ -5,9 +5,7 @@ from flask import Flask, session, redirect, url_for
 from .connection import connection
 from .sessions import RedisSessionInterface
 
-app = Flask(__name__,
-            template_folder = 'templates',
-            static_folder   = 'static')
+app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.config.from_object('config')
 app.session_interface = RedisSessionInterface()
@@ -18,6 +16,7 @@ def teardown(exception):
     # Close database
     connection.close()
 '''
+
 
 def login_required(action):
     '''Decorator for the login required method. This decorator will check if the

@@ -27,7 +27,7 @@ class PersonModel:
                              SET name       = %s,
                            WHERE id         = %s
                              AND user_id = %s''', (person['name'], person['id'],
-                                                                   user_id))
+                                                   user_id))
 
         # Execute query
         return connection.commit()

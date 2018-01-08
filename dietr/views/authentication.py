@@ -1,5 +1,4 @@
-from flask import Blueprint, request, redirect, render_template, url_for, \
-                  session
+from flask import Blueprint, request, redirect, render_template, session
 
 import re
 
@@ -11,6 +10,7 @@ PATTERN_EMAIL = re.compile(r'^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$')
 blueprint = Blueprint('authentication', __name__)
 
 model = AuthenticationModel()
+
 
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
@@ -37,6 +37,7 @@ def login():
             error['login']: 'Password or username is incorect'
     return render_template('/authentication/login.html', error = error)
 
+
 @blueprint.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
@@ -46,11 +47,12 @@ def logout():
         session.pop('user_id', None)
 
         # Redirect user
-        return redirect(url_for('/dashboard')), 302
+        return redirect('/dashboard'), 302
     return render_template('/authentication/logout.html')
 
+
 # @TODO move validation to model
-@blueprint.route('/join', methods = ['GET', 'POST'])
+@blueprint.route('/join', methods=['GET', 'POST'])
 def join():
     '''The join action allows users to register.'''
     error = {}
@@ -160,7 +162,7 @@ def join():
             # Add user id to sesson
             sessions['user_id'] = user['id']
 
-            return redirect(url_for('dashboard')), 302
+            return redirect('/dashboard'), 302
 
     # Return template
     return render_template('/authentication/join.html', error=error)
