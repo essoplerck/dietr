@@ -38,6 +38,41 @@ class AuthenticationModel:
         # Return user
         return cursor.fetchone()
 
+    def get_user(self, id):
+        query = '''SELECT *
+                     FROM account
+                    WHERE id = %s'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, (id,))
+
+        # Return user
+        return cursor.fetchone()
+
+    def update_user_with_password(self, user):
+        query='''UPDATE account
+                 SET name = %s, username = %s, hash = %s, email = %s
+                 WHERE id = %s'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, (user['name'], user['username'], user['hash'],
+                                             user['email'], user['id']))
+
+        # Execute query
+        return connection.commit()
+
+    def update_user_without_password(self, user):
+        query='''UPDATE account
+                 SET name = %s, username = %s, email = %s
+                 WHERE id = %s'''
+
+        cursor = connection.cursor()
+        cursor.execute(query, (user['name'], user['username'], user['email'],
+                                                               user['id']))
+
+        # Execute query
+        return connection.commit()
+
 
     def does_user_exist(self, email, username):
         query = '''SELECT (
