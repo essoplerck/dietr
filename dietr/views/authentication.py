@@ -17,8 +17,6 @@ def login():
     '''The login action allows user to login.'''
     error = {}
 
-    print('user_id' in session)
-
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -35,7 +33,7 @@ def login():
 
         else:
             error['login']: 'Password or username is incorect'
-    return render_template('/authentication/login.html', error = error)
+    return render_template('/authentication/login.html', error=error)
 
 
 @blueprint.route('/logout', methods=['GET', 'POST'])
@@ -61,7 +59,7 @@ def join():
         # Get form data
         user = {
             'username': request.form['username'],
-            'email':    request.form['email']
+            'email': request.form['email']
         }
 
         '''
@@ -71,9 +69,9 @@ def join():
             error['email'] = 'You have not entered a valid mail address.'
         '''
 
-        first_name  = request.form['first-name']
+        first_name = request.form['first-name']
         middle_name = request.form['middle-name']
-        last_name   = request.form['last-name']
+        last_name = request.form['last-name']
 
         # Check if user has enterd a name
         if not first_name:
@@ -90,8 +88,8 @@ def join():
             user['name'] = f'{first_name} {last_name}'
 
         # Fetch the passwords
-        password        = request.form['password']
-        password_verify = request.form['confirm-password']
+        password = request.form['password']
+        password_verify = request.form['password-verify']
 
         if password == password_verify:
             # Get hash
@@ -103,7 +101,6 @@ def join():
         # Check for errors
         if error:
             # Show errors
-            print(error)
             return render_template('/authentication/join.html', error=error,
                                                                 user=user)
 
@@ -111,29 +108,9 @@ def join():
         if len(password) < 8:
             error['password'] = 'Your password is too short.'
 
-        '''
-        # @TODO replace with regex
-        # Check if password is valid
-        else:
-            lets=0
-            nums=0
-            chars=0
-            for char in user['password']:
-                if char.isdigit():
-                    nums+=1
-                elif char.isalpha():
-                    lets+=1
-                else:
-                    chars+=1
-
-            if lets==0 or nums==0 or chars==0:
-                error['password']='Your password does not contain a letter, number and special character.'
-        '''
-
         # Check for errors
         if error:
             # Show errors
-            print(error)
             return render_template('/authentication/join.html', error=error,
                                                                 user=user)
 
@@ -149,7 +126,6 @@ def join():
         # Check for errors
         if error:
             # Show errors
-            print(error)
             return render_template('/authentication/join.html', error=error,
                                                                 user=user)
 
