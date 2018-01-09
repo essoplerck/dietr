@@ -27,9 +27,11 @@ from .views import ingredient
 from .views import overview
 from .views import pantry
 from .views import person
+from .views import profile
 
 app.register_blueprint(authentication.blueprint)
 app.register_blueprint(ingredient.blueprint)
 app.register_blueprint(overview.blueprint)
 app.register_blueprint(pantry.blueprint)
 app.register_blueprint(person.blueprint)
+app.register_blueprint(profile.blueprint)
