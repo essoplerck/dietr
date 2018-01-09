@@ -1,7 +1,17 @@
-<form action="/person/add" method="post">
-  <label>Name</label>
-  <input name="name" required type="text">
-  <hr>
+{% extends 'layout.html' %}
 
-  <button class="button" type="submit">Add</button>
-</form>
+{% block title -%}
+  Add roommate
+{%- endblock title %}
+
+{% block content %}
+  <section>
+    <form action="/person/add" method="post">
+      <label>Name</label>
+      <input name="name" required type="text">
+      <hr>
+
+      <button class="btn btn-primary" type="submit">Add</button>
+    </form>
+</section>
+{% endblock content %}

@@ -1,7 +1,17 @@
-<ul>
-  {% for person in persons %}
-    <li>
-      <a href="/person/{{ person.handle }}">{{ person.name }}</a>
-    </li>
-  {% endfor %}
-</ul>
+{% extends 'layout.html' %}
+
+{% block title -%}
+  Roommates
+{%- endblock title %}
+
+{% block content %}
+  <section>
+    <ul>
+      {% for person in persons %}
+        <li>
+          <a href="/person/{{ person.handle }}">{{ person.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+</section>
+{% endblock content %}

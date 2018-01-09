@@ -1,3 +1,13 @@
-<form action="/person/{{ person.handle }}/remove" method="post">
-  <button class="button" type="submit">Remove</button>
-</form>
+{% extends 'layout.html' %}
+
+{% block title -%}
+  Edit {{ person.name }}
+{%- endblock title %}
+
+{% block content %}
+  <section>
+    <form action="/person/{{ person.handle }}/remove" method="post">
+      <button class="button" type="submit">Remove</button>
+    </form>
+  </section>
+{% endblock content %}

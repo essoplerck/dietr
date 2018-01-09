@@ -1,35 +1,36 @@
-<form action="/person/{{ person.handle }}/edit" method="post">
-  <label>Name</label>
-  <input name="name" required type="text">
-  <hr>
+{% extends 'layout.html' %}
 
-  <label>Ingredient name</label>
-  <br>
+{% block title -%}
+  Edit {{ person.name }}
+{%- endblock title %}
 
-  {% for ingredient in person.ingredients %}
-    <input value="{{ ingredient.name }}">
-    <hr>
-  {% endfor %}
+{% block content %}
+  <section>
+    <form action="/person/{{ person.handle }}/edit" method="post">
+      <label>Name</label>
+      <input name="name" required type="text" value="{{ person.name }}">
+      <hr>
 
-  <textarea name="ingredients">
-    {{ data.ingredients }}
-  </textarea>
-  <hr>
+      <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
 
-  <label>Allergy name</label>
-  <br>
+    <h3>Allergies</h3>
+    <ul class="allergies-wrapper">
+      {% for allergy in person.allergies %}
+        <li>
+          <p>{{ allergy.name|e }}</p>
+        </li>
+      {% endfor %}
+    </ul>
 
-  {% for allergy in person.allergies %}
-    <input value="{{ allergy.name }}">
-    <hr>
-  {% endfor %}
-
-  <textarea name="allergies">
-    {{ data.allergies }}
-  </textarea>
-  <hr>
-
-  <br>
-
-  <button class="button" name="remove" type="submit">Edit</button>
-</form>
+    <h3>Ingredients</h3>
+    <ul class="ingredients-wrapper">
+      {% for ingredient in person.ingredients %}
+        <li>
+          <a href="/ingredient/{{ ingredient.id }}">{{ ingredient.name }}</a>
+          <a class="btn btn-warning">Remove</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock content %}
