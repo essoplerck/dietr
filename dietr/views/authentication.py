@@ -29,7 +29,7 @@ def login():
         # Check if the password matches the hash
         if model.verify_hash(password, user['hash']):
             # Add user session key
-            session['user_id'] = user['id']
+            session['user'] = user['id']
 
             return redirect('/dashboard'), 302
 
@@ -44,7 +44,7 @@ def logout():
     '''The logout action allows users to logout.'''
     if request.method == 'POST':
         # Remove user sessin key
-        session.pop('user_id', None)
+        session.pop('user', None)
 
         # Redirect user
         return redirect('/dashboard'), 302
@@ -157,10 +157,10 @@ def join():
             # Register user
             model.add_user(user)
 
-            user = model.get_user(user['username'])
+            user = model.get_user(user['id'])
 
             # Add user id to sesson
-            sessions['user_id'] = user['id']
+            sessions['user'] = user['id']
 
             return redirect('/dashboard'), 302
 

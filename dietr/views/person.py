@@ -18,17 +18,17 @@ def add_person():
         name = request.form['name']
 
         # Get account specific indentifier
-        id = model.get_count()
+        handle = model.get_count()
 
         person = {
-            'id': id,
+            'handle': handle,
             'name': name
         }
 
         model.add_person(person)
 
         # Redirect to person page
-        return redirect(f'person/{id}')
+        return redirect(f'person/{handle}')
 
     return render_template('/person/add.html')
 

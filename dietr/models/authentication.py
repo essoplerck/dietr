@@ -24,10 +24,10 @@ class AuthenticationModel:
         # Execute query
         return connection.commit()
 
-    def get_user(self, username):
+    def get_user(self, id):
         query = '''SELECT *
                      FROM account
-                    WHERE username = %s'''
+                    WHERE id = %s'''
 
         cursor = connection.cursor()
         cursor.execute(query, (username,))
