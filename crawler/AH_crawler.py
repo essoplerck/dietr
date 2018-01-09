@@ -4,8 +4,6 @@ import time
 import re
 import requests
 import pymysql
-import threading
-import inserter
 import checker
 
 conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvuemzxu", db="renswnc266_test", use_unicode=True, charset="utf8")
@@ -13,22 +11,18 @@ conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvu
 
 def ah_crawler(begin, eind):
     i = begin
-    while i <= eind:
+    while i <= eind:  # het doorlopen van de pagina's
         mycursor = conn.cursor()
-        #  print(i)
-        url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)
+        url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)  # elke pagina heeft 1000 recepten de eerste variabele is het begin en de tweede het laaste recept op de pagina
         sourcecode = requests.get(url)
         plaintext = sourcecode.text
         soup = BeautifulSoup(plaintext, "html.parser")
         for figure in soup.findAll('figure', {'class': ''}):
             for link in figure.findAll('a'):
-                recepturl = 'https://www.ah.nl' + link.get('href')
+                recepturl = 'https://www.ah.nl' + link.get('href')  # selecteer alle urls op de pagina
                 recept = recepturl.split('/')[-1]
-                #  print(recept)
-                #  print(recepturl)
-                lastrecipeid = checker.checkrecipe('recipe', recept, recepturl)
+                lastrecipeid = checker.checkrecipe('recipe', recept, recepturl)  # controleer of het recept al in de database staat
                 get_ingredienten(recepturl, lastrecipeid)
-            #  print('')
             i += 1
     conn.commit()
     mycursor.close()
@@ -41,43 +35,40 @@ def get_ingredienten(itemurl, lastrecipeid):
     plaintext = sourcecode.text
     soup = BeautifulSoup(plaintext, "html.parser")
     for link in soup.findAll('a', {'class': 'js-ingredient ingredient-selector js-ingredient-is-selected'}):
-        ingredient = link.get('data-search-term')
-        #   print(ingredient)
-        lastproductid = checker.check('ingredient', ingredient)
-        inserter.relatietabel('recipe_ingredient_relation', 'recipe_id', 'ingredient_id', lastrecipeid, lastproductid)
+        ingredient = link.get('data-search-term')  # selecteer alle ingredienten
+        lastproductid = checker.check('ingredient', ingredient)  # controleer of het ingredient al in de database staat
+        checker.checkrelatie('recipe_ingredient_relation', 'recipe_id', 'ingredient_id', lastrecipeid, lastproductid)  # controleer of de relatie al in de database staat
         getproducten(ingredient, lastproductid)
         conn.commit()
 
 
 def getproducten(ingredient, lastproductid):
-    browser = webdriver.PhantomJS()
-    browser.get('https://www.ah.nl/zoeken?rq='+str(ingredient)+'&searchType=global')
-    time.sleep(4)
+    browser = webdriver.PhantomJS()  # omdat de pagina javascript bevat gebruik de headless browser PhantomJS
+    browser.get('https://www.ah.nl/zoeken?rq='+str(ingredient)+'&searchType=global')  # zoek op naar het ingredient
+    time.sleep(4)  # 4 seconden is nodig om de browser de tijd te geven om de javascript code uit te voeren
     soup = BeautifulSoup(browser.page_source, "html.parser")
     for p in soup.findAll('div', {'class': 'lane row product-lane search-lane'}):
         p = p.a
-        href = p.get('href')
-        #  print('https://www.ah.nl'+ str(href))
+        href = p.get('href')  # selecteer het ingredient
         allergiespider('https://www.ah.nl' + str(href), lastproductid)
 
 
 def allergiespider(url, lastproductid):
-    browser = webdriver.PhantomJS()
+    browser = webdriver.PhantomJS()  # omdat de pagina javascript bevat gebruik de headless browser PhantomJS
     browser.get(url)
-    time.sleep(4)
+    time.sleep(4)  # 4 seconden is nodig om de browser de tijd te geven om de javascript code uit te voeren
     soup = BeautifulSoup(browser.page_source, "html.parser")
     for p in soup.findAll('div', {'class': 'section__content'}):
         for x in p.find_all(text=re.compile('Bevat:')):
             words = x.split(' ', 1)[1]
             words = words.split()
-            for word in words:
+            for word in words:  # selecteer de allergie
                 allergie = word[:-1]
-                #  print(allergie)
-                lastallergieid = checker.check('category', allergie)
-                inserter.relatietabel('category_ingredient_relation', 'ingredient_id', 'category_id', lastproductid, lastallergieid)
+                lastallergieid = checker.check('category', allergie)  # cntroleer of de allergie al in de database staat
+                checker.checkrelatie('category_ingredient_relation', 'ingredient_id', 'category_id', lastproductid, lastallergieid)  # controleer of de relatie al in de database staat
 
 
-while True:
+while True:  # de meeste errors zijn op te lossen door het programma opnieuw top te starten
     try:
         ah_crawler(0, 17)
         break

@@ -2,7 +2,7 @@ import os
 import pymysql
 from sys import exit
 
-conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvuemzxu", db="renswnc266_test", use_unicode=True, charset="utf8")
+conn = pymysql.connect(host="185.182.57.56", user="renswnc266_dietr", passwd="qvuemzxu", db="renswnc266_dietr", use_unicode=True, charset="utf8")
 myCursor = conn.cursor()
 
 link = os.listdir("C:\\Users\\Daan Renken\\Pictures\\Images")  # locatie foto's
@@ -25,7 +25,6 @@ def relatietabel(recipeid):  # bij het recept de bijbehorende ingredienten id's 
     for t in id:
         line = ' '.join(str(x) for x in t)
         ingredientid = line.split(' ')[2]
-        #  print('ingredientid ' + ingredientid)
         picture_title(ingredientid)
 
 
@@ -39,8 +38,6 @@ def picture_title(ingredientid):
             line = ' '.join(str(x) for x in t)
             fotoid = line.split(' ')[0]
             if ingredientid == fotoid:  # de ingredientenid's en fotoíd's vergelijken
-                print(lowercase_title)
-                print('foto ' + picture)
                 exit(0)
                 return picture
 
