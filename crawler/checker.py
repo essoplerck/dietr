@@ -6,19 +6,21 @@ mycursor = conn.cursor()
 
 
 def checkrecipe(database, naam, url):
-    mycursor.execute("SELECT * FROM %s WHERE name=%s;", (database,naam))
+    #print(database)
+    #print(naam)
+    mycursor.execute("SELECT * FROM "+database+" WHERE name=%s ;", naam)
     id = mycursor.fetchall()
-
+    #print(id)
     if id:
         for t in id:
             line = ' '.join(str(x) for x in t)
         return line.split(' ')[0]
     else:
-        inserter.insertrecipe(database, naam, url)
-        return mycursor.lastrowid
+        return inserter.insertrecipe(database, naam, url)
+
 
 def check(database, naam):
-    mycursor.execute("SELECT * FROM %s WHERE name=%s;", (database,naam))
+    mycursor.execute("SELECT * FROM "+database+" WHERE name=%s;", naam)
     id = mycursor.fetchall()
 
     if id:
@@ -26,5 +28,4 @@ def check(database, naam):
             line = ' '.join(str(x) for x in t)
         return line.split(' ')[0]
     else:
-        inserter.insert(database, naam)
-        return mycursor.lastrowid
+        return inserter.insert(database, naam)
