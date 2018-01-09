@@ -71,6 +71,7 @@ class PersonsIngredients(Resource):
 
         return status
 
+    # @FIXME prevent from adding 4 enties
     def post(self, handle, id, flag=0):
         user = 1
 
