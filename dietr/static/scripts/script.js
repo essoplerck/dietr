@@ -46,10 +46,6 @@ class Person {
   constructor() {
     this.allergies = {
       add: id => {
-        if (!this.handle) {
-          return
-        }
-
         url = `/api/persons/${this.handle}/allergies/${id}`;
 
         script.request(url, 'POST').then(response => {
@@ -60,10 +56,6 @@ class Person {
 
     this.ingredient = {
       add: id => {
-        if (!this.handle) {
-          return
-        }
-
         url = `/api/persons/${this.handle}/ingredients/${id}`
 
         script.request(url, 'POST').then(response => {
@@ -77,9 +69,7 @@ class Person {
     let location = window.location.pathname,
         path     = location.split('/');
 
-    if (path[1] === 'person' && path[2]) {
-      return path[2];
-    }
+    return path[2];
   }
 }
 
