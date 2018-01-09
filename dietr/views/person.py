@@ -40,22 +40,14 @@ def edit_person(handle):
     if not person:
         return render_template('error/not_found.html'), 404
 
-    person['name'] = request.form['name']
     person['allergies'] = model.get_allergies(person['id'])
     person['ingredients'] = model.get_ingredients(person['id'])
 
-    data = {
-        'allergies': json.dumps(person['allergies']),
-        'ingredients': json.dumps(person['ingredients'])
-    }
-
     if request.method == 'POST':
-        ingredients = json.loads(request.form['ingredients'])
+        if 'name' in request.form.values():
+            person['name'] = request.form['name']
 
-        for ingredient in ingredients:
-            print(ingredient['id'])
-
-    return render_template('/person/edit.html', person=person, data=data)
+    return render_template('/person/edit.html', person=person)
 
 
 @blueprint.route('/person/<int:handle>/remove', methods=['GET', 'POST'])
