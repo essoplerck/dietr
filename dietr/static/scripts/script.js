@@ -74,3 +74,33 @@ class Person {
 }
 
 script.person = new Person();
+
+script.router = ((document, location) => {
+  let routes = {
+    '\/person\/[0-9]+\/edit': () => {
+      let buttons = document.querySelectorAll('.ingredients-wrapper .btn.btn-warning')
+
+      buttons.forEach(button => {
+        console.log(button)
+
+        let previous = button.previousElementSibling,
+            path     = previous.pathname,
+            id       = path.split('/')[2];
+
+        console.log(id)
+
+        button.addEventListener('click', event => {
+          console.log('remove', id)
+        });
+      });
+    }
+  };
+
+  for (route in routes) {
+    let expression = new RegExp(route);
+
+    if (location.match(expression)) {
+      routes[route]();
+    }
+  }
+})(document, window.location.pathname);
