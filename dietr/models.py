@@ -1,4 +1,4 @@
-from dataclasses import dataclass, fields
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -11,24 +11,8 @@ class User(object):
     middle_name: string
     last_name: string
 
-    allergies: list = []
-    ingredients: list = []
-
-
-@dataclass
-class Ingredient(object):
-    id: int
-
-    name: string
-
-    allergies: list = []
-
-
-@dataclasses
-class Allergy(object):
-    id: int
-
-    name: string
+    allergies: list = field(default_factory=list, init=False)
+    ingredients: list = field(default_factory=list, init=False)
 
 
 @dataclass

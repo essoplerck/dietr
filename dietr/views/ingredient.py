@@ -35,7 +35,7 @@ def view_ingredient(id, name=None):
     '''The view action allows users to view an ingredient.'''
     ingredient = model.get_ingredient(id)
 
-    ingredient['allergens'] = model.get_allergens(id)
+    ingredient.allergens = model.get_allergens(id)
 
     # Return the template
     return render_template('ingredient/view.html', ingredient=ingredient)
