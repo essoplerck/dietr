@@ -2,8 +2,8 @@ from flask import Blueprint, request, redirect, render_template, session
 
 import re
 
-from .. import login_required
-from ..models.authentication import AuthenticationModel
+from dietr import login_required
+from dietr.models.authentication import AuthenticationModel
 
 PATTERN_EMAIL = re.compile(r'^[A-Za-z0-9\.\+_-]+@[A-Za-z0-9\._-]+\.[a-zA-Z]*$')
 

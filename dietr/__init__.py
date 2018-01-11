@@ -2,9 +2,9 @@ from functools import wraps
 
 from flask import Flask, session
 
-from .connection import connection
-from .sessions import RedisSessionInterface
-from .utils import login_required
+from dietr.connection import connection
+from dietr.sessions import RedisSessionInterface
+from dietr.utils import login_required
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -18,16 +18,16 @@ def teardown(exception):
     connection.close()
 '''
 
-from .api import blueprint as api
+from dietr.api import blueprint as api
 
 app.register_blueprint(api)
 
-from .views import authentication
-from .views import ingredient
-from .views import overview
-from .views import pantry
-from .views import person
-from .views import profile
+from dietr.views import authentication
+from dietr.views import ingredient
+from dietr.views import overview
+from dietr.views import pantry
+from dietr.views import person
+from dietr.views import profile
 
 app.register_blueprint(authentication.blueprint)
 app.register_blueprint(ingredient.blueprint)

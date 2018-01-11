@@ -1,7 +1,7 @@
 from passlib.hash import pbkdf2_sha256
 
-from .. import app, connection
-from . import AuthenticationModel
+from dietr import app, connection
+from dietr.models.authentication import AuthenticationModel
 
 class ProfileModel(AuthenticationModel):
     '''Model for the profile page. This model will handle all

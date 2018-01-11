@@ -1,4 +1,4 @@
-from .. import connection
+from dietr import connection
 
 
 class PersonModel:

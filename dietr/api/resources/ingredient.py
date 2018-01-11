@@ -1,6 +1,6 @@
 from flask_restful import Resource
 
-from .. import api, connection
+from dietr.api import api, connection
 
 
 class Ingredients(Resource):

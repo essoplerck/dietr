@@ -1,7 +1,7 @@
 from flask import Blueprint, request
 
-from .. import login_required
-from ..models.profile import ProfileModel
+from dietr import login_required
+from dietr.models.profile import ProfileModel
 
 blueprint = Blueprint('profile', __name__)
 

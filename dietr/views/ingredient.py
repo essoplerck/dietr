@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 
-from ..models.ingredient import IngredientModel
+from dietr.models.ingredient import IngredientModel
 
 blueprint = Blueprint('ingredient', __name__)
 

@@ -1,6 +1,6 @@
 from flask import Blueprint
 
-from ..models.pantry import PantryModel
+from dietr.models.pantry import PantryModel
 
 blueprint = Blueprint('pantry', __name__)
 

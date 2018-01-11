@@ -2,8 +2,8 @@ import json
 
 from flask import Blueprint, redirect, render_template, request, url_for
 
-from .. import login_required
-from ..models.person import PersonModel
+from dietr import login_required
+from dietr.models.person import PersonModel
 
 blueprint = Blueprint('', __name__)
 

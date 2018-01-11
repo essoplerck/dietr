@@ -1,6 +1,6 @@
 from passlib.hash import pbkdf2_sha256
 
-from .. import app, connection
+from dietr import app, connection
 
 
 class AuthenticationModel:
