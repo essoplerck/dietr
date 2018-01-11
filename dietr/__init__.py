@@ -1,5 +1,3 @@
-from functools import wraps
-
 from flask import Flask, session
 
 from dietr.connection import connection
