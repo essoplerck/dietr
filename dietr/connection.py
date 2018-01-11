@@ -5,22 +5,28 @@ connection = sql.connect(host='185.182.57.56', user='renswnc266_dietr',
                          cursorclass=sql.cursors.DictCursor)
 
 
-def commit(query, arugments=()):
-    with connection.cursor() as cursor:
-        cursor.execute(query, arugments)
+class Database:
+    def __init__(self):
+        self.connection = sql.connect(db='renswnc266_dietr',
+                                      host='185.182.57.56',
+                                      password='qvuemzxu',
+                                      user='renswnc266_dietr',
+                                      cursorclass=sql.cursors.DictCursor)
 
-    connection.commit()
+    def commit(self, query, arugments=()):
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, arugments)
 
+            self.connection.commit()
 
-def fetch(query, arugments=()):
-    with connection.cursor() as cursor:
-        cursor.execute(query, arugments)
+    def fetch(self, query, arugments=()):
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, arugments)
 
-    return cursor.fetchone()
+            return cursor.fetchone()
 
+    def fetch_all(self, query, arugments=()):
+        with self.connection.cursor() as cursor:
+            cursor.execute(query, arugments)
 
-def fetch_all(query, arugments=()):
-    with connection.cursor() as cursor:
-        cursor.execute(query, arugments)
-
-    return cursor.fetchall()
+            return cursor.fetchall()

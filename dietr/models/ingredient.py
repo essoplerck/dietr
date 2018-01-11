@@ -1,4 +1,4 @@
-from dietr.connection import commit, fetch, fetch_all
+from dietr import database
 
 
 class IngredientModel:
@@ -11,7 +11,7 @@ class IngredientModel:
                    VALUES (%s);'''
 
         # Execute query
-        commit(query, (ingredient['name']))
+        database.commit(query, (ingredient['name']))
 
     def edit_ingredient(self, ingredient):
         '''Update an ingredient in the database. Ingredient id will be
@@ -22,7 +22,7 @@ class IngredientModel:
                     WHERE id = %s;'''
 
         # Execute query
-        commit(query, (ingredient['name'], ingredient['id']))
+        database.commit(query, (ingredient['name'], ingredient['id']))
 
     def remove_ingredient(self, id):
         '''Delete an ingredient from the database. Will also remove related
@@ -38,7 +38,7 @@ class IngredientModel:
                     WHERE ingredient_id = %s;'''
 
         # Execute query
-        commit(query, (id, id, id, id))
+        database.commit(query, (id, id, id, id))
 
     def get_ingredient(self, id):
         '''Fetch an ingredient from the database.'''
@@ -47,7 +47,7 @@ class IngredientModel:
                     WHERE id = %s;'''
 
         # Return ingredient
-        return fetch(query, id)
+        return database.fetch(query, id)
 
     def get_allergens(self, id):
         '''Fetch a list of allergens for a ingredient.'''
@@ -58,7 +58,7 @@ class IngredientModel:
                    WHERE ingredient_id = %s;'''
 
         # Return allergens
-        return fetch_all(query, id)
+        return database.fetch_all(query, id)
 
     def get_ingredients(self):
         '''Fetch a list of all ingredients.'''
@@ -67,4 +67,4 @@ class IngredientModel:
                     ORDER BY name;'''
 
         # Return ingredients
-        return fetch_all(query)
+        return database.fetch_all(query)

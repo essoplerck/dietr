@@ -1,6 +1,6 @@
 from flask import Flask, session
 
-from dietr.connection import connection
+from dietr.connection import Database, connection
 from dietr.sessions import RedisSessionInterface
 from dietr.utils import login_required
 
@@ -8,6 +8,8 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.config.from_object('config')
 app.session_interface = RedisSessionInterface()
+
+database = Database()
 
 '''
 @app.teardown_appcontext
