@@ -22,35 +22,18 @@ class IngredientModel:
     '''
     def add_ingredient(self, name):
         '''Insert an ingredient into the database.'''
-        query = '''INSERT INTO ingredient (name)
-                   VALUES (%s);'''
+        query = '''INSERT INTO ingredients (name)
+                   VALUES (%s)'''
 
         # Execute query
         database.commit(query, name)
 
-    def edit_ingredient(self, ingredient):
-        '''Update an ingredient in the database. Ingredient id will be
-        preserved.
-        '''
-        query = '''UPDATE ingredient
-                      SET name = %s
-                    WHERE id = %s;'''
-
-        # Execute query
-        database.commit(query, (name, id))
-
-    def remove_ingredient(self, id):
+    def delete_ingredient(self, id):
         '''Delete an ingredient from the database. Will also remove related
         tables.
         '''
-        query = '''DELETE FROM ingredient
-                    WHERE id = %s;
-                   DELETE FROM category_ingredient_relation
-                    WHERE ingredient_id = %s;
-                   DELETE FROM recipe_ingredient_relation
-                    WHERE ingredient_id = %s;
-                   DELETE FROM person_ingredient_relation
-                    WHERE ingredient_id = %s;'''
+        query = '''DELETE FROM ingredients
+                    WHERE id = %s'''
 
         # Execute query
         database.commit(query, tuple([id]) * 4)
@@ -58,8 +41,8 @@ class IngredientModel:
     def get_ingredient(self, id):
         '''Fetch an ingredient from the database.'''
         query = '''SELECT id, name
-                     FROM ingredient
-                    WHERE id = %s;'''
+                     FROM ingredients
+                    WHERE id = %s'''
 
         (id, name) = database.fetch(query, id)
 
@@ -67,32 +50,39 @@ class IngredientModel:
 
     def get_allergens(self, id):
         '''Fetch a list of allergens for a ingredient.'''
-        query = '''SELECT category.id, category.name
-                     FROM category
-                          INNER JOIN category_ingredient_relation
-                          ON category.id = category_ingredient_relation.id
-                   WHERE ingredient_id = %s;'''
+        query = '''SELECT allergies.id, allergies.name
+                     FROM allergies
+                          INNER JOIN allergies_ingredients
+                          ON allergies.id = allergies_ingredients.allergy_id
+                   WHERE ingredient_id = %s'''
 
         allergens = []
 
-        for allergen in database.fetch_all(query, id):
-            (id, name) = allergen
-
+        for (id, name) in database.fetch_all(query, id):
             allergens.append(Allergen(id, name))
 
         return allergens
 
     def get_ingredients(self):
         '''Fetch a list of all ingredients.'''
-        query = '''SELECT *
-                     FROM ingredient
-                    ORDER BY name;'''
+        query = '''SELECT id, name
+                     FROM ingredients
+                    ORDER BY name'''
 
         ingredients = []
 
-        for ingredient in database.fetch_all(query):
-            (id, name) = ingredient
-
+        for (id, name) in database.fetch_all(query):
             ingredients.append(Ingredient(id, name))
 
         return ingredients
+
+    def set_ingredient(self, id, name):
+        '''Update an ingredient in the database. Ingredient id will be
+        preserved.
+        '''
+        query = '''UPDATE ingredients
+                      SET name = %s
+                    WHERE id = %s'''
+
+        # Execute query
+        database.commit(query, (name, id))

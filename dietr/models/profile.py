@@ -1,32 +1,38 @@
-from passlib.hash import pbkdf2_sha256
-
-from dietr import app, connection
+from dietr import database
 from dietr.models.authentication import AuthenticationModel
 
+
 class ProfileModel(AuthenticationModel):
-    '''Model for the profile page. This model will handle all
-    ineractions with the database and cryptography.
-    '''
-    def update_user_with_password(self, user):
-        query = '''UPDATE account
-                      SET name = %s, username = %s, hash = %s, email = %s
-                    WHERE id = %s'''
+    def set_password(self, id, password):
+        salt = self.generate_salt()
+        hash = self.generate_hash(password, salt)
 
-        cursor = connection.cursor()
-        cursor.execute(query, (user['name'], user['username'], user['hash'],
-                               user['email'], user['id']))
+        query = '''UPDATE users
+                      SET hash = %s,
+                          salt = %s
+                    WHERE id = %s;'''
 
-        # Execute query
-        return connection.commit()
+        database.commit(query, (hash, salt, id))
 
-    def update_user_without_password(self, user):
-        query = '''UPDATE account
-                      SET name = %s, username = %s, email = %s
-                    WHERE id = %s'''
+    def set_mail(self, id, mail):
+        query = '''UPDATE users
+                      SET mail = %s
+                    WHERE id = %s;'''
 
-        cursor = connection.cursor()
-        cursor.execute(query, (user['name'], user['username'], user['email'],
-                               user['id']))
+        database.commit(query, (mail, id))
 
-        # Execute query
-        return connection.commit()
+    def set_handle(self, id, handle):
+        query = '''UPDATE users
+                      SET handle = %s
+                    WHERE id = %s;'''
+
+        database.commit(query, (handle, id))
+
+    def set_name(self, id, first_name, middle_name, last_name):
+        query = '''UPDATE users
+                      SET first_name = %s,
+                          middle_name = %s,
+                          last_name = %s
+                    WHERE id = %s;'''
+
+        database.commit(query, (first_name, middle_name, last_name, id))

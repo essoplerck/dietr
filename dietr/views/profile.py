@@ -11,13 +11,15 @@ model = ProfileModel()
 @blueprint.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
+    id = session['user']
+
     error = {}
+    user = model.get_user_by_id(id)
 
     if request.method == 'POST':
         form = request.form.values()
-        user = model.get_user(sessions['user'])
 
-        if all(item in form for item in ['first_name', 'middle_name', 'last_name']):
+        if all(item in form for item in ['first-name', 'middle-name', 'last-name']):
             first_name = request.form['first-name']
             middle_name = request.form['middle-name']
             last_name = request.form['last-name']
@@ -29,68 +31,31 @@ def profile():
             if not last_name:
                 error['name'] = 'You have not entered a last name.'
 
-            # Concat names
-            if middle_name:
-                user['name'] = f'{first_name} {middle_name} {last_name}'
+            model.set_name(id, first_name, middle_name, last_name)
 
-            else:
-                user['name'] = f'{first_name} {last_name}'
+        if 'mail' in form:
+            mail = request.form['mail']
 
-            model.update_name(name)
+            model.set_mail(id, mail)
 
-        if 'email' in form:
-            email = request.form['email']
+        if 'handle' in form:
+            handle = request.form['handle']
 
-            '''
-            # @TODO move to model
-            # Check if email adress is valid
-            if PATTERN_EMAIL.match(user['email']):
-                error['email'] = 'You have not entered a valid mail address.'
-            '''
-
-            user['email'] = email
-
-            model.update_email(email)
-
-        if 'username' in form:
-            pass
+            if not error:
+                model.set_handle(id, handle)
 
         if all(item in form for item in ['password-current', 'password', 'password-verify']):
-            pass
+            password = request.form['password']
+            password_verify = request.form['password-verify']
 
-        name=new_firstname
+            # Check password length
+            if len(password) < 8:
+                error['password'] = 'Your password is too short.'
 
-        if new_firstname and new_last_name:
-            name+=new_middle_name+' '+new_last_name
+            if not password == password_verify:
+                error['password'] = 'Passwords do not match'
 
-        else:
-            errors['name']='You have not entered a valid name.'
-
-        if not new_email:
-            errors['email']='You have not entered a valid E-mailaddress.'
-
-        if not new_username:
-            errors['username']='You have not entered a valid username.'
-
-        if model.verify_hash(current_password, userdata['hash']):
-            new_user={'name': name,
-                      'username': new_username,
-                      'hash': model.generate_hash(new_password),
-                      'email': new_email,
-                      'id': userdata['id']}
-            if new_password:
-                if new_password_confirm==new_password:
-                    model.update_user_with_password(new_user)
-                else:
-                    error['password'] = 'New passwords do not match.'
-            else:
-                model.update_user_without_password(new_user)
-        else:
-            error['password'] = 'Invalid password.'
-
-        return render_template('/profile', error=error, user=user)
-
-    else:
-        user = model.get_user(sessions['user'])
+            if not error:
+                model.set_password(id, password)
 
     return render_template('/profile', error=error, user=user)
