@@ -1,4 +1,4 @@
-from dietr import connection
+from dietr.connection import commit, fetch, fetch_all
 
 
 class IngredientModel:
@@ -7,14 +7,11 @@ class IngredientModel:
     '''
     def add_ingredient(self, ingredient):
         '''Insert an ingredient into the database.'''
-        query = '''INSERT INTO ingredient (description, name)
-                        VALUES (%s, %s)'''
-
-        cursor = connection.cursor()
-        cursor.execute(query, (ingredient['name'], ingredient['id']))
+        query = '''INSERT INTO ingredient (name)
+                   VALUES (%s);'''
 
         # Execute query
-        return connection.commit()
+        commit(query, (ingredient['name']))
 
     def edit_ingredient(self, ingredient):
         '''Update an ingredient in the database. Ingredient id will be
@@ -22,68 +19,52 @@ class IngredientModel:
         '''
         query = '''UPDATE ingredient
                       SET name = %s
-                    WHERE id   = %s'''
-
-        cursor = connection.cursor()
-        cursor.execute(query, (ingredient['name'], ingredient['id']))
+                    WHERE id = %s;'''
 
         # Execute query
-        return connection.commit()
+        commit(query, (ingredient['name'], ingredient['id']))
 
     def remove_ingredient(self, id):
         '''Delete an ingredient from the database. Will also remove related
         tables.
         '''
-        cursor = connection.cursor()
-        cursor.execute('''DELETE FROM ingredient
-                           WHERE id = %s''', id)
+        query = '''DELETE FROM ingredient
+                    WHERE id = %s;
+                   DELETE FROM category_ingredient_relation
+                    WHERE ingredient_id = %s;
+                   DELETE FROM recipe_ingredient_relation
+                    WHERE ingredient_id = %s;
+                   DELETE FROM person_ingredient_relation
+                    WHERE ingredient_id = %s;'''
 
-        cursor.execute('''DELETE FROM allergen
-                           WHERE ingredient_id = %s''', id)
-
-        cursor.execute('''DELETE FROM recipes_ingredient
-                           WHERE ingredient_id = %s''', id)
-
-        cursor.execute('''DELETE FROM person_ingredient_relation
-                           WHERE ingredient_id = %s''', id)
-
-        # Execute queries
-        return connection.commit()
+        # Execute query
+        commit(query, (id, id, id, id))
 
     def get_ingredient(self, id):
         '''Fetch an ingredient from the database.'''
         query = '''SELECT *
                      FROM ingredient
-                    WHERE id = %s'''
-
-        cursor = connection.cursor()
-        cursor.execute(query, id)
+                    WHERE id = %s;'''
 
         # Return ingredient
-        return cursor.fetchone()
+        return fetch(query, id)
 
     def get_allergens(self, id):
         '''Fetch a list of allergens for a ingredient.'''
         query = '''SELECT category.id, category.name
                      FROM category
                           INNER JOIN category_ingredient_relation
-                                  ON category.id = category_ingredient_relation.id
-                   WHERE ingredient_id = %s'''
-
-        cursor = connection.cursor()
-        cursor.execute(query, id)
+                          ON category.id = category_ingredient_relation.id
+                   WHERE ingredient_id = %s;'''
 
         # Return allergens
-        return cursor.fetchall()
+        return fetch_all(query, id)
 
     def get_ingredients(self):
         '''Fetch a list of all ingredients.'''
         query = '''SELECT *
                      FROM ingredient
-                 ORDER BY name'''
-
-        cursor = connection.cursor()
-        cursor.execute(query)
+                    ORDER BY name;'''
 
         # Return ingredients
-        return cursor.fetchall()
+        return fetch_all(query)
