@@ -26,12 +26,12 @@ from dietr.views import authentication
 from dietr.views import ingredient
 from dietr.views import overview
 from dietr.views import pantry
-from dietr.views import person
 from dietr.views import profile
+from dietr.views import roommate
 
 app.register_blueprint(authentication.blueprint)
 app.register_blueprint(ingredient.blueprint)
 app.register_blueprint(overview.blueprint)
 app.register_blueprint(pantry.blueprint)
-app.register_blueprint(person.blueprint)
 app.register_blueprint(profile.blueprint)
+app.register_blueprint(roommate.blueprint)

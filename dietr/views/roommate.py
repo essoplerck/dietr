@@ -3,11 +3,11 @@ import json
 from flask import Blueprint, redirect, render_template, request, url_for
 
 from dietr import login_required
-from dietr.models.person import PersonModel
+from dietr.models.roommate import RoommateModel
 
 blueprint = Blueprint('', __name__)
 
-model = PersonModel()
+model = RoommateModel()
 
 
 @blueprint.route('/person/add', methods=['GET', 'POST'])
