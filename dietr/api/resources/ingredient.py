@@ -1,24 +1,35 @@
+from dataclasses import dataclass, field
+
 from flask_restful import Resource
 
-from dietr.api import api, connection
+from dietr import database
+from dietr.api import api
+
+@dataclass
+class Ingredient:
+    id: int
+    name: str
+    allergens: list = field(default_factory=list, init=False)
 
 
 class Ingredients(Resource):
     def get(self, id):
-        cursor = connection.cursor()
-        cursor.execute('''SELECT *
-                            FROM ingredient
-                           WHERE id = %s''', id)
+        query = '''SELECT name
+                     FROM ingredients
+                    WHERE id = %s'''
 
-        ingredient = cursor.fetchone()
+        name = database.fetch(query, id)[0]
 
-        cursor.execute('''SELECT category.id, category.name
-                            FROM category
-                                 INNER JOIN category_ingredient_relation AS ci
-                                    ON category.id = ci.id
-                           WHERE ingredient_id = %s''', id)
+        ingredient = Ingredient(id, name)
 
-        ingredient['allergies'] = cursor.fetchall()
+        query = '''SELECT allergies.id, allergies.name
+                     FROM allergies
+                          INNER JOIN allergies_ingredients
+                          ON allergies.id = allergies_ingredients.allergy_id
+                   WHERE ingredient_id = %s'''
+
+        for (id, name) in database.fetch_all(query, id):
+            ingredient.allergens.append(Allergen(id, name))
 
         return ingredient
 
@@ -28,11 +39,13 @@ api.add_resource(Ingredients, '/ingredients/<int:id>')
 
 class IngredientsOverview(Resource):
     def get(self):
-        cursor = connection.cursor()
-        cursor.execute('''SELECT *
-                            FROM ingredient''')
+        query = '''SELECT id, name
+                     FROM ingredients'''
 
-        ingredients = cursor.fetchall()
+        ingredients = []
+
+        for (id, name) in database.fetch_all(query):
+            ingredients.append(Ingredient(id, name))
 
         return ingredients
 
@@ -41,15 +54,17 @@ api.add_resource(IngredientsOverview, '/ingredients')
 
 
 class IngredientsSearch(Resource):
-    def get(self, query):
-        cursor = connection.cursor()
-        cursor.execute('''SELECT *
-                            FROM ingredient
-                           WHERE name LIKE %s''', f'%{query}%')
+    def get(self, search):
+        query = '''SELECT id, name
+                     FROM ingredients
+                    WHERE name LIKE %s'''
 
-        ingredients = cursor.fetchall()
+        ingredients = []
+
+        for (id, name) in database.fetch_all(query, f'%{search}%'):
+            ingredients.append(Ingredient(id, name))
 
         return ingredients
 
 
-api.add_resource(IngredientsSearch, '/ingredients/search/<string:query>')
+api.add_resource(IngredientsSearch, '/ingredients/search/<string:search>')
