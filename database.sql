@@ -43,7 +43,7 @@ CREATE TABLE users (
     hash        CHAR(255)    NOT NULL,
     salt        CHAR(255)    NOT NULL,
     join_date   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                UNIQUE (id, handle, mail)
+                UNIQUE (id, username, email)
 ) CHARSET=utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE roommates (
