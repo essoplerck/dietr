@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from passlib.hash import sha256_crypt
+from passlib.hash import sha256_crypt as sha256
 
 from dietr import database
 
@@ -14,7 +14,6 @@ class User:
     middle_name: str
     last_name: str
     hash: str
-    salt: str
     allergies: list = field(default_factory=list, init=False)
     ingredients: list = field(default_factory=list, init=False)
 
@@ -31,43 +30,37 @@ class AuthenticationModel:
     '''Model for the authentication pages. This model will handle all
     ineractions with the database and cryptography.
     '''
-    def generate_salt(self):
-        return 'salt'
+    def generate_hash(self, password):
+        return sha256.hash(password)
 
-    def generate_hash(self, password, salt):
-        return 'hash'
-
-    def verify_password(self, password, hash, salt):
-        return True
+    def verify_password(self, password, hash):
+        return sha256.verify(password, hash)
 
     def add_user(self, username, email, first_name, middle_name, last_name, password):
-        salt = self.generate_salt()
-        hash = self.generate_hash(password, salt)
+        hash = self.generate_hash(password)
 
-        query = '''INSERT INTO users (username, email, first_name, middle_name, last_name, hash, salt)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s)'''
+        query = '''INSERT INTO users (username, email, first_name, middle_name, last_name, hash)
+                        VALUES (%s, %s, %s, %s, %s, %s)'''
 
-        print(handle, mail, first_name, middle_name, last_name, hash, salt)
-
-        database.commit(query, (handle, mail, first_name, middle_name, last_name, hash, salt))
+        database.commit(query, (username, email, first_name, middle_name, last_name, hash))
 
     def get_user(self, username):
-        query = '''SELECT id, email, first_name, middle_name, last_name, hash, salt
+        query = '''SELECT id, email, first_name, middle_name, last_name, hash
                      FROM users
                     WHERE username = %s'''
 
-        (id, email, first_name, middle_name, last_name, hash, salt) = database.fetch(query, handle)
+        (id, email, first_name, middle_name, last_name, hash) = database.fetch(query, username)
 
-        return User(id, username, email, first_name, middle_name, last_name, hash, salt)
+        return User(id, username, email, first_name, middle_name, last_name, hash)
 
     def get_user_by_id(self, id):
-        query = '''SELECT username, email, first_name, middle_name, last_name, hash, salt
+        query = '''SELECT username, email, first_name, middle_name, last_name, hash
                      FROM users
                     WHERE id = %s'''
 
-        (handle, email, first_name, middle_name, last_name, hash, salt) = database.fetch(query, id)
+        (username, email, first_name, middle_name, last_name, hash) = database.fetch(query, id)
 
-        return User(id, username, email, first_name, middle_name, last_name, hash, salt)
+        return User(id, username, email, first_name, middle_name, last_name, hash)
 
     def does_user_exist(self, username, email):
         query = '''SELECT (SELECT COUNT(username)

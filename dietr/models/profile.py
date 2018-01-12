@@ -4,15 +4,13 @@ from dietr.models.authentication import AuthenticationModel
 
 class ProfileModel(AuthenticationModel):
     def set_password(self, id, password):
-        salt = self.generate_salt()
-        hash = self.generate_hash(password, salt)
+        hash = self.generate_hash(password)
 
         query = '''UPDATE users
-                      SET hash = %s,
-                          salt = %s
+                      SET hash = %s
                     WHERE id = %s;'''
 
-        database.commit(query, (hash, salt, id))
+        database.commit(query, (hash, id))
 
     def set_email(self, id, email):
         query = '''UPDATE users

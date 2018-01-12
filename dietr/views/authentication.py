@@ -18,10 +18,10 @@ def login():
         password = request.form['password']
 
         # Get the user from the database
-        user = model.get_user(handle)
+        user = model.get_user(username)
 
         # Check if the password matches the hash
-        if model.verify_password(password, user.hash, user.salt):
+        if model.verify_password(password, user.hash):
             # Add user session key
             session['user'] = user.id
 
@@ -56,7 +56,7 @@ def join():
         email = request.form['email']
 
         # Check if user exit
-        count = model.does_user_exist(handle, mail)
+        count = model.does_user_exist(username, email)
 
         if count[0]:
             error['username'] = 'This username is already in use.'
@@ -85,6 +85,8 @@ def join():
 
         if not password == password_verify:
             error['password'] = 'Passwords do not match'
+
+        print(error)
 
         # Check for errors
         if not error:
