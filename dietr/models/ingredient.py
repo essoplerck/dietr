@@ -40,11 +40,11 @@ class IngredientModel:
 
     def get_ingredient(self, id):
         '''Fetch an ingredient from the database.'''
-        query = '''SELECT id, name
+        query = '''SELECT name
                      FROM ingredients
                     WHERE id = %s'''
 
-        (id, name) = database.fetch(query, id)
+        name = database.fetch(query, id)[0]
 
         return Ingredient(id, name)
 
