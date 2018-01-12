@@ -8,8 +8,8 @@ from dietr import database
 @dataclass
 class User:
     id: int
-    handle: str
-    mail: str
+    username: str
+    email: str
     first_name: str
     middle_name: str
     last_name: str
@@ -40,42 +40,42 @@ class AuthenticationModel:
     def verify_password(self, password, hash, salt):
         return True
 
-    def add_user(self, handle, mail, first_name, middle_name, last_name, password):
+    def add_user(self, username, email, first_name, middle_name, last_name, password):
         salt = self.generate_salt()
         hash = self.generate_hash(password, salt)
 
-        query = '''INSERT INTO users (handle, mail, first_name, middle_name, last_name, hash, salt)
+        query = '''INSERT INTO users (username, email, first_name, middle_name, last_name, hash, salt)
                         VALUES (%s, %s, %s, %s, %s, %s, %s)'''
 
         print(handle, mail, first_name, middle_name, last_name, hash, salt)
 
         database.commit(query, (handle, mail, first_name, middle_name, last_name, hash, salt))
 
-    def get_user(self, handle):
-        query = '''SELECT id, mail, first_name, middle_name, last_name, hash, salt
+    def get_user(self, username):
+        query = '''SELECT id, email, first_name, middle_name, last_name, hash, salt
                      FROM users
-                    WHERE handle = %s'''
+                    WHERE username = %s'''
 
-        (handle, mail, first_name, middle_name, last_name, hash, salt) = database.fetch(query, handle)
+        (id, email, first_name, middle_name, last_name, hash, salt) = database.fetch(query, handle)
 
-        return User(id, handle, mail, first_name, middle_name, last_name, hash, salt)
+        return User(id, username, email, first_name, middle_name, last_name, hash, salt)
 
     def get_user_by_id(self, id):
-        query = '''SELECT handle, mail, first_name, middle_name, last_name, hash, salt
+        query = '''SELECT username, email, first_name, middle_name, last_name, hash, salt
                      FROM users
                     WHERE id = %s'''
 
-        (handle, mail, first_name, middle_name, last_name, hash, salt) = database.fetch(query, id)
+        (handle, email, first_name, middle_name, last_name, hash, salt) = database.fetch(query, id)
 
-        return User(id, handle, mail, first_name, middle_name, last_name, hash, salt)
+        return User(id, username, email, first_name, middle_name, last_name, hash, salt)
 
-    def does_user_exist(self, handle, mail):
-        query = '''SELECT (SELECT COUNT(handle)
+    def does_user_exist(self, username, email):
+        query = '''SELECT (SELECT COUNT(username)
                              FROM users
-                            WHERE handle = %s) AS handle_count,
-                          (SELECT COUNT(mail)
+                            WHERE username = %s) AS username_count,
+                          (SELECT COUNT(email)
                              FROM users
-                            WHERE mail = %s) AS mail_count'''
+                            WHERE email = %s) AS email_count'''
 
         # Retrun number of matching usernames and mail adresses
-        return database.fetch(query, (handle, mail))
+        return database.fetch(query, (username, email))

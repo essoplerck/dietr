@@ -14,7 +14,7 @@ def login():
     error = {}
 
     if request.method == 'POST':
-        handle = request.form['handle']
+        username = request.form['username']
         password = request.form['password']
 
         # Get the user from the database
@@ -52,17 +52,17 @@ def join():
 
     if request.method == 'POST':
         # Get handle and mail adress
-        handle = request.form['handle']
-        mail = request.form['mail']
+        username = request.form['username']
+        email = request.form['email']
 
         # Check if user exit
         count = model.does_user_exist(handle, mail)
 
         if count[0]:
-            error['handle'] = 'This username is already in use.'
+            error['username'] = 'This username is already in use.'
 
         if count[1]:
-            error['mail'] = 'There already is a user with this email address.'
+            error['email'] = 'There already is a user with this email address.'
 
         first_name = request.form['first-name']
         middle_name = request.form['middle-name']
@@ -70,10 +70,10 @@ def join():
 
         # Check if user has enterd a name
         if not first_name:
-            error['name'] = 'You have not entered a first name.'
+            error['frist-name'] = 'You have not entered a first name.'
 
         if not last_name:
-            error['name'] = 'You have not entered a last name.'
+            error['last-name'] = 'You have not entered a last name.'
 
         # Fetch the passwords
         password = request.form['password']
@@ -89,9 +89,9 @@ def join():
         # Check for errors
         if not error:
             # Register user
-            model.add_user(handle, mail, first_name, middle_name, last_name, password)
+            model.add_user(username, email, first_name, middle_name, last_name, password)
 
-            user = model.get_user(handle)
+            user = model.get_user(username)
 
             # Add user id to sesson
             session['user'] = user.id

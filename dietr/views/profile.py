@@ -31,18 +31,20 @@ def profile():
             if not last_name:
                 error['name'] = 'You have not entered a last name.'
 
-            model.set_name(id, first_name, middle_name, last_name)
+            if not error:
+                model.set_name(id, first_name, middle_name, last_name)
 
         if 'mail' in form:
-            mail = request.form['mail']
-
-            model.set_mail(id, mail)
-
-        if 'handle' in form:
-            handle = request.form['handle']
+            email = request.form['email']
 
             if not error:
-                model.set_handle(id, handle)
+                model.set_email(id, email)
+
+        if 'handle' in form:
+            username = request.form['username']
+
+            if not error:
+                model.set_username(id, username)
 
         if all(item in form for item in ['password-current', 'password', 'password-verify']):
             password = request.form['password']

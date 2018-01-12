@@ -14,16 +14,16 @@ class ProfileModel(AuthenticationModel):
 
         database.commit(query, (hash, salt, id))
 
-    def set_mail(self, id, mail):
+    def set_email(self, id, email):
         query = '''UPDATE users
-                      SET mail = %s
+                      SET email = %s
                     WHERE id = %s;'''
 
         database.commit(query, (mail, id))
 
-    def set_handle(self, id, handle):
+    def set_username(self, id, username):
         query = '''UPDATE users
-                      SET handle = %s
+                      SET username = %s
                     WHERE id = %s;'''
 
         database.commit(query, (handle, id))

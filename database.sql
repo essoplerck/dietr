@@ -35,8 +35,8 @@ CREATE TABLE recipes (
 CREATE TABLE users (
     PRIMARY KEY (id),
     id          INT(11)      NOT NULL AUTO_INCREMENT,
-    handle      VARCHAR(80)  NOT NULL,
-    mail        VARCHAR(255) NOT NULL,
+    username    VARCHAR(80)  NOT NULL,
+    email       VARCHAR(255) NOT NULL,
     first_name  VARCHAR(255),
     middle_name VARCHAR(255),
     last_name   VARCHAR(255),
