@@ -1,4 +1,4 @@
-from flask import session
+from flask import abort, session
 from flask_restful import Resource
 
 from dietr.api import api, connection
@@ -9,6 +9,8 @@ prefix = '/persons/<int:handle>'
 
 class PersonsAllergies(Resource):
     def delete(self, handle, id):
+        if 'user' not in session:
+            abort(403)
 
         user_id = session['user']
 
@@ -25,6 +27,8 @@ class PersonsAllergies(Resource):
         database.commit(query, (id, handle, user_id))
 
     def post(self, handle, id, flag=0):
+        if 'user' not in session:
+            abort(403)
 
         user_id = session['user']
 
@@ -44,6 +48,8 @@ api.add_resource(PersonsAllergies, f'{prefix}/allergies/<int:id>')
 
 class PersonsIngredients(Resource):
     def delete(self, handle, id):
+        if 'user' not in session:
+            abort(403)
 
         user_id = session['user']
 
@@ -60,6 +66,8 @@ class PersonsIngredients(Resource):
         database.commit(query, (id, handle, user_id))
 
     def post(self, handle, id, flag=0):
+        if 'user' not in session:
+            abort(403)
 
         user_id = session['user']
 
