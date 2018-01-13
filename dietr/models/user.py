@@ -26,13 +26,12 @@ class User:
 
 class UserModel:
     def get_user(self, id):
-        query = '''SELECT username,
+        query = '''SELECT id,
+                          username,
                           email,
                           first_name, middle_name, last_name,
                           hash
                      FROM users
                     WHERE id = %s'''
 
-        (username, email, first_name, middle_name, last_name, hash) = database.fetch(query, id)
-
-        return User(id, username, email, first_name, middle_name, last_name, hash)
+        return User(**database.fetch(query, id))

@@ -13,7 +13,8 @@ class Database:
         self.connection = sql.connect(database='renswnc266_development',
                                       host='185.182.57.56',
                                       user='renswnc266_dietr',
-                                      password='qvuemzxu')
+                                      password='qvuemzxu',
+                                      cursorclass=sql.cursors.DictCursor)
 
     def commit(self, query, arugments=()):
         with self.connection.cursor() as cursor:

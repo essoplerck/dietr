@@ -35,13 +35,11 @@ class IngredientModel:
 
     def get_ingredient(self, id):
         '''Fetch an ingredient from the database.'''
-        query = '''SELECT name
+        query = '''SELECT id, name
                      FROM ingredients
                     WHERE id = %s'''
 
-        name = database.fetch(query, id)[0]
-
-        return Ingredient(id, name)
+        return Ingredient(**database.fetch(query, id))
 
     def get_allergens(self, id):
         '''Fetch a list of allergens for a ingredient.'''
@@ -51,12 +49,9 @@ class IngredientModel:
                           ON allergies.id = allergies_ingredients.allergy_id
                    WHERE ingredient_id = %s'''
 
-        allergens = []
+        allergens = database.fetch_all(query, id)
 
-        for (id, name) in database.fetch_all(query, id):
-            allergens.append(Allergy(id, name))
-
-        return allergens
+        return [Allergy(**allergen) for allergen in allergens]
 
     def get_ingredients(self):
         '''Fetch a list of all ingredients.'''
@@ -64,12 +59,9 @@ class IngredientModel:
                      FROM ingredients
                     ORDER BY name'''
 
-        ingredients = []
+        ingredients = database.fetch_all(query)
 
-        for (id, name) in database.fetch_all(query):
-            ingredients.append(Ingredient(id, name))
-
-        return ingredients
+        return [Ingredient(**ingredient) for ingredient in ingredients]
 
     def set_ingredient(self, id, name):
         '''Update an ingredient in the database. Ingredient id will be

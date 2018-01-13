@@ -14,22 +14,23 @@ class AuthenticationModel:
     def verify_password(self, password, hash):
         return sha256.verify(password, hash)
 
-    def add_user(self, username, email, first_name, middle_name, last_name, password):
+    def add_user(self, username, email, first_name, middle_name, last_name,
+                 password):
         hash = self.generate_hash(password)
 
-        query = '''INSERT INTO users (username, email, first_name, middle_name, last_name, hash)
+        query = '''INSERT INTO users (username, email, first_name, middle_name,
+                                      last_name, hash)
                         VALUES (%s, %s, %s, %s, %s, %s)'''
 
-        database.commit(query, (username, email, first_name, middle_name, last_name, hash))
+        database.commit(query, (username, email, first_name, middle_name,
+                                last_name, hash))
 
     def get_user(self, username):
         query = '''SELECT id, email, first_name, middle_name, last_name, hash
                      FROM users
                     WHERE username = %s'''
 
-        (id, email, first_name, middle_name, last_name, hash) = database.fetch(query, username)
-
-        return User(id, username, email, first_name, middle_name, last_name, hash)
+        return User(**database.fetch(query, username))
 
     def does_user_exist(self, username, email):
         query = '''SELECT (SELECT COUNT(username)
@@ -40,4 +41,4 @@ class AuthenticationModel:
                             WHERE email = %s) AS email_count'''
 
         # Retrun number of matching usernames and mail adresses
-        return database.fetch(query, (username, email))[0]
+        return database.fetch(query, (username, email))

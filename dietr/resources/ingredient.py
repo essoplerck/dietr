@@ -9,17 +9,11 @@ prefix = '/ingredients'
 
 class Ingredients(Resource):
     def get(self, id):
-        query = '''SELECT name
+        query = '''SELECT id, name
                      FROM ingredients
                     WHERE id = %s'''
 
-        name = database.fetch(query, id)[0]
-
-        ingredient = {
-            'id': id,
-            'name': name,
-            'allergens': []
-        }
+        ingredient = database.fetch(query, id)
 
         query = '''SELECT allergies.id, allergies.name
                      FROM allergies
@@ -27,13 +21,7 @@ class Ingredients(Resource):
                           ON allergies.id = allergies_ingredients.allergy_id
                    WHERE ingredient_id = %s'''
 
-        for (id, name) in database.fetch_all(query, id):
-            allergen = {
-                'id': id,
-                'name': name
-            }
-
-            ingredient['allergens'].append(allergen)
+        ingredient['allergens'] = database.fetch_all(query, id)
 
         return ingredient
 
@@ -46,17 +34,7 @@ class IngredientsOverview(Resource):
         query = '''SELECT id, name
                      FROM ingredients'''
 
-        ingredients = []
-
-        for (id, name) in database.fetch_all(query):
-            ingredient = {
-                'id': id,
-                'name': name
-            }
-
-            ingredients.append(ingredient)
-
-        return ingredients
+        return database.fetch_all(query)
 
 
 api.add_resource(IngredientsOverview, f'{prefix}')
@@ -68,17 +46,7 @@ class IngredientsSearch(Resource):
                      FROM ingredients
                     WHERE name LIKE %s'''
 
-        ingredients = []
-
-        for (id, name) in database.fetch_all(query, f'%{search}%'):
-            ingredient = {
-                'id': id,
-                'name': name
-            }
-
-            ingredients.append(ingredient)
-
-        return ingredients
+        return database.fetch_all(query, f'%{search}%')
 
 
 api.add_resource(IngredientsSearch, f'{prefix}/search/<string:search>')

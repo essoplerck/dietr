@@ -75,9 +75,7 @@ class RoommateModel:
                     WHERE handle = %s
                       AND user_id = %s'''
 
-        (id, first_name, middle_name, last_name) = database.fetch(query, (handle, user_id))
-
-        return Roommate(id, handle, user_id, first_name, middle_name, last_name)
+        return Roommate(**database.fetch(query, (handle, user_id)))
 
     def get_allergies(self, id):
         '''Get a list of allergies for a person.'''
@@ -87,12 +85,9 @@ class RoommateModel:
                              ON allergies.id = roommates_allergies.allergy_id
                     WHERE roommate_id  = %s'''
 
-        allergies = []
+        allergies = database.fetch_all(query, id)
 
-        for (id, name) in database.fetch_all(query, id):
-            allergies.append(Allergy(id, name))
-
-        return allergies
+        return [Allergy(**allergie) for allergie in allergies]
 
     def get_preferences(self, id):
         '''Fetch a list of all ingredients from the person.'''
@@ -102,12 +97,9 @@ class RoommateModel:
                              ON ingredients.id = roommates_preferences.ingredient_id
                     WHERE roommate_id  = %s'''
 
-        preferences = []
+        preferences = database.fetch_all(query)
 
-        for (id, name) in database.fetch_all(query, id):
-            preferences.append(Ingredient(id, name))
-
-        return preferences
+        return [Ingredient(**ingredient) for ingredient in preferences]
 
     def get_count(self):
         '''Fetch the highest person id for a given user. This is used to
@@ -119,20 +111,19 @@ class RoommateModel:
                      FROM roommates
                     WHERE user_id = %s'''
 
-        return database.fetch(query, user_id)[0]
+        return database.fetch(query, user_id)['count']
 
     def get_roommates(self):
         '''Fetch a list of all persons.'''
         user_id = session['user']
 
-        query = '''SELECT id, handle, first_name, middle_name, last_name
+        query = '''SELECT id, handle,
+                          user_id,
+                          first_name, middle_name, last_name
                      FROM roommates
                     WHERE user_id = %s
                  ORDER BY handle'''
 
-        roommates = []
+        roommates = database.fetch_all(query, user_id)
 
-        for (id, handle, first_name, middle_name, last_name) in database.fetch_all(query, user_id):
-            roommates.append(Roommate(id, handle, user_id, first_name, middle_name, last_name))
-
-        return roommates
+        return [Roommate(**roommate) for roommate in roommates]

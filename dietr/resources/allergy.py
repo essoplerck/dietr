@@ -9,18 +9,11 @@ prefix = '/allergies'
 
 class Allergies(Resource):
     def get(self, id):
-        query = '''SELECT name
+        query = '''SELECT id, name
                      FROM allergies
                     WHERE id = %s'''
 
-        name = database.fetch(query, id)[0]
-
-        allergy = {
-            'id': id,
-            'name': name
-        }
-
-        return allergy
+        return database.fetch(query, id)
 
 
 api.add_resource(Allergies, f'{prefix}/<int:id>')
@@ -31,17 +24,7 @@ class AllergiesOverview(Resource):
         query = '''SELECT id, name
                      FROM allergies'''
 
-        allergies = []
-
-        for (id, name) in database.fetch_all(query):
-            allergy = {
-                'id': id,
-                'name': name
-            }
-
-            allergies.append(allergy)
-
-        return allergies
+        return database.fetch_all(query)
 
 
 api.add_resource(AllergiesOverview, prefix)
@@ -53,17 +36,7 @@ class AllergiesSearch(Resource):
                      FROM allergies
                     WHERE name LIKE %s'''
 
-        allergies = []
-
-        for (id, name) in database.fetch_all(query, f'%{search}%'):
-            allergy = {
-                'id': id,
-                'name': name
-            }
-
-            allergies.append(allergy)
-
-        return allergies
+        return database.fetch_all(query, f'%{search}%')
 
 
 api.add_resource(AllergiesSearch, f'{prefix}/search/<string:search>')
