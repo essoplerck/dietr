@@ -6,4 +6,4 @@ blueprint = Blueprint('api', __name__, url_prefix='/api')
 api = Api(blueprint)
 
 
-from dietr.api.resources import allergy, ingredient, roommate, user
+from dietr.resources import allergy, ingredient, roommate, user

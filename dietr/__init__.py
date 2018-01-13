@@ -53,10 +53,7 @@ def context():
     return dict(user=user, year=year)
 
 
-from dietr.api import blueprint as api
-
-app.register_blueprint(api)
-
+from dietr.views import api
 from dietr.views import authentication
 from dietr.views import ingredient
 from dietr.views import overview
@@ -64,6 +61,7 @@ from dietr.views import pantry
 from dietr.views import profile
 from dietr.views import roommate
 
+app.register_blueprint(api.blueprint)
 app.register_blueprint(authentication.blueprint)
 app.register_blueprint(ingredient.blueprint)
 app.register_blueprint(overview.blueprint)

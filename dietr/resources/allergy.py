@@ -1,9 +1,7 @@
-from dataclasses import dataclass, field
-
 from flask_restful import Resource
 
 from dietr import database
-from dietr.api import api
+from dietr.views.api import api
 
 
 prefix = '/allergies'
