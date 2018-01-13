@@ -1,11 +1,19 @@
-<h1>{{ ingredient.name }}</h1>
+{% extends 'layout.html' %}
 
-<br>
+{% block title -%}
+  {{ ingredient.name }}
+{%- endblock title %}
 
-<ul>
-  {% for allergen in ingredient.allergens %}
-    <li>
-      <a href="/allergy/{{ allergen.id }}">{{ allergen.name }}</a>
-    </li>
-  {% endfor %}
-</ul>
+{% block content %}
+  <section>
+    <h1>{{ ingredient.name }}</h1>
+
+    <ul>
+      {% for allergen in ingredient.allergens %}
+        <li>
+          <a href="/allergy/{{ allergen.id }}">{{ allergen.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock content %}
