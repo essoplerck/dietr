@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+
+{% block title -%}
+  Profile
+{%- endblock title %}
+
+{% block content %}
+  <section>
+    <h1>Profile</h1>
+
+    <br>
+
+    <a class="btn btn-primary" href="/profile/edit">Edit</a>
+
+    <h3>Roommates</h3>
+
+    <ul>
+      {% for roommate in roommates -%}
+        <li>
+          <a href="/roommate/{{ roommate.handle }}">{{ roommate.name }}</a>
+        </li>
+      {%- endfor %}
+    </ul>
+
+    <h3>Allergies</h3>
+
+    <ul>
+      {% for allergy in user.allergies %}
+        <li>
+          <a href="/allergy/{{ allergy.id }}">{{ allergy.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <h3>Preferences</h3>
+
+    <ul>
+      {% for ingredient in user.preferences %}
+        <li>
+          <a href="/ingredient/{{ ingredient.id }}">{{ ingredient.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock content %}
