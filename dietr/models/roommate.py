@@ -51,7 +51,7 @@ class RoommateModel:
                     WHERE handle = %s
                       AND user_id = %s'''
 
-        database.commit(query, (first_name, middle_name, last_name, id, user_id))
+        database.commit(query, (first_name, middle_name, last_name, handle, user_id))
 
     def delete_roommate(self, handle):
         '''Delete a person from the database. Will also remove related
@@ -84,13 +84,13 @@ class RoommateModel:
         query = '''SELECT allergies.id, allergies.name
                      FROM allergies
                           INNER JOIN roommates_allergies
-                             ON allergy.id = roommates_allergies.allergy_id
+                             ON allergies.id = roommates_allergies.allergy_id
                     WHERE roommate_id  = %s'''
 
         allergies = []
 
         for (id, name) in database.fetch_all(query, id):
-            allergies.append(Allergies(id, name))
+            allergies.append(Allergy(id, name))
 
         return allergies
 
@@ -99,7 +99,7 @@ class RoommateModel:
         query = '''SELECT ingredients.id, ingredients.name
                      FROM ingredients
                           INNER JOIN roommates_preferences
-                             ON ingredient.id = person_ingredient_relation.ingredient_id
+                             ON ingredients.id = roommates_preferences.ingredient_id
                     WHERE roommate_id  = %s'''
 
         preferences = []
@@ -132,7 +132,7 @@ class RoommateModel:
 
         roommates = []
 
-        for (id, handle, first_name, middle_name, last_name) in database.fetch_all(query, user):
+        for (id, handle, first_name, middle_name, last_name) in database.fetch_all(query, user_id):
             roommates.append(Roommate(id, handle, user_id, first_name, middle_name, last_name))
 
         return roommates

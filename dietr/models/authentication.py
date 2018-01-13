@@ -40,4 +40,4 @@ class AuthenticationModel:
                             WHERE email = %s) AS email_count'''
 
         # Retrun number of matching usernames and mail adresses
-        return database.fetch(query, (username, email))
+        return database.fetch(query, (username, email))[0]
