@@ -24,6 +24,14 @@ def teardown(exception):
     database.close()
 
 
+@app.after_request
+def minify_response(response):
+    if response.mimetype == u'text/html':
+        response.set_data(minify(response.get_data(as_text=True)))
+
+    return response
+
+
 @app.before_request
 def connect():
     database.connect()
