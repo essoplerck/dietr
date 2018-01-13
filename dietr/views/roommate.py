@@ -10,90 +10,88 @@ blueprint = Blueprint('', __name__)
 model = RoommateModel()
 
 
-@blueprint.route('/person/add', methods=['GET', 'POST'])
+@blueprint.route('/roommate/add', methods=['GET', 'POST'])
 @login_required
-def add_person():
-    '''The add action allows users to add an person.'''
+def add_roommate():
+    '''The add action allows users to add an roommate.'''
     if request.method == 'POST':
-        name = request.form['name']
+        first_name = request.form['first-name']
+        middle_name = request.form['middle-name']
+        last_name = request.form['last-name']
 
         # Get account specific indentifier
         handle = model.get_count()
 
-        person = {
-            'handle': handle,
-            'name': name
-        }
+        model.add_roommate(handle, first_name, middle_name, last_name)
 
-        model.add_person(person)
+        # Redirect to roommate page
+        return redirect(f'roommate/{handle}')
 
-        # Redirect to person page
-        return redirect(f'person/{handle}')
-
-    return render_template('/person/add.html')
+    return render_template('/roommate/add.html')
 
 
-@blueprint.route('/person/<int:handle>/edit', methods=['GET', 'POST'])
+@blueprint.route('/roommate/<int:handle>/edit', methods=['GET', 'POST'])
 @login_required
-def edit_person(handle):
-    '''The edit action allows users to change a person.'''
-    person = model.get_person(handle)
+def edit_roommate(handle):
+    '''The edit action allows users to change a roommate.'''
+    roommate = model.get_roommate(handle)
 
-    # Check if person exists
-    if not person:
+    # Check if roommate exists
+    if not roommate:
         return render_template('error/not_found.html'), 404
 
-    person['allergies'] = model.get_allergies(person['id'])
-    person['ingredients'] = model.get_ingredients(person['id'])
+    roommate.allergies = model.get_allergies(roommate.id)
+    roommate.preferences = model.get_preferences(roommate.id)
 
     if request.method == 'POST':
-        if 'name' in request.form.values():
-            person['name'] = request.form['name']
+        first_name = request.form['first-name']
+        middle_name = request.form['middle-name']
+        last_name = request.form['last-name']
 
-    return render_template('/person/edit.html', person=person)
+        model.set_roommate(handle, first_name, middle_name, last_name)
+
+    return render_template('/roommate/edit.html', roommate=roommate)
 
 
-@blueprint.route('/person/<int:handle>/remove', methods=['GET', 'POST'])
+@blueprint.route('/roommate/<int:handle>/remove', methods=['GET', 'POST'])
 @login_required
-def remove_person(handle):
-    '''The remove action allows users to remove a person.'''
-    person = model.get_person(handle)
+def remove_roommate(handle):
+    '''The remove action allows users to remove a roommate.'''
+    roommate = model.get_roommate(handle)
 
-    # Check if person exists
-    if not person:
+    # Check if roommate exists
+    if not roommate:
         return render_template('error/not_found.html'), 404
 
     if request.method == 'POST':
-        print(person['id'])
+        model.remove_roommate(roommate.id)
 
-        model.remove_person(person['id'])
+        return redirect('roommates')
 
-        return redirect('persons')
-
-    return render_template('/person/remove.html', person=person)
+    return render_template('/roommate/remove.html', roommate=roommate)
 
 
-@blueprint.route('/person/<int:handle>')
+@blueprint.route('/roommate/<int:handle>')
 @login_required
-def view_person(handle):
-    '''The view action allows users to view a person.'''
-    person = model.get_person(handle)
+def view_roommate(handle):
+    '''The view action allows users to view a roommate.'''
+    roommate = model.get_roommate(handle)
 
-    # Check if person exists
-    if not person:
+    # Check if roommate exists
+    if not roommate:
         return render_template('error/not_found.html'), 404
 
-    # Fetch allergies of said person
-    person['allergies'] = model.get_allergies(person['id'])
-    person['ingredients'] = model.get_ingredients(person['id'])
+    # Fetch allergies of said roommate
+    roommate.allergies = model.get_allergies(roommate.id)
+    roommate.preferences = model.get_preferences(roommate.id)
 
-    return render_template('/person/view.html', person=person)
+    return render_template('/roommate/view.html', roommate=roommate)
 
 
-@blueprint.route('/persons')
+@blueprint.route('/roommates')
 @login_required
-def overview_person():
-    '''The overview action allows users to view all their persons.'''
-    persons = model.get_persons()
+def overview_roommate():
+    '''The overview action allows users to view all their roommates.'''
+    roommates = model.get_roommates()
 
-    return render_template('/person/overview.html', persons=persons)
+    return render_template('/roommate/overview.html', roommates=roommates)

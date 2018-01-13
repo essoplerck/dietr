@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title -%}
+  Edit {{ roommate.name }}
+{%- endblock title %}
+
+{% block content %}
+  <section>
+    <form action="/roommate/{{ roommate.handle }}/edit" method="post">
+      <label>First name</label>
+      <input name="first-name" required type="text" value="{{ roommate.first_name }}">
+      <hr>
+
+      <label>Middle name</label>
+      {% if roommate.middle_name -%}
+        <input name="middle-name" type="text" value="{{ roommate.middle_name }}">
+      {%- else -%}
+        <input name="middle-name" type="text">
+      {%- endif %}
+      <hr>
+
+      <label>Last name</label>
+      <input name="last-name" required type="text" value="{{ roommate.last_name }}">
+      <hr>
+
+      <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+
+    <h3>Allergies</h3>
+    <ul class="allergies-wrapper">
+      {% for allergy in roommate.allergies %}
+        <li>
+          <p>{{ allergy.name|e }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+
+    <h3>Ingredients</h3>
+    <ul class="ingredients-wrapper">
+      {% for ingredient in roommate.ingredients %}
+        <li>
+          <a href="/ingredient/{{ ingredient.id }}">{{ ingredient.name }}</a>
+          <a class="btn btn-warning">Remove</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock content %}

@@ -7,9 +7,9 @@
 {% block content %}
   <section>
     <ul>
-      {% for person in persons %}
+      {% for roommate in roommates %}
         <li>
-          <a href="/person/{{ person.handle }}">{{ person.name }}</a>
+          <a href="/roommate/{{ roommate.handle }}">{{ roommate.name }}</a>
         </li>
       {% endfor %}
     </ul>
