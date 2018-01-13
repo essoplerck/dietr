@@ -6,6 +6,9 @@ from dietr import database
 from dietr.api import api
 
 
+prefix = '/ingredients'
+
+
 class Ingredients(Resource):
     def get(self, id):
         query = '''SELECT name
@@ -37,7 +40,7 @@ class Ingredients(Resource):
         return ingredient
 
 
-api.add_resource(Ingredients, '/ingredients/<int:id>')
+api.add_resource(Ingredients, f'{prefix}/<int:id>')
 
 
 class IngredientsOverview(Resource):
@@ -58,7 +61,7 @@ class IngredientsOverview(Resource):
         return ingredients
 
 
-api.add_resource(IngredientsOverview, '/ingredients')
+api.add_resource(IngredientsOverview, f'{prefix}')
 
 
 class IngredientsSearch(Resource):
@@ -80,4 +83,4 @@ class IngredientsSearch(Resource):
         return ingredients
 
 
-api.add_resource(IngredientsSearch, '/ingredients/search/<string:search>')
+api.add_resource(IngredientsSearch, f'{prefix}/search/<string:search>')
