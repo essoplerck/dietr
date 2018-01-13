@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, g, request, render_template, session
 
 from dietr import login_required
 from dietr.models.profile import ProfileModel
@@ -8,17 +8,24 @@ blueprint = Blueprint('profile', __name__)
 model = ProfileModel()
 
 
-@blueprint.route('/profile', methods=['GET', 'POST'])
+@blueprint.route('/profile')
 @login_required
-def profile():
-    id = session['user']
+def view_profile():
+    return render_template('/profile/view.html')
 
+
+@blueprint.route('/profile/edit')
+@login_required
+def edit_profile():
     error = {}
-    user = model.get_user_by_id(id)
+    user = g.user
 
     if request.method == 'POST':
         form = request.form.values()
 
+        print(form)
+
+        '''
         if all(item in form for item in ['first-name', 'middle-name', 'last-name']):
             first_name = request.form['first-name']
             middle_name = request.form['middle-name']
@@ -59,5 +66,6 @@ def profile():
 
             if not error:
                 model.set_password(id, password)
+        '''
 
-    return render_template('/profile', error=error, user=user)
+    return render_template('/profile/edit.html', error=error, user=user)

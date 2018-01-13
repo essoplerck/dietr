@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, session, request
+from flask import Flask, g, session
 from htmlmin.main import minify
 
 from dietr.connection import Database
@@ -36,6 +36,8 @@ def minify_response(response):
 def connect():
     database.connect()
 
+    if 'user' in session:
+        g.user = model.get_user(session['user'])
 
 @app.context_processor
 def context():
@@ -43,7 +45,7 @@ def context():
     year = date.year
 
     if 'user' in session:
-        user = model.get_user(session['user'])
+        user = g.user
 
     else:
         user = None
