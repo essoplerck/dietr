@@ -30,7 +30,8 @@
     <ul class="allergies-wrapper">
       {% for allergy in roommate.allergies %}
         <li>
-          <p>{{ allergy.name|e }}</p>
+          <a href="/allergy/{{ allergy.id }}">{{ allergy.name }}</a>
+          <a class="btn btn-warning">Remove</a>
         </li>
       {% endfor %}
     </ul>
