@@ -1,18 +1,10 @@
 from dataclasses import dataclass, field
 
+from flask import session
+
 from dietr import database
-
-
-@dataclass
-class Allergies:
-    id: int
-    name: str
-
-
-@dataclass
-class Ingredient:
-    id: int
-    name: str
+from dietr.models.allergy import Allergy
+from dietr.models.ingredient import Ingredient
 
 
 @dataclass

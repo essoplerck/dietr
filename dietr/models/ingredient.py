@@ -1,12 +1,7 @@
 from dataclasses import dataclass, field
 
 from dietr import database
-
-
-@dataclass
-class Allergen:
-    id: int
-    name: str
+from dietr.models.allergy import Allergy
 
 
 @dataclass
@@ -59,7 +54,7 @@ class IngredientModel:
         allergens = []
 
         for (id, name) in database.fetch_all(query, id):
-            allergens.append(Allergen(id, name))
+            allergens.append(Allergy(id, name))
 
         return allergens
 
