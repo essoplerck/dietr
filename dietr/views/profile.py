@@ -23,9 +23,6 @@ def edit_profile():
     if request.method == 'POST':
         form = request.form.values()
 
-        print(form)
-
-        '''
         if all(item in form for item in ['first-name', 'middle-name', 'last-name']):
             first_name = request.form['first-name']
             middle_name = request.form['middle-name']
@@ -66,6 +63,5 @@ def edit_profile():
 
             if not error:
                 model.set_password(id, password)
-        '''
 
     return render_template('/profile/edit.html', error=error, user=user)

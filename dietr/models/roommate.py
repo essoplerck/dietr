@@ -35,10 +35,12 @@ class RoommateModel:
         '''Insert a person into the database.'''
         user_id = session['user']
 
-        query = '''INSERT INTO roommates (handle, user_id, first_name, middle_name, last_name)
+        query = '''INSERT INTO roommates (handle, user_id, first_name,
+                                          middle_name, last_name)
                    VALUES (%s, %s, %s, %s, %s)'''
 
-        database.commit(query, (handle, user_id, first_name, middle_name, last_name))
+        database.commit(query, (handle, user_id, first_name, middle_name,
+                                last_name))
 
     def set_roommate(self, handle, first_name, middle_name, last_name):
         '''Update a person in the database. Person id will be preserved.'''
@@ -51,7 +53,8 @@ class RoommateModel:
                     WHERE handle = %s
                       AND user_id = %s'''
 
-        database.commit(query, (first_name, middle_name, last_name, handle, user_id))
+        database.commit(query, (first_name, middle_name, last_name, handle,
+                                user_id))
 
     def delete_roommate(self, handle):
         '''Delete a person from the database. Will also remove related
@@ -93,8 +96,8 @@ class RoommateModel:
         '''Fetch a list of all ingredients from the person.'''
         query = '''SELECT ingredients.id, ingredients.name
                      FROM ingredients
-                          INNER JOIN roommates_preferences
-                             ON ingredients.id = roommates_preferences.ingredient_id
+                          INNER JOIN roommates_preferences AS rp
+                             ON ingredients.id = rp.ingredient_id
                     WHERE roommate_id  = %s'''
 
         preferences = database.fetch_all(query)

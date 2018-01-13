@@ -91,7 +91,8 @@ def join():
         # Check for errors
         if not error:
             # Register user
-            model.add_user(username, email, first_name, middle_name, last_name, password)
+            model.add_user(username, email, first_name, middle_name, last_name,
+                           password)
 
             user = model.get_user(username)
 
