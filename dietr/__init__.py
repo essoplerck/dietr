@@ -1,6 +1,10 @@
-from flask import Flask, session
+from datetime import datetime
 
-from dietr.connection import Database, connection
+from flask import Flask, g, session, request
+from htmlmin.main import minify
+
+from dietr.models.user import User
+from dietr.connection import Database
 from dietr.sessions import RedisSessionInterface
 from dietr.utils import login_required
 
@@ -11,12 +15,38 @@ app.session_interface = RedisSessionInterface()
 
 database = Database()
 
-'''
-@app.teardown_appcontext
+
+@app.teardown_request
 def teardown(exception):
-    # Close database
-    connection.close()
-'''
+    database.close()
+
+
+@app.before_request
+def connect():
+    database.connect()
+
+    if 'user' in session:
+        user_id = session['user']
+
+        query = '''SELECT username,
+                          email,
+                          first_name, middle_name, last_name,
+                          hash
+                     FROM users
+                    WHERE id = %s'''
+
+        (username, email, first_name, middle_name, last_name, hash) = database.fetch(query, id)
+
+        g.user = User(id, username, email, first_name, middle_name, last_name, hash)
+
+
+@app.context_processor
+def context():
+    date = datetime.now()
+    year = date.year
+
+    return dict(user=g.user, year=year)
+
 
 from dietr.api import blueprint as api
 
