@@ -1,5 +1,15 @@
-<form action="/ingredient/{{ ingredient.id }}/remove" method="post">
-  <h3>Remove ingredient</h3>
+{% extends 'layout.html' %}
 
-  <button class="button" name="remove" type="submit">Remove</button>
-</form>
+{% block title -%}
+  Remove ingredient
+{%- endblock title %}
+
+{% block content %}
+  <section>
+    <form action="/ingredient/{{ ingredient.id }}/remove" method="post">
+      <h3>Remove ingredient</h3>
+
+      <button class="btn btn-danger" type="submit">Remove</button>
+    </form>
+  </section>
+{% endblock content %}

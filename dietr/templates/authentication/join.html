@@ -1,39 +1,49 @@
-<form action="/join" method="post">
-  <h3>Join</h3>
+{% extends 'layout.html' %}
 
-  <label>First name</label>
-  <input name="first-name" type="text">
-  <hr>
+{% block title -%}
+  Register
+{%- endblock title %}
 
-  <label>Middle name</label>
-  <input name="middle-name" type="text">
-  <hr>
+{% block content %}
+  <section>
+    <form action="/join" method="post">
+      <h3>Join</h3>
 
-  <label>Last name</label>
-  <input name="last-name" type="text">
-  <hr>
+      <label>First name</label>
+      <input name="first-name" type="text">
+      <hr>
 
-  <br>
+      <label>Middle name</label>
+      <input name="middle-name" type="text">
+      <hr>
 
-  <label>Email address</label>
-  <input name="email" required type="email">
-  <hr>
+      <label>Last name</label>
+      <input name="last-name" type="text">
+      <hr>
 
-  <br>
+      <br>
 
-  <label>Username</label>
-  <input name="username" required type="text">
-  <hr>
+      <label>Email address</label>
+      <input name="email" required type="email">
+      <hr>
 
-  <label>Password</label>
-  <input name="password" required type="password">
-  <hr>
+      <br>
 
-  <label>Confirm password</label>
-  <input name="password-verify" required type="password">
-  <hr>
+      <label>Username</label>
+      <input name="username" required type="text">
+      <hr>
 
-  <br>
+      <label>Password</label>
+      <input name="password" required type="password">
+      <hr>
 
-  <button class="button" type="submit">Register</button>
-</form>
+      <label>Confirm password</label>
+      <input name="password-verify" required type="password">
+      <hr>
+
+      <br>
+
+      <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+  </section>
+{% endblock content %}

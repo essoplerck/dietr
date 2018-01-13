@@ -1,5 +1,15 @@
-<form action="/logout" method="post">
-  <h3>Logout</h3>
+{% extends 'layout.html' %}
 
-  <button class="button" name="logout" type="submit">Logout</button>
-</form>
+{% block title -%}
+  Logout
+{%- endblock title %}
+
+{% block content %}
+  <section>
+      <form action="/logout" method="post">
+      <h3>Logout</h3>
+
+      <button class="btn btn-danger" name="logout" type="submit">Logout</button>
+    </form>
+  </section>
+{% endblock content %}
