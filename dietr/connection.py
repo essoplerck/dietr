@@ -6,8 +6,11 @@ connection = sql.connect(host='185.182.57.56', user='renswnc266_dietr',
 
 
 class Database:
-    def __init__(self):
-        self.connection = sql.connect(db='renswnc266_development',
+    def close(self):
+        self.connection.close()
+
+    def connect(self):
+        self.connection = sql.connect(database='renswnc266_development',
                                       host='185.182.57.56',
                                       user='renswnc266_dietr',
                                       password='qvuemzxu')
