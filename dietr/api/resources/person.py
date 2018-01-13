@@ -1,7 +1,8 @@
 from flask import abort, session
 from flask_restful import Resource
 
-from dietr.api import api, connection
+from dietr import database
+from dietr.api import api
 
 
 prefix = '/persons/<int:handle>'

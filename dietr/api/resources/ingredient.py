@@ -5,12 +5,6 @@ from flask_restful import Resource
 from dietr import database
 from dietr.api import api
 
-@dataclass
-class Ingredient:
-    id: int
-    name: str
-    allergens: list = field(default_factory=list, init=False)
-
 
 class Ingredients(Resource):
     def get(self, id):
@@ -20,7 +14,11 @@ class Ingredients(Resource):
 
         name = database.fetch(query, id)[0]
 
-        ingredient = Ingredient(id, name)
+        ingredient = {
+            'id': id,
+            'name': name,
+            'allergens': []
+        }
 
         query = '''SELECT allergies.id, allergies.name
                      FROM allergies
@@ -29,7 +27,12 @@ class Ingredients(Resource):
                    WHERE ingredient_id = %s'''
 
         for (id, name) in database.fetch_all(query, id):
-            ingredient.allergens.append(Allergen(id, name))
+            allergen = {
+                'id': id,
+                'name': name
+            }
+
+            ingredient['allergens'].append(allergen)
 
         return ingredient
 
@@ -45,7 +48,12 @@ class IngredientsOverview(Resource):
         ingredients = []
 
         for (id, name) in database.fetch_all(query):
-            ingredients.append(Ingredient(id, name))
+            ingredient = {
+                'id': id,
+                'name': name
+            }
+
+            ingredients.append(ingredient)
 
         return ingredients
 
@@ -62,7 +70,12 @@ class IngredientsSearch(Resource):
         ingredients = []
 
         for (id, name) in database.fetch_all(query, f'%{search}%'):
-            ingredients.append(Ingredient(id, name))
+            ingredient = {
+                'id': id,
+                'name': name
+            }
+
+            ingredients.append(ingredient)
 
         return ingredients
 
