@@ -39,6 +39,7 @@ def connect():
     if 'user' in session:
         g.user = model.get_user(session['user'])
 
+
 @app.context_processor
 def context():
     date = datetime.now()
