@@ -5,10 +5,10 @@ from dietr import database
 from dietr.api import api
 
 
-prefix = '/persons/<int:handle>'
+prefix = '/roommmates/<int:handle>'
 
 
-class PersonsAllergies(Resource):
+class RoommmatesAllergies(Resource):
     def delete(self, handle, id):
         if 'user' not in session:
             abort(403)
@@ -44,10 +44,10 @@ class PersonsAllergies(Resource):
         database.commit(query, (id, flag, handle, user_id))
 
 
-api.add_resource(PersonsAllergies, f'{prefix}/allergies/<int:id>')
+api.add_resource(RoommmatesAllergies, f'{prefix}/allergies/<int:id>')
 
 
-class PersonsIngredients(Resource):
+class RoommmatesPreferences(Resource):
     def delete(self, handle, id):
         if 'user' not in session:
             abort(403)
@@ -83,4 +83,4 @@ class PersonsIngredients(Resource):
         database.commit(query, (id, flag, handle, user_id))
 
 
-api.add_resource(PersonsIngredients, f'{prefix}/ingredients/<int:id>')
+api.add_resource(RoommmatesPreferences, f'{prefix}/preferences/<int:id>')
