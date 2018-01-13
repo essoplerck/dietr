@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 
 from flask import session
 
-from dietr import database
+from dietr.database import database
 from dietr.models.allergy import Allergy
 from dietr.models.ingredient import Ingredient
 

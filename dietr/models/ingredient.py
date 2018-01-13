@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from dietr import database
+from dietr.database import database
 from dietr.models.allergy import Allergy
 
 

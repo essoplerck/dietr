@@ -3,18 +3,14 @@ from datetime import datetime
 from flask import Flask, g, session
 from htmlmin.main import minify
 
-from dietr.connection import Database
 from dietr.sessions import RedisSessionInterface
 from dietr.utils import login_required
+from dietr.models.user import UserModel
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.config.from_object('config')
 app.session_interface = RedisSessionInterface()
-
-database = Database()
-
-from dietr.models.user import UserModel
 
 model = UserModel()
 

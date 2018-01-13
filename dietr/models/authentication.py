@@ -1,6 +1,6 @@
 from passlib.hash import sha256_crypt as sha256
 
-from dietr import database
+from dietr.database import database
 from dietr.models.user import User
 
 

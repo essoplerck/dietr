@@ -1,4 +1,4 @@
-from dietr import database
+from dietr.database import database
 from dietr.models.authentication import AuthenticationModel
 
 
