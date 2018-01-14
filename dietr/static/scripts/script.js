@@ -46,7 +46,7 @@ class Roommate {
   constructor() {
     this.allergies = {
       add: id => {
-        let url = `/api/roommmates/${this.handle}/allergies/${id}`;
+        let url = `/api/roommates/${this.handle}/allergies/${id}`;
 
         script.request(url, 'POST').then(response => {
           console.log(response);
@@ -54,7 +54,7 @@ class Roommate {
       },
 
       remove: id => {
-        let url = `/api/roommmates/${this.handle}/allergies/${id}`;
+        let url = `/api/roommates/${this.handle}/allergies/${id}`;
 
         script.request(url, 'DELETE').then(response => {
           console.log(response);
@@ -64,7 +64,7 @@ class Roommate {
 
     this.preferences = {
       add: id => {
-        let url = `/api/roommmates/${this.handle}/preferences/${id}`
+        let url = `/api/roommates/${this.handle}/preferences/${id}`
 
         script.request(url, 'POST').then(response => {
           console.log(response);
@@ -72,7 +72,7 @@ class Roommate {
       },
 
       remove: id => {
-        let url = `/api/roommmates/${this.handle}/preferences/${id}`
+        let url = `/api/roommates/${this.handle}/preferences/${id}`
 
         script.request(url, 'DELETE').then(response => {
           console.log(response);
