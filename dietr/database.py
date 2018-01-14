@@ -2,6 +2,9 @@ import pymysql as sql
 
 
 class Database:
+    def __init__(self):
+        self.connection = None
+
     def close(self):
         self.connection.close()
 
