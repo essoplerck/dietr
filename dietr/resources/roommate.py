@@ -33,15 +33,13 @@ class RoommatesAllergies(Resource):
 
         user_id = session['user']
 
-        query = '''INSERT INTO ra (roommate_id, allergy_id, flag)
-                   SELECT roommates.id, %s, %s
-                     FROM roommates_allergies AS ra
-                          INNER JOIN roommates
-                             ON roommates.id = ra.roommates_id
-                    WHERE roommates.handle = %s
-                      AND roommates.user_id = %s'''
+        query = '''INSERT INTO roommates_allergies (roommate_id, allergy_id)
+                   VALUES ((SELECT id
+                              FROM roommates
+                             WHERE handle = %s
+                               AND user_id = %s), %s)'''
 
-        database.commit(query, (id, flag, handle, user_id))
+        database.commit(query, (handle, user_id, id))
 
 
 api.add_resource(RoommatesAllergies, f'{prefix}/allergies/<int:id>')
@@ -72,15 +70,12 @@ class RoommatesPreferences(Resource):
 
         user_id = session['user']
 
-        query = '''INSERT INTO rp (roommate_id, ingredient_id, flag)
-                   SELECT roommates.id, %s, %s
-                     FROM roommates_preferences AS rp
-                          INNER JOIN roommates
-                             ON roommates.id = rp.roommates_id
-                    WHERE roommates.handle = %s
-                      AND roommates.user_id = %s'''
+        query = '''INSERT INTO roommates_preferences (ingredient_id, allergy_id)
+                   VALUES ((SELECT id
+                              FROM roommates
+                             WHERE handle = %s
+                               AND user_id = %s), %s)'''
 
-        database.commit(query, (id, flag, handle, user_id))
         database.commit(query, (handle, user_id, id))
 
 

@@ -28,7 +28,7 @@ class UsersAllergies(Resource):
         user_id = session['user']
 
         query = '''INSERT INTO users_allergies (id, allergy_id, flag)
-                   SELECT %s, %s, %s'''
+                   VALUES %s, %s, %s'''
 
         database.commit(query, (user_id, id, flag))
 
@@ -56,7 +56,7 @@ class UsersPreferences(Resource):
         user_id = session['user']
 
         query = '''INSERT INTO users_preferences (id, ingredient_id, flag)
-                   SELECT %s, %s, %s'''
+                   VALUES %s, %s, %s'''
 
         database.commit(query, (user_id, id, flag))
 
