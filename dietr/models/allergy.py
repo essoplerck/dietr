@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Allergy:
-    int: int
+    id: int
     name: str
 
 

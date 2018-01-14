@@ -26,7 +26,8 @@ class AuthenticationModel:
                                 last_name, hash))
 
     def get_user(self, username):
-        query = '''SELECT id, email, first_name, middle_name, last_name, hash
+        query = '''SELECT id, username, email, first_name, middle_name,
+                          last_name, hash
                      FROM users
                     WHERE username = %s'''
 

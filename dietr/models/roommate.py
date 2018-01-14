@@ -73,7 +73,9 @@ class RoommateModel:
         '''Fetch a person from the database.'''
         user_id = session['user']
 
-        query = '''SELECT id, first_name, middle_name, last_name
+        query = '''SELECT id, handle,
+                          user_id,
+                          first_name, middle_name, last_name
                      FROM roommates
                     WHERE handle = %s
                       AND user_id = %s'''
@@ -90,7 +92,7 @@ class RoommateModel:
 
         allergies = database.fetch_all(query, id)
 
-        return [Allergy(**allergie) for allergie in allergies]
+        return [Allergy(**allergy) for allergy in allergies]
 
     def get_preferences(self, id):
         '''Fetch a list of all ingredients from the person.'''
@@ -100,7 +102,7 @@ class RoommateModel:
                              ON ingredients.id = rp.ingredient_id
                     WHERE roommate_id  = %s'''
 
-        preferences = database.fetch_all(query)
+        preferences = database.fetch_all(query, id)
 
         return [Ingredient(**ingredient) for ingredient in preferences]
 

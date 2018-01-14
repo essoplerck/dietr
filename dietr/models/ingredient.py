@@ -31,7 +31,7 @@ class IngredientModel:
                     WHERE id = %s'''
 
         # Execute query
-        database.commit(query, tuple([id]) * 4)
+        database.commit(query, id)
 
     def get_ingredient(self, id):
         '''Fetch an ingredient from the database.'''
