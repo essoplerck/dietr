@@ -42,23 +42,39 @@ class Ingredient {
 
 script.ingredient = new Ingredient();
 
-class Person {
+class Roommate {
   constructor() {
     this.allergies = {
       add: id => {
-        url = `/api/persons/${this.handle}/allergies/${id}`;
+        let url = `/api/roommmates/${this.handle}/allergies/${id}`;
 
         script.request(url, 'POST').then(response => {
+          console.log(response);
+        });
+      },
+
+      remove: id => {
+        let url = `/api/roommmates/${this.handle}/allergies/${id}`;
+
+        script.request(url, 'DELETE').then(response => {
           console.log(response);
         });
       }
     }
 
-    this.ingredient = {
+    this.preferences = {
       add: id => {
-        url = `/api/persons/${this.handle}/ingredients/${id}`
+        let url = `/api/roommmates/${this.handle}/preferences/${id}`
 
         script.request(url, 'POST').then(response => {
+          console.log(response);
+        });
+      },
+
+      remove: id => {
+        let url = `/api/roommmates/${this.handle}/preferences/${id}`
+
+        script.request(url, 'DELETE').then(response => {
           console.log(response);
         });
       }
@@ -73,7 +89,7 @@ class Person {
   }
 }
 
-script.person = new Person();
+script.roommate = new Roommate();
 
 script.router = ((document, location) => {
   let routes = {
