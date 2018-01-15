@@ -18,11 +18,13 @@ model = UserModel()
 
 @app.teardown_request
 def teardown(exception):
+    """Close database connection."""
     database.close()
 
 
 @app.after_request
 def minify_response(response):
+    """Minify response to save bandwith."""
     if response.mimetype == u'text/html':
         response.set_data(minify(response.get_data(as_text=True)))
 
@@ -31,14 +33,17 @@ def minify_response(response):
 
 @app.before_request
 def connect():
+    """Connect to the database."""
     database.connect()
 
+    # @TODO move to seperate method
     if 'user' in session:
         g.user = model.get_user(session['user'])
 
 
 @app.context_processor
-def context():
+def add_context():
+    """Pass user and current year to templating engine."""
     date = datetime.now()
     year = date.year
 

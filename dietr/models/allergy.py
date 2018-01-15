@@ -10,13 +10,11 @@ class Allergy:
 
 
 class AllergyModel:
-    """Handles all interaction with the database."""
     def add_allergy(self, name):
         """Add an allergy to the database."""
         query = '''INSERT INTO allergies (name)
                    VALUES (%s)'''
 
-        # Execute query
         database.commit(query, name)
 
     def delete_allergy(self, id):
@@ -24,7 +22,6 @@ class AllergyModel:
         query = '''DELETE FROM allergies
                     WHERE id = %s'''
 
-        # Execute query
         database.commit(query, id)
 
     def get_allergy(self, id):

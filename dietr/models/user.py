@@ -26,6 +26,7 @@ class User:
 
 class UserModel:
     def get_user(self, id):
+        """Get a user form the database."""
         query = '''SELECT id,
                           username,
                           email,
@@ -34,4 +35,5 @@ class UserModel:
                      FROM users
                     WHERE id = %s'''
 
+        # Convert dict to an user object
         return User(**database.fetch(query, id))

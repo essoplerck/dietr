@@ -12,21 +12,17 @@ class Ingredient:
 
 
 class IngredientModel:
-    """Handles all interaction with the database."""
     def add_ingredient(self, name):
         """Add an ingredient to the database."""
         query = '''INSERT INTO ingredients (name)
                    VALUES (%s)'''
 
-        # Execute query
-        database.commit(query, name)
 
     def delete_ingredient(self, id):
         """Delete an ingredient from the database."""
         query = '''DELETE FROM ingredients
                     WHERE id = %s'''
 
-        # Execute query
         database.commit(query, id)
 
     def get_ingredient(self, id):
@@ -41,7 +37,7 @@ class IngredientModel:
         return Ingredient(**database.fetch(query, id))
 
     def get_allergens(self, id):
-        """Get all allergens for a ingredient from the database and return a
+        """Get all allergens for an ingredient from the database and return a
         list of instances of the allergy class.
         """
         query = '''SELECT allergies.id, allergies.name
@@ -74,5 +70,4 @@ class IngredientModel:
                       SET name = %s
                     WHERE id = %s'''
 
-        # Execute query
         database.commit(query, (name, id))
