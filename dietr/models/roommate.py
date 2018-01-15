@@ -99,7 +99,7 @@ class RoommateModel:
         user_id = session['user']
 
         query = '''SELECT id, handle,
-                          guser_id,
+                          user_id,
                           first_name, middle_name, last_name
                      FROM roommates
                     WHERE handle = %s
