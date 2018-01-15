@@ -47,11 +47,8 @@ def add_context():
     date = datetime.now()
     year = date.year
 
-    if 'user' in session:
-        user = g.user
-
-    else:
-        user = None
+    # Check if user is logged in
+    user = g.user if 'user' in session else None
 
     return dict(user=user, year=year)
 
