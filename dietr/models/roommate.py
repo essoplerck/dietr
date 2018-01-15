@@ -56,10 +56,9 @@ class RoommateModel:
         of instances of the allergy class.
         """
         query = '''SELECT allergies.id, allergies.name
-                     FROM allergies
-                          INNER JOIN roommates_allergies
-                             ON allergies.id = roommates_allergies.allergy_id
-                    WHERE roommate_id  = %s'''
+                     FROM allergies, roommates_allergies AS ra
+                    WHERE ra.roommate_id = %s
+                      AND ra.allergy_id = allergies.id'''
 
         allergies = database.fetch_all(query, id)
 
@@ -84,10 +83,9 @@ class RoommateModel:
         listof instances of the ingredient class.
         """
         query = '''SELECT ingredients.id, ingredients.name
-                     FROM ingredients
-                          INNER JOIN roommates_preferences AS rp
-                             ON ingredients.id = rp.ingredient_id
-                    WHERE roommate_id  = %s'''
+                     FROM ingredients, roommates_preferences AS rp
+                    WHERE rp.roommate_id = %s
+                      AND rp.ingredient_id = ingredients.id'''
 
         preferences = database.fetch_all(query, id)
 

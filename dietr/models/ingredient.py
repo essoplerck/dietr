@@ -41,10 +41,9 @@ class IngredientModel:
         list of instances of the allergy class.
         """
         query = '''SELECT allergies.id, allergies.name
-                     FROM allergies
-                          INNER JOIN allergies_ingredients
-                          ON allergies.id = allergies_ingredients.allergy_id
-                   WHERE ingredient_id = %s'''
+                     FROM allergies, allergies_ingredients
+                    WHERE allergies_ingredients.allergy_id = allergies.id
+                      AND allergies_ingredients.ingredient_id = %s'''
 
         allergens = database.fetch_all(query, id)
 
