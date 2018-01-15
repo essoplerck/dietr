@@ -12,7 +12,7 @@ class Allergy:
 class AllergyModel:
     """Handles all interaction with the database."""
     def add_allergy(self, name):
-        """Adds an allergy to the database."""
+        """Add an allergy to the database."""
         query = '''INSERT INTO allergies (name)
                    VALUES (%s)'''
 
@@ -20,7 +20,7 @@ class AllergyModel:
         database.commit(query, name)
 
     def delete_allergy(self, id):
-        """Deletes an allergy from the database."""
+        """Delete an allergy from the database."""
         query = '''DELETE FROM allergies
                     WHERE id = %s'''
 
@@ -28,27 +28,31 @@ class AllergyModel:
         database.commit(query, id)
 
     def get_allergy(self, id):
-        """Gets an allergy from the database."""
+        """Get an allergy from the database and return an instance of the
+        allergy class.
+        """
         query = '''SELECT id, name
                      FROM allergies
                     WHERE id = %s'''
 
-        # Convert dict to allergy object
+        # Convert dict to an allergy object
         return Allergy(**database.fetch(query, id))
 
     def get_allergies(self):
-        """Gets a list of all allergies from the database."""
+        """Get all allergies from the database and return a list of instances
+        of the allergy class.
+        """
         query = '''SELECT id, name
                      FROM allergies
                     ORDER BY name'''
 
         allergies = database.fetch_all(query)
 
-        # Convert the list of dicts to a list of allergy object
+        # Convert the list of dicts to a list of allergy objects
         return [Allergy(**allergy) for allergy in allergies]
 
     def set_allergy(self, id, name):
-        """Sets the name of an allergy."""
+        """Set the name of an allergy."""
         query = '''UPDATE allergies
                       SET name = %s
                     WHERE id = %s'''

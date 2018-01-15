@@ -12,11 +12,9 @@ class Ingredient:
 
 
 class IngredientModel:
-    '''Model for the ingredient pages. This model will handle all ineractions
-    with the database.
-    '''
+    """Handles all interaction with the database."""
     def add_ingredient(self, name):
-        '''Insert an ingredient into the database.'''
+        """Add an ingredient to the database."""
         query = '''INSERT INTO ingredients (name)
                    VALUES (%s)'''
 
@@ -24,9 +22,7 @@ class IngredientModel:
         database.commit(query, name)
 
     def delete_ingredient(self, id):
-        '''Delete an ingredient from the database. Will also remove related
-        tables.
-        '''
+        """Delete an ingredient from the database."""
         query = '''DELETE FROM ingredients
                     WHERE id = %s'''
 
@@ -34,15 +30,20 @@ class IngredientModel:
         database.commit(query, id)
 
     def get_ingredient(self, id):
-        '''Fetch an ingredient from the database.'''
+        """Get an ingredient from the database and return an instance of the
+        ingredient class.
+        """
         query = '''SELECT id, name
                      FROM ingredients
                     WHERE id = %s'''
 
+        # Convert dict to an ingredient object
         return Ingredient(**database.fetch(query, id))
 
     def get_allergens(self, id):
-        '''Fetch a list of allergens for a ingredient.'''
+        """Get all allergens for a ingredient from the database and return a
+        list of instances of the allergy class.
+        """
         query = '''SELECT allergies.id, allergies.name
                      FROM allergies
                           INNER JOIN allergies_ingredients
@@ -51,22 +52,24 @@ class IngredientModel:
 
         allergens = database.fetch_all(query, id)
 
+        # Convert the list of dicts to a list of allergy objects
         return [Allergy(**allergen) for allergen in allergens]
 
     def get_ingredients(self):
-        '''Fetch a list of all ingredients.'''
+        """Get all ingredients from the database and return a list of instances
+        of the ingredient class.
+        """
         query = '''SELECT id, name
                      FROM ingredients
                     ORDER BY name'''
 
         ingredients = database.fetch_all(query)
 
+        # Convert the list of dicts to a list of ingredient objects
         return [Ingredient(**ingredient) for ingredient in ingredients]
 
     def set_ingredient(self, id, name):
-        '''Update an ingredient in the database. Ingredient id will be
-        preserved.
-        '''
+        """Set the name of an ingredient."""
         query = '''UPDATE ingredients
                       SET name = %s
                     WHERE id = %s'''
