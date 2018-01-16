@@ -18,105 +18,144 @@ script.request = (url, method = 'GET') => {
   .catch(error => {});
 }
 
-class Ingredient {
+class Allergy {
   get(id) {
-    script.request(`/api/ingredients/${id}`).then(response => {
-      console.log(response);
-    });
+    return script.request(`/api/allergies/${id}`);
   }
 
   // Get a overview of all ingredients
   overview() {
-    script.request(`/api/ingredients`).then(response => {
-      console.log(response);
-    });
+    return script.request(`/api/allergies`);
   }
 
   // Search the database for ingredients
   search(query) {
-    script.request(`/api/ingredients/search/${query}`).then(response => {
-      console.log(response);
-    });
+    return script.request(`/api/allergies/search/${query}`);
+  }
+}
+
+script.allergy = new Allergy();
+
+class Ingredient {
+  get(id) {
+    return script.request(`/api/ingredients/${id}`);
+  }
+
+  // Get a overview of all ingredients
+  overview() {
+    return script.request(`/api/ingredients`);
+  }
+
+  // Search the database for ingredients
+  search(query) {
+    return script.request(`/api/ingredients/search/${query}`);
   }
 }
 
 script.ingredient = new Ingredient();
 
-class Roommate {
-  constructor() {
-    this.allergies = {
-      add: id => {
-        let url = `/api/roommates/${this.handle}/allergies/${id}`;
-
-        script.request(url, 'POST').then(response => {
-          console.log(response);
-        });
-      },
-
-      remove: id => {
-        let url = `/api/roommates/${this.handle}/allergies/${id}`;
-
-        script.request(url, 'DELETE').then(response => {
-          console.log(response);
-        });
-      }
-    }
-
-    this.preferences = {
-      add: id => {
-        let url = `/api/roommates/${this.handle}/preferences/${id}`
-
-        script.request(url, 'POST').then(response => {
-          console.log(response);
-        });
-      },
-
-      remove: id => {
-        let url = `/api/roommates/${this.handle}/preferences/${id}`
-
-        script.request(url, 'DELETE').then(response => {
-          console.log(response);
-        });
-      }
-    }
+class User {
+  addAllergiey(id) {
+    return script.request(`/api/users/allergies/${id}`, 'POST');
   }
 
-  get handle() {
+  removeAllergiey(id) {
+    return script.request(`/api/users/allergies/${id}`, 'DELETE');
+  }
+
+  addPreference(id) {
+    return script.request(`/api/users/preferences/${id}`, 'POST');
+  }
+
+  removePreference(id) {
+    return script.request(`/api/users/preferences/${id}`, 'DELETE');
+  }
+}
+
+script.roommate = new User();
+
+class Roommate {
+  constructor() {
     let location = window.location.pathname,
         path     = location.split('/');
 
-    return path[2];
+    this.handle = path[2];
+    this.prefix = `/api/roommates/${this.handle}`;
+  }
+
+  addAllergy(id) {
+    return script.request(`${this.prefix}/allergies/${id}`, 'POST');
+  }
+
+  removeAllergy(id) {
+    return script.request(`${this.prefix}/allergies/${id}`, 'DELETE');
+  }
+
+  addPreference(id) {
+    return script.request(`${this.prefix}/preferences/${id}`, 'POST');
+  }
+
+  removePreference(id) {
+    return script.request(`${this.prefix}/preferences/${id}`, 'DELETE');
   }
 }
 
 script.roommate = new Roommate();
 
-script.router = ((document, location) => {
-  let routes = {
-    '\/person\/[0-9]+\/edit': () => {
-      let buttons = document.querySelectorAll('.ingredients-wrapper .btn.btn-warning')
+script.controllers = {
+  roommate: document => {
+    let templateRemove = document.querySelector('#template-remove'),
+        templateSearch = document.querySelector('#template-search');
 
-      buttons.forEach(button => {
-        console.log(button)
+    (wrapper => {
+      function search(query) {
+        script.allergy.search(query).then(response => {
 
-        let previous = button.previousElementSibling,
-            path     = previous.pathname,
-            id       = path.split('/')[2];
-
-        console.log(id)
-
-        button.addEventListener('click', event => {
-          console.log('remove', id)
         });
-      });
-    }
+      }
+
+      function add(el) {
+        let href = el.previousElementSibling.href,
+            id  = new URL(href).pathname.split('/')[2];
+
+        script.roommate.addAllergy(id).then(response => {
+          el.parentElement.remove();
+
+          let clone  = document.importNode(templateRemove.content, true),
+              link   = clone.querySelector('a'),
+              button = clone.querySelector('.btn');
+
+          link.href = `/allergies/${response.id}`;
+          link.innerText = response.name;
+
+          button.onClick(evt => {
+
+          })
+        });
+      }
+
+      function del(el) {
+        let href = el.previousElementSibling.href,
+            id  = new URL(href).pathname.split('/')[2];
+
+        script.roommate.removeAllergy(id).then(response => {
+          el.parentElement.remove();
+        });
+      }
+    })(document.querySelector('#allergies-wrapper'));
+  }
+};
+
+script.router = ((controller, location) => {
+  let routes = {
+    '\/roommate\/[0-9]+\/edit': controller.roommate
   };
 
   for (route in routes) {
     let expression = new RegExp(route);
 
     if (location.match(expression)) {
-      routes[route]();
+      routes[route](document);
     }
   }
-})(document, window.location.pathname);
+})(script.controllers, window.location.pathname);
