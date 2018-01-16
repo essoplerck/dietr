@@ -1,15 +1,13 @@
-import threading
-from time import sleep
-from random import randint
+import multiprocessing
+import AH_crawler
 
-def som(x,y):
-    i=0
-    while i in range(10):
-        wow = str(int(x)*int(y))
-        i += 1
-        print(wow)
 
-for _ in range(1000000):
-    t = threading.Thread(target=som, args=(randint(0, 9), randint(0, 9)))
-    t.start()
+def test(i):
+    print(i)
 
+
+if __name__ == '__main__':
+    for i in range(20):
+        p = multiprocessing.Process(target=test, args=(i,))
+        #p = multiprocessing.Process(target=AH_crawler.ah_crawler, args=(i,))
+        p.start()

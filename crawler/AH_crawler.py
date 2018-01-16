@@ -4,32 +4,29 @@ import time
 import re
 import requests
 import pymysql
-import threading
 import inserter
 import checker
 
 conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvuemzxu", db="renswnc266_test", use_unicode=True, charset="utf8")
 
 
-def ah_crawler(begin, eind):
-    i = begin
-    while i <= eind:
-        mycursor = conn.cursor()
-        #  print(i)
-        url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)
-        sourcecode = requests.get(url)
-        plaintext = sourcecode.text
-        soup = BeautifulSoup(plaintext, "html.parser")
-        for figure in soup.findAll('figure', {'class': ''}):
-            for link in figure.findAll('a'):
-                recepturl = 'https://www.ah.nl' + link.get('href')
-                recept = recepturl.split('/')[-1]
-                #  print(recept)
-                #  print(recepturl)
-                lastrecipeid = checker.checkrecipe('recipe', recept, recepturl)
-                get_ingredienten(recepturl, lastrecipeid)
-            #  print('')
-            i += 1
+def ah_crawler(i):
+
+    mycursor = conn.cursor()
+    #  print(i)
+    url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)
+    sourcecode = requests.get(url)
+    plaintext = sourcecode.text
+    soup = BeautifulSoup(plaintext, "html.parser")
+    for figure in soup.findAll('figure', {'class': ''}):
+        for link in figure.findAll('a'):
+            recepturl = 'https://www.ah.nl' + link.get('href')
+            recept = recepturl.split('/')[-1]
+            #  print(recept)
+            #  print(recepturl)
+            lastrecipeid = checker.checkrecipe('recipe', recept, recepturl)
+            get_ingredienten(recepturl, lastrecipeid)
+        #  print('')
     conn.commit()
     mycursor.close()
     conn.close()
@@ -77,9 +74,10 @@ def allergiespider(url, lastproductid):
                 inserter.relatietabel('category_ingredient_relation', 'ingredient_id', 'category_id', lastproductid, lastallergieid)
 
 
-while True:
-    try:
-        ah_crawler(0, 17)
-        break
-    except Exception as e:
-        print('Something went wrong: ' + repr(e) + 'starting over...')
+def start(i):
+    while True:
+        try:
+            ah_crawler(i)
+            break
+        except Exception as e:
+            print('Something went wrong: ' + repr(e) + 'starting over...')

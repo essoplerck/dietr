@@ -22,11 +22,7 @@ def allergeen(allergeen):
 
 
 def category_ingredient_relation(idallergeen,allergeenid):
-    myCursor.execute("UPDATE category_ingredient_relation SET category_id=%s WHERE category_id=%s",(allergeenid,idallergeen))
-
-
-
-
+    myCursor.execute("UPDATE category_ingredient_relation SET category_id=%s WHERE category_id=%s", (allergeenid, idallergeen))
 
 
 allergeen('Zout')
