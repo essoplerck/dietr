@@ -5,6 +5,20 @@
 {%- endblock title %}
 
 {% block content %}
+  <template id="template-remove">
+    <li>
+      <a></a>
+      <a class="btn btn-warning">Remove</a>
+    </li>
+  </template>
+
+  <template>
+    <li>
+      <a></a>
+      <a class="btn btn-primary">Add</a>
+    </li>
+  </template>
+
   <section>
     <form action="/roommate/{{ roommate.handle }}/edit" method="post">
       <label>First name</label>
@@ -25,9 +39,12 @@
 
       <button class="btn btn-primary" type="submit">Edit</button>
     </form>
+  </section>
 
+  <section id="allergies-wrapper">
     <h3>Allergies</h3>
-    <ul class="allergies-wrapper">
+
+    <ul id="allergies">
       {% for allergy in roommate.allergies %}
         <li>
           <a href="/allergy/{{ allergy.id }}">{{ allergy.name }}</a>
@@ -36,11 +53,16 @@
       {% endfor %}
     </ul>
 
-    <input name="allergy" id="allergy-serach">
+    <input type="text">
     <button class="btn btn-primary" type="search">Search</button>
 
+    <ul id="allergies-search"></ul>
+  </section>
+
+  <section id="preferences-wrapper">
     <h3>Preferences</h3>
-    <ul class="preferences-wrapper">
+
+    <ul id="preferences">
       {% for ingredient in roommate.preferences %}
         <li>
           <a href="/ingredient/{{ ingredient.id }}">{{ ingredient.name }}</a>
@@ -48,5 +70,10 @@
         </li>
       {% endfor %}
     </ul>
+
+    <input type="text">
+    <button class="btn btn-primary" type="search">Search</button>
+
+    <ul id="preferences-search"></ul>
   </section>
 {% endblock content %}
