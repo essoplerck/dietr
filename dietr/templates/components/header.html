@@ -1,0 +1,24 @@
+<header>
+  <div class="header">
+    <div class="img"></div>
+
+    <div class="title">
+      <a href="/dashboard">dietr</a>
+    </div>
+
+    {% if user %}
+    <div class="user">
+      <a href="{{ url_for('profile.profile') }}">Gebruiker</a>
+      <span>|</span>
+      <form action="{{ url_for('authentication.logout') }}" method="POST">
+        <a>Uitloggen</a>
+      </form>
+    {% else %}
+      <a href="{{ url_for('authentication.login') }}">Inloggen</a>
+      <span>|</span>
+      <a href="{{ url_for('authentication.join') }}">Account aanmaken</a>
+    {% endif %}
+  </div>
+
+  {% include 'components/navigation.html' %}
+</header>

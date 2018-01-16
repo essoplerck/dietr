@@ -10,7 +10,7 @@ model = ProfileModel()
 
 @blueprint.route('/profile')
 @login_required
-def view_profile():
+def profile():
     return render_template('/profile/view.html')
 
 
