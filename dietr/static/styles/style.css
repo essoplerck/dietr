@@ -1,0 +1,519 @@
+/*Common css*/
+body {
+  font-family: 'Arial', Helvetica, sans-serif;
+  background-color: rgb(225,245,225);
+}
+
+h1 {
+  font-size: 40px;
+  color: black;
+}
+
+h2 {
+  font-size: 25px;
+  color: black;
+}
+
+h3 {
+  font-size: 20px;
+  color: black;
+}
+
+h4 {
+  font-size: 18px;
+  color: black;
+}
+
+a:active,
+a:hover {
+  outline-color: transparent;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline-color: transparent;
+  text-decoration: transparent;
+}
+
+section .back-color {
+  background-color: rgb(245,255,245);
+}
+
+section .row {
+  margin-right: 0;
+}
+
+section .border-right {
+  border-right: 1px solid rgba(0,0,0,.1);
+}
+
+section .border-bottom {
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  padding: 10px 0;
+}
+
+section .padding-top {
+  padding-top: 10px;
+}
+
+section .left-col-padding {
+  padding: 20px 40px;
+}
+
+section .right-col-padding {
+  padding: 20px;
+}
+
+section .btn-margin {
+  margin: 5px 10px;
+}
+
+section li {
+  list-style-type: square;
+}
+
+section .card-block {
+  margin: 5px 0;
+}
+
+section .form-group {
+  margin: 5px;
+}
+
+header .afh a,
+header .afh .nav-item.dropdown a,
+header .afh .dropdown-item a {
+  color: rgb(20,100,20);
+}
+
+header .nav.nav-pills.afh,
+header .afh .nav-link,
+header .afh .show>.nav-link {
+  font-size: 20px;
+  background-color: rgb(20,230,160);
+}
+
+header .afh .nav-link.active,
+header .afh .nav-link.active.dropdown-toggle {
+  background-color: rgb(20,230,160);
+  color: grey;
+}
+
+header .nav.nav-pills.afh .dropdown-item.active {
+  background-color: white;
+  color: grey;
+}
+
+header .afh .nav-link:active,
+header .afh .nav-link .dropdown-toggle:active,
+header .afh .nav-link:focus,
+header .afh .nav-link .dropdown-toggle:focus,
+header .afh .nav-link:hover,
+header .afh .nav-link .dropdown-toggle:hover {
+  background-color: rgb(20,230,160);
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+  text-decoration: none;
+}
+
+header .afh .dropdown-item:active,
+header .afh .dropdown-item:focus,
+header .afh .dropdown-item:hover {
+  background-color: white;
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+header .afh .nav-link.active:active,
+header .afh .nav-link.active.dropdown-toggle:active,
+header .afh .nav-link.active:focus,
+header .afh .nav-link.active.dropdown-toggle:focus,
+header .afh .nav-link.active:hover,
+header .afh .nav-link.active.dropdown-toggle:hover {
+  background-color: rgb(20,230,160);
+  color: grey;
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+header .afh .dropdown-item.active:active,
+header .afh .dropdown-item.active:focus,
+header .afh .dropdown-item.active:hover {
+  background-color: white;
+  color: grey;
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+footer .afh a,
+footer .afh .nav-link.dropdown-toggle a,
+footer .afh .nav-link.dropdown-toggle .dropdown-menu .dropdown-item a,
+a:not([href]):not([tabindex]) {
+  color: rgb(20,100,20);
+}
+
+footer .afh .nav-link.active,
+footer .afh .nav-link.active.dropdown-toggle {
+  color: grey;
+}
+
+footer .afh .dropdown-item.active {
+  background-color: white;
+  color: grey;
+}
+
+footer .afh .nav-link:active,
+footer .afh .nav-link .dropdown-toggle:active,
+footer .afh .nav-link:focus,
+footer .afh .nav-link .dropdown-toggle:focus,
+footer .afh .nav-link:hover,
+footer .afh .nav-link .dropdown-toggle:hover,
+a:not([href]):not([tabindex]):focus,
+a:not([href]):not([tabindex]):hover {
+  color: rgb(20,100,20);
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+  text-decoration: none;
+}
+
+footer .afh .dropdown-item:active,
+footer .afh .dropdown-item:focus,
+footer .afh .dropdown-item:hover {
+  background-color: white;
+  color: rgb(20,100,20);
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+footer .afh .nav-link.active:active,
+footer .afh .nav-link.active.dropdown-toggle:active,
+footer .afh .nav-link.active:focus,
+footer .afh .nav-link.active.dropdown-toggle:focus,
+footer .afh .nav-link.active:hover,
+footer .afh .nav-link.active.dropdown-toggle:hover {
+  color: grey;
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+footer .afh .dropdown-item.active:active,
+footer .afh .dropdown-item.active:focus,
+footer .afh .dropdown-item.active:hover {
+  color: grey;
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+.btn-primary {
+  background-color: rgb(20,230,160);
+  border-color: transparent;
+  color: black;
+}
+
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:hover,
+.btn-primary:not([disabled]):not(.disabled).active,
+.btn-primary:not([disabled]):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+  background-color: rgb(20,230,160);
+  color: black;
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+.btn-outline-success {
+  background-color: rgb(210,210,210);
+  border-color: transparent;
+  color: black;
+}
+
+.ml-auto .form-control:active,
+.ml-auto .form-control:focus,
+.ml-auto .form-control:hover {
+  color: black;
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+.ml-auto .btn-outline-success:active,
+.ml-auto .btn-outline-success:focus,
+.ml-auto .btn-outline-success:hover,
+.btn-outline-success:not([disabled]):not(.disabled).active,
+.btn-outline-success:not([disabled]):not(.disabled):active,
+.show>.btn-outline-success.dropdown-toggle {
+  background-color: rgb(210,210,210);
+  color: black;
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+header .img {
+  background-image: url(Images/Header.png);
+  background-size: cover;
+  height: 150px;
+}
+
+header .title {
+  font-size: 60px;
+  color: black;
+  margin: -115px 0 0 50px;
+  height: 115px;
+  width: 140px;
+}
+
+header .title a {
+  color: black;
+  text-decoration: none;
+}
+
+header .title a:active,
+header .tite a:hover {
+  outline-color: transparent;
+}
+
+header .title a:focus {
+  box-shadow: 2px 2px 2px grey;
+  border-color: transparent;
+  outline-color: transparent;
+}
+
+header .account {
+  float: right;
+  margin: -140px 20px 0 0;
+  height: 140px;
+}
+
+header .account a {
+  color: black;
+}
+
+header .account a:active,
+header .account a:focus,
+header .account a:hover {
+  text-decoration: underline;
+  outline-color: transparent;
+}
+
+header .afh .nav-link {
+  margin: 2px;
+}
+
+header .ml-auto {
+  margin: 6px 20px 5px 0;
+}
+
+footer {
+  background-color: rgb(225,245,225);
+  text-align: center;
+}
+
+footer .nav a {
+  margin: 20px 10px;
+}
+
+footer .text-right {
+  margin-right: 30px;
+}
+
+section .carousel.slide .d-block {
+  width: 1000px;
+  height: 520px;
+  background-size: cover;
+  background-position: 0 center;
+  background-repeat: no-repeat;
+}
+
+@media screen
+and (min-width: 0)
+and (max-width: 942px) {
+  section .carousel.slide .d-block {
+    width: 1000px;
+    height: 520px;
+    background-size: 0 cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+section .carousel-caption {
+  top: 50%;
+  transform: translateY(-50%);
+  bottom: initial;
+  color: black;
+}
+
+section .form-group {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+section .form-control:focus {
+  box-shadow: 2px 2px 2px grey;
+  border-color: grey;
+}
+
+section .form-text {
+  margin: -10px 0 20px 0;
+  margin-top: -10px;
+}
+
+section .recipes .card-deck {
+  text-align: left;
+  width: 100%;
+}
+
+section .recipes .card-deck a:active,
+section .recipes .card-deck a:focus,
+section .recipes .card-deck a:hover {
+  text-decoration: none;
+}
+
+section .recipes .card-deck {
+  margin: 20px;
+}
+
+section .recipes .card-block {
+  margin-bottom: 30px;
+  padding: 0;
+}
+
+section .card-img {
+  height: 175px;
+  opacity: 0.3;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+section .recipes .card-deck p,
+section .modal p {
+  font-size: 17px;
+}
+
+section .recipes .card-deck li,
+section .modal li {
+  font-size: 15px;
+}
+
+label.form-check-label {
+  font-size: 15px;
+  width: 100%;
+}
+
+section .recipes .btn-primary {
+  margin: 20px 0 0 21px;
+}
+
+section .recipes .dropdown {
+  margin: 0 20px 0 0;
+}
+
+section .dropdown-menu .dropdown-item {
+  color: rgb(20,100,20);
+}
+
+section .pagination {
+  margin: -20px 0 20px 0;
+}
+
+section .pagination li {
+  list-style-type: none;
+}
+
+section .page-link {
+  color: black;
+}
+
+section .page-item.active .page-link {
+  color: black;
+  background-color: rgb(233,236,239);
+  border-color: rgb(221,221,221);
+}
+
+section .page-link:focus,
+section .page-link:hover {
+  color: black;
+  outline-color: transparent;
+}
+
+section .background-img {
+  background-image: url(Images/Slideshow_1.png);
+}
+
+section .pantry .card-body {
+  padding: 5px;
+}
+
+section .pantry .form-inline .form-control-lg {
+  width: 400px;
+}
+
+section .row .card.back-color h3 {
+  margin: 6px 0 6px 10px;
+}
+
+section .row .card.back-color .fa-trash-o {
+  float: right;
+  margin-top: 2px;
+  margin-right: 14px;
+}
+
+section .back-color.row.justify-content-center .form-inline {
+  margin: 20px;
+}
+
+section .back-color.row.justify-content-center .form-control {
+  width: 350px;
+}
+
+section .back-color.row.justify-content-center {
+  margin-bottom: 20px;
+}
+
+section .row.justify-content-md-center label {
+  margin: 0 0 0 2px;
+}
+
+section .card-header {
+  background-color: rgb(225,245,225);
+}
+
+section .col .fa-trash-o {
+  margin-top: 3px;
+}
+
+section .add .card {
+  height: 129px;
+}
+
+section .fa-plus {
+  margin-top: 6px;
+}
+
+section a,
+section a:hover {
+  color: black;
+}
+
+section .error h1 {
+  font-size: 100px;
+}
+
+section .error h2 {
+  font-size: 30px;
+}
+
+section .error h3 {
+  font-size: 20px;
+}
