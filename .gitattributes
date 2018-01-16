@@ -34,3 +34,6 @@ LICENSE        text
 *.js           text
 *.json         text
 *.py           text
+*.json         text
+*.sass         text
+*.scss         text
