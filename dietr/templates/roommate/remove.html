@@ -6,8 +6,6 @@
 
 {% block content %}
   <section>
-    <form action="/roommate/{{ roommate.handle }}/remove" method="post">
-      <button class="button" type="submit">Remove</button>
-    </form>
+     {% include 'roommate/mixins/remove.html' %}
   </section>
 {% endblock content %}
