@@ -5,7 +5,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from dietr.utils import login_required
 from dietr.models.roommate import RoommateModel
 
-blueprint = Blueprint('', __name__)
+blueprint = Blueprint('roommate', __name__)
 
 model = RoommateModel()
 
@@ -13,7 +13,7 @@ model = RoommateModel()
 @blueprint.route('/roommate/add', methods=['GET', 'POST'])
 @login_required
 def add_roommate():
-    '''The add action allows users to add an roommate.'''
+    """The add action allows users to add an roommate."""
     if request.method == 'POST':
         first_name = request.form['first-name']
         middle_name = request.form['middle-name']
@@ -25,15 +25,14 @@ def add_roommate():
         model.add_roommate(handle, first_name, middle_name, last_name)
 
         # Redirect to roommate page
-        return redirect(f'roommate/{handle}')
-
+        return redirect(url_for('roommate.roommate', handle=handle))
     return render_template('/roommate/add.html')
 
 
 @blueprint.route('/roommate/<int:handle>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_roommate(handle):
-    '''The edit action allows users to change a roommate.'''
+    """The edit action allows users to change a roommate."""
     roommate = model.get_roommate(handle)
 
     # Check if roommate exists
@@ -49,14 +48,13 @@ def edit_roommate(handle):
         last_name = request.form['last-name']
 
         model.set_roommate(handle, first_name, middle_name, last_name)
-
     return render_template('/roommate/edit.html', roommate=roommate)
 
 
 @blueprint.route('/roommate/<int:handle>/remove', methods=['GET', 'POST'])
 @login_required
 def remove_roommate(handle):
-    '''The remove action allows users to remove a roommate.'''
+    """The remove action allows users to remove a roommate."""
     roommate = model.get_roommate(handle)
 
     # Check if roommate exists
@@ -66,15 +64,14 @@ def remove_roommate(handle):
     if request.method == 'POST':
         model.remove_roommate(roommate.id)
 
-        return redirect('roommates')
-
+        return redirect(url_for('roommate.roommates'))
     return render_template('/roommate/remove.html', roommate=roommate)
 
 
 @blueprint.route('/roommate/<int:handle>')
 @login_required
-def view_roommate(handle):
-    '''The view action allows users to view a roommate.'''
+def roommate(handle):
+    """The view action allows users to view a roommate."""
     roommate = model.get_roommate(handle)
 
     # Check if roommate exists
@@ -90,8 +87,8 @@ def view_roommate(handle):
 
 @blueprint.route('/roommates')
 @login_required
-def overview_roommate():
-    '''The overview action allows users to view all their roommates.'''
+def roommates():
+    """The overview action allows users to view all their roommates."""
     roommates = model.get_roommates()
 
     return render_template('/roommate/overview.html', roommates=roommates)

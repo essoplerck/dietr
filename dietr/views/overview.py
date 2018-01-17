@@ -22,3 +22,8 @@ def contact():
 @blueprint.route('/legal')
 def legal():
     return render_template('overview/legal.html')
+
+
+@blueprint.route('/search')
+def search():
+    pass

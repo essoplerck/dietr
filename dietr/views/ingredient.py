@@ -31,7 +31,7 @@ def remove_ingredient(id, name=None):
 
 @blueprint.route('/ingredient/<int:id>')
 @blueprint.route('/ingredient/<int:id>/<string:name>')
-def view_ingredient(id, name=None):
+def ingredient(id, name=None):
     '''The view action allows users to view an ingredient.'''
     ingredient = model.get_ingredient(id)
 
@@ -39,3 +39,7 @@ def view_ingredient(id, name=None):
 
     # Return the template
     return render_template('ingredient/view.html', ingredient=ingredient)
+
+@blueprint.route('/ingredients')
+def ingredients():
+    pass
