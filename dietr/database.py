@@ -1,6 +1,9 @@
 import pymysql as sql
 
+from dietr.utils import singleton
 
+
+@singleton
 class Database:
     def __init__(self):
         self.connection = None

@@ -14,3 +14,13 @@ def login_required(action):
             return action(*arg, **kwargs)
         return redirect('/login')
     return login_decorator
+
+def singleton(cls):
+    instances = {}
+
+    @wraps(cls)
+    def singleton_decorator(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return singleton_decorator
