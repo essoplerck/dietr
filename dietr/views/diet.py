@@ -4,5 +4,5 @@ blueprint = Blueprint('diet', __name__)
 
 
 @blueprint.route('/diet')
-def diet():
+def view():
     pass

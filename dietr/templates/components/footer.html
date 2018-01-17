@@ -5,15 +5,15 @@
     </li>
 
     <li>
-      <a class="nav-link" href="{{ url_for('recipe.recipes') }}">Recepten</a>
+      <a class="nav-link" href="{{ url_for('recipe.overview') }}">Recepten</a>
     </li>
 
     <li>
-      <a class="nav-link" href="{{ url_for('pantry.pantry') }}">Koelkast leegmaken</a>
+      <a class="nav-link" href="{{ url_for('pantry.view') }}">Koelkast leegmaken</a>
     </li>
 
     <li>
-      <a class="nav-link" href="{{ url_for('profile.profile') }}">Allergieën en dieetwensen</a>
+      <a class="nav-link" href="{{ url_for('diet.view') }}">Allergieën en dieetwensen</a>
     </li>
 
     <li>
@@ -22,12 +22,12 @@
 
     <li>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{ url_for('profile.profile') }}">Profiel</a>
+        <a class="dropdown-item" href="{{ url_for('profile.view') }}">Profiel</a>
 
         <span class="dropdown-divider"></span>
 
-        <a class="dropdown-item" href="{{ url_for('diet.diet') }}">Dieet</a>
-        <a class="dropdown-item" href="{{ url_for('roommate.roommates') }}">Personen</a>
+        <a class="dropdown-item" href="{{ url_for('diet.view') }}">Dieet</a>
+        <a class="dropdown-item" href="{{ url_for('roommate.overview') }}">Personen</a>
       </div>
     </li>
 

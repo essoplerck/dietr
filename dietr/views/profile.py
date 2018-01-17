@@ -10,13 +10,13 @@ model = ProfileModel()
 
 @blueprint.route('/profile')
 @login_required
-def profile():
+def view():
     return render_template('/profile/view.html')
 
 
 @blueprint.route('/profile/edit')
 @login_required
-def edit_profile():
+def edit():
     error = {}
     user = g.user
 

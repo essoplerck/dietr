@@ -8,6 +8,6 @@ model = PantryModel()
 
 
 @blueprint.route('/pantry')
-def pantry():
-    '''The view action allows users to view their pantry.'''
+def view():
+    """The view action allows users to view their pantry."""
     pass

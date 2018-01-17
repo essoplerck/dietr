@@ -9,7 +9,7 @@
     <ul>
       {% for roommate in roommates %}
         <li>
-          <a href="/roommate/{{ roommate.handle }}">{{ roommate.name }}</a>
+          <a href="{{ url_for('roommate.view', handle=roommate.handle) }}">{{ roommate.name }}</a>
         </li>
       {% endfor %}
     </ul>

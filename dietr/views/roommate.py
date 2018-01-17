@@ -12,7 +12,7 @@ model = RoommateModel()
 
 @blueprint.route('/roommate/add', methods=['GET', 'POST'])
 @login_required
-def add_roommate():
+def add():
     """The add action allows users to add an roommate."""
     if request.method == 'POST':
         first_name = request.form['first-name']
@@ -31,7 +31,7 @@ def add_roommate():
 
 @blueprint.route('/roommate/<int:handle>/edit', methods=['GET', 'POST'])
 @login_required
-def edit_roommate(handle):
+def edit(handle):
     """The edit action allows users to change a roommate."""
     roommate = model.get_roommate(handle)
 
@@ -53,7 +53,7 @@ def edit_roommate(handle):
 
 @blueprint.route('/roommate/<int:handle>/remove', methods=['GET', 'POST'])
 @login_required
-def remove_roommate(handle):
+def remove(handle):
     """The remove action allows users to remove a roommate."""
     roommate = model.get_roommate(handle)
 
@@ -70,7 +70,7 @@ def remove_roommate(handle):
 
 @blueprint.route('/roommate/<int:handle>')
 @login_required
-def roommate(handle):
+def view(handle):
     """The view action allows users to view a roommate."""
     roommate = model.get_roommate(handle)
 
@@ -87,7 +87,7 @@ def roommate(handle):
 
 @blueprint.route('/roommates')
 @login_required
-def roommates():
+def overview():
     """The overview action allows users to view all their roommates."""
     roommates = model.get_roommates()
 
