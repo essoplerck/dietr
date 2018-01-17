@@ -1,30 +1,39 @@
 <ul class="nav nav-pills afh">
   <li class="nav-item">
-    <a class="nav-link active" href="Home.html">Home</a>
+    <a class="nav-link active" href="{{ url_for('overview.dashboard') }}">Home</a>
   </li>
+
   <li class="nav-item">
-    <a class="nav-link" href="Recepten.html">Recepten</a>
+    <a class="nav-link" href="{{ url_for('recipes.recipes') }}">Recepten</a>
   </li>
+
   <li class="nav-item">
-    <a class="nav-link" href="Koelkast_leegmaken.html">Koelkast leegmaken</a>
+    <a class="nav-link" href="{{ url_for('pantry.pantry') }}">Koelkast leegmaken</a>
   </li>
+
   <li class="nav-item">
-    <a class="nav-link" href="Allergieen_en_dieten.html">Allergieën en diëten</a>
+    <a class="nav-link" href="{{ url_for('profile.profile') }}">Allergieën en dieetwensen</a>
   </li>
+
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profiel</a>
+
     <div class="dropdown-menu">
-      <a class="dropdown-item active" href="Profiel.html">Profiel</a>
-      <div class="dropdown-divider"></div>
-      <a class="dropdown-item" href="Account.html">Account</a>
-      <a class="dropdown-item" href="Personen.html">Personen</a>
+      <a class="dropdown-item" href="{{ url_for('profile.profile') }}">Profiel</a>
+
+      <span class="dropdown-divider"></span>
+
+      <a class="dropdown-item" href="{{ url_for('diet.diet') }}">Dieet</a>
+      <a class="dropdown-item" href="{{ url_for('roommate.roommates') }}">Personen</a>
     </div>
   </li>
+
   <li class="nav-item">
-    <a class="nav-link" href="Over_ons.html">Over ons</a>
+    <a class="nav-link" href="{{ url_for('overview.about') }}">Over ons</a>
   </li>
+
   <li id="search-bar" class="ml-auto">
-    <form class="form-inline">
+    <form action="{{ url_for('overview.search') }}" class="form-inline" method="POST">
       <input class="form-control mr-sm-2" type="search" placeholder="Zoeken" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Zoeken</button>
     </form>

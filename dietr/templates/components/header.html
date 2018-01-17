@@ -3,22 +3,22 @@
     <div class="img"></div>
 
     <div class="title">
-      <a href="/dashboard">dietr</a>
+      <a href="{{ url_for('overview.dashboard') }}">dietr</a>
     </div>
 
-    {% if user %}
     <div class="user">
-      <a href="{{ url_for('profile.profile') }}">Gebruiker</a>
-      <span>|</span>
-      <form action="{{ url_for('authentication.logout') }}" method="POST">
-        <a>Uitloggen</a>
-      </form>
-    {% else %}
-      <a href="{{ url_for('authentication.login') }}">Inloggen</a>
-      <span>|</span>
-      <a href="{{ url_for('authentication.join') }}">Account aanmaken</a>
-    {% endif %}
-  </div>
+      {% if user %}
+        <a href="{{ url_for('profile.profile') }}">Profiel</a>
+        <span>|</span>
+        <form action="{{ url_for('authentication.logout') }}" class="form-inline" method="POST">
+          <a>Uitloggen</a>
+        </form>
+      {% else %}
+        <a href="{{ url_for('authentication.login') }}">Inloggen</a>
+        <span>|</span>
+        <a href="{{ url_for('authentication.join') }}">Account aanmaken</a>
+      {% endif %}
+    </div>
 
   {% include 'components/navigation.html' %}
 </header>

@@ -1,20 +1,19 @@
 <footer>
-  <ul class="nav justify-content-center afh">
-    <br>
+  <ul class="nav justify-content-center">
     <li>
-      <a class="nav-link active" href="Home.html">Home</a>
+      <a class="nav-link active" href="{{ url_for('overview.dashboard') }}">Home</a>
     </li>
 
     <li>
-      <a class="nav-link" href="Recepten.html">Recepten</a>
+      <a class="nav-link" href="{{ url_for('recipes.recipes') }}">Recepten</a>
     </li>
 
     <li>
-      <a class="nav-link" href="Koelkast_leegmaken.html">Koelkast leegmaken</a>
+      <a class="nav-link" href="{{ url_for('pantry.pantry') }}">Koelkast leegmaken</a>
     </li>
 
     <li>
-      <a class="nav-link" href="Allergien_en_dieetwensen.html">Allergieën en dieetwensen</a>
+      <a class="nav-link" href="{{ url_for('profile.profile') }}">Allergieën en dieetwensen</a>
     </li>
 
     <li>
@@ -23,17 +22,17 @@
 
     <li>
       <div class="dropdown-menu">
-        <a class="dropdown-item" href="Profiel.html">Profiel</a>
+        <a class="dropdown-item" href="{{ url_for('profile.profile') }}">Profiel</a>
 
-        <div class="dropdown-divider"></div>
+        <span class="dropdown-divider"></span>
 
-        <a class="dropdown-item" href="Account.html">Account</a>
-        <a class="dropdown-item" href="Personen.html">Personen</a>
+        <a class="dropdown-item" href="{{ url_for('diet.diet') }}">Dieet</a>
+        <a class="dropdown-item" href="{{ url_for('roommate.roommates') }}">Personen</a>
       </div>
     </li>
 
     <li>
-      <a class="nav-link" href="Over_ons.html">Over ons</a>
+      <a class="nav-link" href="{{ url_for('overview.about') }}">Over ons</a>
     </li>
   </ul>
 
