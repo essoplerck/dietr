@@ -1,6 +1,6 @@
 from flask import Blueprint, request, redirect, render_template, session
 
-from dietr import login_required
+from dietr.utils import login_required
 from dietr.models.authentication import AuthenticationModel
 
 blueprint = Blueprint('authentication', __name__)
