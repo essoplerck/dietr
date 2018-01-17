@@ -53,6 +53,10 @@ def add_context():
 
 
 from dietr.views import api
+
+app.register_blueprint(api.blueprint)
+
+from dietr.views import allergy
 from dietr.views import authentication
 from dietr.views import diet
 from dietr.views import ingredient
@@ -62,7 +66,7 @@ from dietr.views import profile
 from dietr.views import recipe
 from dietr.views import roommate
 
-app.register_blueprint(api.blueprint)
+app.register_blueprint(allergy.blueprint)
 app.register_blueprint(authentication.blueprint)
 app.register_blueprint(diet.blueprint)
 app.register_blueprint(ingredient.blueprint)
