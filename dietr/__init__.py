@@ -4,7 +4,6 @@ from flask import Flask, g, session
 from htmlmin.main import minify
 
 from dietr.sessions import RedisSessionInterface
-from dietr.utils import login_required
 from dietr.models.user import UserModel
 from dietr.database import database
 

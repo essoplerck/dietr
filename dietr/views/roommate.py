@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, redirect, render_template, request, url_for
 
-from dietr import login_required
+from dietr.utils import login_required
 from dietr.models.roommate import RoommateModel
 
 blueprint = Blueprint('', __name__)

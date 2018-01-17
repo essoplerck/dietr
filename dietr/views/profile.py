@@ -1,6 +1,6 @@
 from flask import Blueprint, g, request, render_template, session
 
-from dietr import login_required
+from dietr.utils import login_required
 from dietr.models.profile import ProfileModel
 
 blueprint = Blueprint('profile', __name__)
