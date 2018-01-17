@@ -1,6 +1,6 @@
 from functools import wraps
 
-from flask import session, redirect
+from flask import session, redirect, request, url_for
 
 
 def login_required(action):
@@ -12,7 +12,7 @@ def login_required(action):
         # Check if user is logged in
         if 'user' in session:
             return action(*arg, **kwargs)
-        return redirect('/login')
+        return redirect(url_for('authentication.login', next=request.url))
     return login_decorator
 
 def singleton(cls):
