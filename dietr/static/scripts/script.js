@@ -55,48 +55,39 @@ class Ingredient {
 script.ingredient = new Ingredient();
 
 class User {
-  addAllergiey(id) {
-    return script.request(`/api/users/allergies/${id}`, 'POST');
+  constructor() {
+    this.allergy    = '/api/users/allergies/';
+    this.preference = '/api/users/preferences/';
   }
 
-  removeAllergiey(id) {
-    return script.request(`/api/users/allergies/${id}`, 'DELETE');
+  addAllergy(id) {
+    return script.request(`${this.allergy}${id}`, 'POST');
+  }
+
+  removeAllergy(id) {
+    return script.request(`${this.allergy}${id}`, 'DELETE');
   }
 
   addPreference(id) {
-    return script.request(`/api/users/preferences/${id}`, 'POST');
+    return script.request(`${this.preference}${id}`, 'POST');
   }
 
   removePreference(id) {
-    return script.request(`/api/users/preferences/${id}`, 'DELETE');
+    return script.request(`${this.preference}${id}`, 'DELETE');
   }
 }
 
 script.roommate = new User();
 
-class Roommate {
+class Roommate(User) {
   constructor() {
     let location = window.location.pathname,
-        path     = location.split('/');
+        path     = location.split('/'),
+        handle   = path[2],
+        prefix   = `/api/roommates/${handle}`;
 
-    this.handle = path[2];
-    this.prefix = `/api/roommates/${this.handle}`;
-  }
-
-  addAllergy(id) {
-    return script.request(`${this.prefix}/allergies/${id}`, 'POST');
-  }
-
-  removeAllergy(id) {
-    return script.request(`${this.prefix}/allergies/${id}`, 'DELETE');
-  }
-
-  addPreference(id) {
-    return script.request(`${this.prefix}/preferences/${id}`, 'POST');
-  }
-
-  removePreference(id) {
-    return script.request(`${this.prefix}/preferences/${id}`, 'DELETE');
+    this.allergy    = `/api/roommates/${handle}/allergies/`;
+    this.preference = `/api/roommates/${handle}/preferences/`;
   }
 }
 
@@ -110,7 +101,19 @@ script.controllers = {
     (wrapper => {
       function search(query) {
         script.allergy.search(query).then(response => {
+          // clear children of search outout
 
+          for (allergy in JSON.parse(response)) {
+            let clone  = document.importNode(templateRemove.content, true),
+                link   = clone.querySelector('a'),
+                button = clone.querySelector('.btn');
+
+            link.href      = `/allergy/${allergy.id}`;
+            link.innerText = allergy.name;
+
+            // add event listener to button
+            // append clone to search area
+          }
         });
       }
 
@@ -129,7 +132,8 @@ script.controllers = {
           link.innerText = response.name;
 
           button.onClick(evt => {
-
+            // remove parentElement
+            // add to list of allergies
           })
         });
       }
