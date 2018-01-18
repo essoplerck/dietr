@@ -260,7 +260,7 @@ footer .afh .dropdown-item.active:hover {
 }
 
 header .img {
-  background-image: url(Images/Header.png);
+  background-image: url(/static/images/header.png);
   background-size: cover;
   height: 150px;
 }
@@ -448,7 +448,7 @@ section .page-link:hover {
 }
 
 section .background-img {
-  background-image: url(Images/Slideshow_1.png);
+  background-image: url(/static/images/slideshow_1.png);
 }
 
 section .pantry .card-body {
