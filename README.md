@@ -8,6 +8,10 @@
 
 ![header image](images/header.png)
 
+Dietr is a web app that allows users to search recipes and takes in account of their allergies and preferences. It also allows users to add roommates and check for their allergies and preferences. All allergies are gatherd from external sources using a custom made crawler.
+
+## Table of Contents
+
 - [Installing](#installing)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -22,7 +26,7 @@ $ git clone https://github.com/essoplerck/dietr.git
 $ pip3 install -r requirements.txt
 ```
 
-This project is build using python version `3.6`. To check your python version simply run:
+This project is build using python version `3.6`. To check your python version run the following command.
 
 ```bash
 $ python3 -V
