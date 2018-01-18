@@ -7,7 +7,7 @@ import pymysql
 import inserter
 import checker
 
-conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvuemzxu", db="renswnc266_test", use_unicode=True, charset="utf8")
+conn = pymysql.connect(host="185.182.57.56", user="renswnc266_dietr", passwd="qvuemzxu", db="renswnc266_staging", use_unicode=True, charset="utf8")
 
 
 def ah_crawler(i):
@@ -22,9 +22,9 @@ def ah_crawler(i):
         for link in figure.findAll('a'):
             recepturl = 'https://www.ah.nl' + link.get('href')
             recept = recepturl.split('/')[-1]
-            #  print(recept)
-            #  print(recepturl)
-            lastrecipeid = checker.checkrecipe('recipe', recept, recepturl)
+            print(recept)
+            print(recepturl)
+            lastrecipeid = checker.checkrecipe('recipes', recept, recepturl)
             get_ingredienten(recepturl, lastrecipeid)
         #  print('')
     conn.commit()
@@ -40,8 +40,8 @@ def get_ingredienten(itemurl, lastrecipeid):
     for link in soup.findAll('a', {'class': 'js-ingredient ingredient-selector js-ingredient-is-selected'}):
         ingredient = link.get('data-search-term')
         #   print(ingredient)
-        lastproductid = checker.check('ingredient', ingredient)
-        inserter.relatietabel('recipe_ingredient_relation', 'recipe_id', 'ingredient_id', lastrecipeid, lastproductid)
+        lastproductid = checker.check('ingredients', ingredient)
+        inserter.relatietabel('recipes_ingredients', 'recipe_id', 'ingredient_id', lastrecipeid, lastproductid)
         getproducten(ingredient, lastproductid)
         conn.commit()
 
@@ -70,8 +70,8 @@ def allergiespider(url, lastproductid):
             for word in words:
                 allergie = word[:-1]
                 #  print(allergie)
-                lastallergieid = checker.check('category', allergie)
-                inserter.relatietabel('category_ingredient_relation', 'ingredient_id', 'category_id', lastproductid, lastallergieid)
+                lastallergieid = checker.check('allergies', allergie)
+                inserter.relatietabel('allergies_ingredients', 'ingredient_id', 'allergy_id', lastproductid, lastallergieid)
 
 
 def start(i):

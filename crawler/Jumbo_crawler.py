@@ -5,32 +5,32 @@ import requests
 import inserter
 import checker
 
-conn = pymysql.connect(host="185.182.57.56", user="renswnc266_dietr", passwd="qvuemzxu", db="renswnc266_dietr", use_unicode=True, charset="utf8")
+conn = pymysql.connect(host="185.182.57.56", user="renswnc266_dietr", passwd="qvuemzxu", db="renswnc266_staging", use_unicode=True, charset="utf8")
 
 
 
-def receptenspider(begin, eind):
-    i = begin
-    while i <= eind:
-        url = 'https://www.jumbo.com/recepten?PageNumber='+str(i)
+def receptenspider(i):
+    page = 0
+    while page <= i:
+        url = 'https://www.jumbo.com/recepten?PageNumber='+str(page)
+        #  print(url)
         sourcecode = requests.get(url)
         plaintext = sourcecode.text
         soup = BeautifulSoup(plaintext, "html.parser")
         for section in soup.findAll('h3', {'data-jum-action': 'ellipsis'}):
-
             for link in section.findAll('a'):
                 recepturl = link.get('href')
                 recept = link.text
                 #  print('recept >'+recept+'<')
-                lastrecipeid = checker.check('recipe', recept)
+                lastrecipeid = checker.check('recipes', recept)
             productenspider(recepturl, lastrecipeid)
             sleep(5)
-            #  print('')
-        i += 1
-        #  print(i)
+            print('')
+        page += 1
+    print("data inserted ")
+    print(i)
     conn.commit()
     conn.close()
-    print("data inserted ")
 
 
 
@@ -41,13 +41,14 @@ def productenspider(url, lastrecipeid):
     for ingredienten in soup.findAll('input', {'type': 'checkbox'}):
         ingredient = ingredienten.get('data-jum-product-add')
         ingredient = ingredient.split('"')[3]
-        #  print('product ' + producten)
+        #  print('product ' + ingredient)
         ingredienturl = 'https://www.jumbo.com/zoeken?SearchTerm=' + str(ingredient) + '&search=search='
-        lastproductid = checker.check('ingredient', ingredient)
-        inserter.relatietabel('recipe_ingredient_relation', 'recipe_id', 'ingredient_id', lastrecipeid, lastproductid)
+        lastproductid = checker.check('ingredients', ingredient)
+        print(lastproductid)
+        inserter.relatietabel('recipes_ingredients', 'recipe_id', 'ingredient_id', lastrecipeid, lastproductid)
         allergiespider(ingredienturl, lastproductid)
         sleep(1)
-        conn.commit()
+
 
 
 def allergiespider(url, lastproductid):
@@ -57,16 +58,19 @@ def allergiespider(url, lastproductid):
     for div in soup.findAll('div', {'class': 'jum-product-allergy-info jum-product-info-item'}):
         for li in div.findAll('li'):
             allergie = li.text
-            lastallergieid = checker.check('category', allergie)
-            inserter.relatietabel('category_ingredient_relation', 'ingredient_id', 'category_id', lastproductid, lastallergieid)
-    conn.close()
+            lastallergieid = checker.allergycheck('allergies', allergie)
+            inserter.relatietabel('allergies_ingredients', 'ingredient_id', 'allergy_id', lastproductid, lastallergieid)
 
 
-while True:
-    try:
-        receptenspider(0, 340)
-        break
-    except Exception as e:
-        print('Something went wrong: ' + repr(e) + 'starting over...')
+
+def start(i):
+    while True:
+        try:
+            receptenspider(i)
+            break
+        except Exception as e:
+            print('Something went wrong: ' + repr(e) + 'starting over...')
+            print(i)
+
 
 

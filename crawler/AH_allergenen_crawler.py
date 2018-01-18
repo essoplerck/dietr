@@ -7,41 +7,41 @@ import pymysql
 
 conn = pymysql.connect(host="185.182.57.56", user="renswnc266_dietr", passwd="qvuemzxu", db="renswnc266_staging", use_unicode=True, charset="utf8")
 
-def trade_spider(begin,eind):
-        mycursor = conn.cursor()
-        tab = eind-begin
-        i = begin
-        while i <= tab:
+def trade_spider(i):
+    mycursor = conn.cursor()
+
+    print(i)
+    url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)
+    SourceCode = requests.get(url)
+    PlainText = SourceCode.text
+    soup = BeautifulSoup(PlainText, "html.parser")
+
+    for figure in soup.findAll('figure', {'class': ''}):
+        for link in figure.findAll('a'):
+            receptenurl = 'https://www.ah.nl' + link.get('href')
+            recepten = receptenurl.split('/')[-1]
             print(i)
-            url = 'https://www.ah.nl/allerhande/recepten-zoeken?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)
-            SourceCode = requests.get(url)
-            PlainText = SourceCode.text
-            soup = BeautifulSoup(PlainText, "html.parser")
+            print(recepten)
+            print(receptenurl)
 
-            for figure in soup.findAll('figure', {'class': ''}):
-                for link in figure.findAll('a'):
-                    receptenurl = 'https://www.ah.nl' + link.get('href')
-                    recepten = receptenurl.split('/')[-1]
-                    #print(recepten)
-                    print(receptenurl)
+            mycursor.execute("SELECT * FROM recipes WHERE url=%s;", (receptenurl))
+            id = mycursor.fetchall()
 
-                    mycursor.execute("SELECT * FROM recipes WHERE name=%s;", (recepten))
-                    id = mycursor.fetchall()
+            if id:
+                for t in id:
+                    line = ' '.join(str(x) for x in t)
+                lastrecipeid = line.split(' ')[0]
+            else:
+                mycursor.execute("""INSERT INTO recipes(name,url) VALUES(%s,%s) """, (recepten, receptenurl))
+                lastrecipeid = mycursor.lastrowid
+                get_ingredienten(receptenurl, lastrecipeid)
+        print('')
 
-                    if id:
-                        for t in id:
-                            line = ' '.join(str(x) for x in t)
-                        lastrecipeid = line.split(' ')[0]
-                    else:
-                        mycursor.execute("""INSERT INTO recipes(name,url) VALUES(%s,%s) """, (recepten, receptenurl))
-                        lastrecipeid = mycursor.lastrowid
-                        get_ingredienten(receptenurl, lastrecipeid)
-                #print('')
-            i += 1
-        conn.commit()
-        mycursor.close()
-        conn.close()
-        print('data inserted')
+    conn.commit()
+    mycursor.close()
+    conn.close()
+    print('data inserted')
+    print(i)
 
 
 def get_ingredienten(itemurl, lastrecipeid):
@@ -51,7 +51,7 @@ def get_ingredienten(itemurl, lastrecipeid):
     soup = BeautifulSoup(plaintext, "html.parser")
     for link in soup.findAll('a', {'class': 'js-ingredient ingredient-selector js-ingredient-is-selected'}):
         ingredienten = link.get('data-search-term')
-        #print(ingredienten)
+        print(ingredienten)
 
         myCursor.execute("SELECT * FROM ingredients WHERE name=%s;", ingredienten)
         id = myCursor.fetchall()
@@ -77,7 +77,7 @@ def Getproducten(ingredienten,lastproductid):
     for p in soup.findAll('div', {'class': 'lane row product-lane search-lane'}):
         p = p.a
         href=p.get('href')
-        #print('https://www.ah.nl'+ str(href))
+        print('https://www.ah.nl'+ str(href))
         allergiespider('https://www.ah.nl'+ str(href),lastproductid)
 
 
@@ -138,9 +138,12 @@ def product_allergie_relatietabel(lastproductid, lastallergieid):
         #print('oude  relatie')
 
 
-try:
-    trade_spider(0, 17)
-except Exception as e:
-    print('Something went wrong: ' + repr(e) + 'starting over...')
-    trade_spider(0, 17)
+def start(i):
+    while True:
+        try:
+            trade_spider(i)
+            break
+        except Exception as e:
+            print('Something went wrong: ' + repr(e) + 'starting over...')
+            trade_spider(i)
 

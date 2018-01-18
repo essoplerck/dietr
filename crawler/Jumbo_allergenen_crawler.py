@@ -21,7 +21,7 @@ def receptenspider(begin, eind, wait):
                 recepten = link.text
                 print('recept >'+recepten+'<')
 
-                myCursor.execute("SELECT * FROM recipes WHERE name=%s;",(recepten))
+                myCursor.execute("SELECT * FROM recipes WHERE url=%s;",(receptenurl))
                 id=myCursor.fetchall()
 
             if id:
@@ -115,9 +115,11 @@ def product_allergie_relatietabel(lastproductid, lastallergieid):
         #print('oude  relatie')
 
 def start(i):
-    try:
-        receptenspider(0, 400, 5)
-    except Exception as e:
-        print('Something went wrong: ' + repr(e) + 'starting over...')
-        receptenspider(0, 400, 5)
+    while True:
+        try:
+            receptenspider(0, i, 5)
+            break
+        except Exception as e:
+            print('Something went wrong: ' + repr(e) + 'starting over...')
+            receptenspider(0, i, 5)
 
