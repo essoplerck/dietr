@@ -25,7 +25,11 @@ def teardown(exception):
 def minify_response(response):
     """Minify response to save bandwith."""
     if response.mimetype == u'text/html':
-        response.set_data(minify(response.get_data(as_text=True)))
+        data = response.get_data(as_text=True)
+
+        response.set_data(minify(data, remove_comments=True,
+                                       remove_empty_space=True,
+                                       reduce_boolean_attributes=True))
 
     return response
 
