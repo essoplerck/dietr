@@ -39,8 +39,6 @@ class RoommateModel:
         database.commit(query, (handle, user_id, first_name, middle_name,
                                 last_name))
 
-
-
     def delete_roommate(self, handle):
         """Delete a roomate from the database."""
         user_id = session['user']

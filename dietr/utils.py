@@ -15,6 +15,7 @@ def login_required(action):
         return redirect(url_for('authentication.login', next=request.url))
     return login_decorator
 
+
 def singleton(cls):
     instances = {}
 

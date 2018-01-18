@@ -17,6 +17,7 @@ class IngredientModel:
         query = '''INSERT INTO ingredients (name)
                    VALUES (%s)'''
 
+        database.commit(query, name)
 
     def delete_ingredient(self, id):
         """Delete an ingredient from the database."""

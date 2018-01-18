@@ -37,6 +37,7 @@ def view(id):
     # Return the template
     return render_template('ingredient/view.html', ingredient=ingredient)
 
+
 @blueprint.route('/ingredients')
 def overview():
     pass

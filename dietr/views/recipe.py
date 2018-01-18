@@ -7,6 +7,7 @@ blueprint = Blueprint('recipe', __name__)
 def view():
     pass
 
+
 @blueprint.route('/recipes')
 def overview():
     pass
