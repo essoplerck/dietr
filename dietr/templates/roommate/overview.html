@@ -40,7 +40,7 @@
               </div>
 
               <div class="modal-footer back-color">
-                <a class="btn btn-primary" href="{{ url_for('roommates.overview') }}" role="button">Annuleren</a>
+                <a class="btn btn-primary" href="{{ url_for('roommate.overview') }}" role="button">Annuleren</a>
 
                 <form action="{{ url_for('roommate.remove', handle=roommate.handle) }}" class="form-inline" method="POST">
                   <button class="btn btn-danger" type="submit">Uitloggen</button>
