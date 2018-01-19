@@ -79,8 +79,10 @@ class User {
 
 script.roommate = new User();
 
-class Roommate(User) {
+class Roommate extends User {
   constructor() {
+    super();
+
     let location = window.location.pathname,
         path     = location.split('/'),
         handle   = path[2],
