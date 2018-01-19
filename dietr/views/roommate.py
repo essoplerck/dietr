@@ -62,7 +62,7 @@ def remove(handle):
     if request.method == 'POST':
         model.remove_roommate(roommate.id)
 
-        return redirect(url_for('roommate.roommates'))
+        return redirect(url_for('roommate.overview'))
     return render_template('/roommate/remove.html', roommate=roommate)
 
 
