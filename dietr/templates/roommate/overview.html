@@ -5,13 +5,52 @@
 {%- endblock title %}
 
 {% block content %}
-  <section>
-    <ul>
+  <div class="carousel-caption">
+    <div class="row">
       {% for roommate in roommates %}
-        <li>
-          <a href="{{ url_for('roommate.view', handle=roommate.handle) }}">{{ roommate.name }}</a>
-        </li>
+        <div class="card-block col-sm-6 col-md-6 col-lg-4">
+          <div class="card">
+            <h3 class="card-header">{{ roommate.name }}</h3>
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <a href="#remove-{{ roommate.handle }}" data-toggle="modal" data-target="#Modal_remove">
+                    <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
+                  </a>
+                </div>
+
+                <div class="col justify-content-end">
+                  <a href="#" class="btn btn-primary">Bekijken</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="remove-{{ roommate.handle }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header back-color">
+                <h3 class="modal-title" id="exampleModalLongTitle">Persoon verwijderen?</h3>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+
+              <div class="modal-footer back-color">
+                <a class="btn btn-primary" href="{{ url_for('roommates.overview') }}" role="button">Annuleren</a>
+
+                <form action="{{ url_for('roommate.remove', handle=roommate.handle) }}" class="form-inline" method="POST">
+                  <button class="btn btn-danger" type="submit">Uitloggen</button>
+                </form>
+              </div>
+            </div>
+          </div>
+    	</div>
+
       {% endfor %}
-    </ul>
-  </section>
+    </div>
+  </div>
 {% endblock content %}
