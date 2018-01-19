@@ -6,7 +6,7 @@
 
 {% block content %}
   <section>
-    <form action="/profile/edit" method="post">
+    <form action="/profile/edit/name" method="post">
       <label>First name</label>
       <input name="first-name" required type="text" value="{{ user.first_name }}">
       <hr>
@@ -21,6 +21,38 @@
 
       <label>Last name</label>
       <input name="last-name" required type="text" value="{{ user.last_name }}">
+      <hr>
+
+      <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+
+    <form action="/profile/edit/email" method="post">
+      <label>Email</label>
+      <input name="email" required type="email" value="{{ user.email }}">
+      <hr>
+
+      <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+
+    <form action="/profile/edit/username" method="post">
+      <label>Username</label>
+      <input name="username" required type="text" value="{{ user.username }}">
+      <hr>
+
+      <button class="btn btn-primary" type="submit">Edit</button>
+    </form>
+
+    <form action="/profile/edit/password" method="post">
+      <label>Old password</label>
+      <input name="password-current" required type="password">
+      <hr>
+
+      <label>New password</label>
+      <input name="passwordt" required type="password">
+      <hr>
+
+      <label>Confirm new password</label>
+      <input name="password-verify" required type="password">
       <hr>
 
       <button class="btn btn-primary" type="submit">Edit</button>
