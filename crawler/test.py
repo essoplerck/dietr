@@ -1,22 +1,17 @@
-import os
-import pymysql
-from sys import exit
+import multiprocessing
 
-conn = pymysql.connect(host="185.182.57.56", user="renswnc266_dietr", passwd="qvuemzxu", db="renswnc266_production", use_unicode=True, charset="utf8")
-myCursor = conn.cursor()
+import AH_allergenen_crawler
+import Jumbo_allergenen_crawler
+import database_opschonen
+import Pictures
 
-link = os.listdir("C:\\Users\\Daan Renken\\Pictures\\Images")  # locatie foto's
+if __name__ == '__main__':
 
-def picture_title():
-    foto = 'Zout.png'
-    for picture in link:  # opsplitsen en parsen van de namen van de foto's
-        title = picture[:-4]
-        lowercase_title = str(title.lower())
-        myCursor.execute("SELECT * FROM ingredients WHERE name LIKE %s", ("%" + lowercase_title + "%",))  # zoeken van id's die lijken op de foto's
-        id = myCursor.fetchall()
-        print(title)
-        myCursor.execute("""INSERT INTO images(name) VALUES(%s) """, (title))
-    conn.commit()
-    conn.close
-picture_title()
 
+    #Jumbo_allergenen_crawler.start(500)  # De Jumbo crawler kan niet sneller omdat de toegang anders wordt geweigerd
+
+    for i in range(210):  # De Albertheijn crawler wordt opgesplits in 20 processen zodat het proces sneller gaat
+        p = multiprocessing.Process(target=Pictures.start, args=(i,))
+        p.start()
+
+    #database_opschonen.opschonen()
