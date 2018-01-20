@@ -7,19 +7,10 @@
 {% block content %}
   <section>
     <form action="{{ url_for('roommate.add') }}" method="post">
-      <label>First name</label>
-      <input name="first-name" required type="text">
+      <label>Naam</label>
+      <input name="name" required type="text">
       <hr>
-
-      <label>Middle name</label>
-      <input name="middle-name" type="text">
-      <hr>
-
-      <label>Last name</label>
-      <input name="last-name" required type="text">
-      <hr>
-
-      <button class="btn btn-primary" type="submit">Add</button>
+      <button class="btn btn-primary" type="submit">Persoon toevoegen</button>
     </form>
   </section>
 {% endblock content %}
