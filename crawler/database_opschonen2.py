@@ -4,25 +4,25 @@ conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvu
 myCursor = conn.cursor()
 
 
-def allergeen(max):
+def allergeen(allergeen):
 
-    i=1
-    while i<max:
-        myCursor.execute("SELECT * FROM recipe_ingredient_relation WHERE recipe_id=%s;", (i))
-        id = myCursor.fetchall()
-
-        if id:
-            for t in id:
-                line = ' '.join(str(x) for x in t)
-                lastrecipeid = line.split(' ')[0]
-        else:
-            myCursor.execute("DELETE FROM recipe WHERE id=%s;", (i))
-            #myCursor.execute("""DELETE From recipe WHERE id Like '%s' """ %id)
-            #myCursor.execute("""DELETE FROM recipe WHERE id LIKE %s""", (id))
-            print(i)
-        i+=1
+    myCursor.execute("""INSERT INTO category(name) VALUES(%s) """, allergeen)
+    allergeenid = myCursor.lastrowid
+    myCursor.execute("SELECT * FROM category WHERE name LIKE %s", ("%" + allergeen + "%",))
+    id = myCursor.fetchall()
+    for t in id:
+        line = ' '.join(str(x) for x in t)
+        idallergeen = line.split(' ')[0]
+        print(idallergeen)
+        category_ingredient_relation(idallergeen,allergeenid)
     conn.commit()
     conn.close()
     print("updated")
 
-allergeen(19317)
+
+
+def category_ingredient_relation(idallergeen,allergeenid):
+    myCursor.execute("UPDATE category_ingredient_relation SET category_id=%s WHERE category_id=%s", (allergeenid, idallergeen))
+
+
+allergeen('Zout')

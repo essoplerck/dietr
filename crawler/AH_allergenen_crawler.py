@@ -5,7 +5,7 @@ import re
 import requests
 import pymysql
 
-conn = pymysql.connect(host="185.182.57.56", user="renswnc266_dietr", passwd="qvuemzxu", db="renswnc266_staging", use_unicode=True, charset="utf8")
+conn = pymysql.connect(host="185.182.57.56", user="renswnc266_dietr", passwd="qvuemzxu", db="renswnc266_production", use_unicode=True, charset="utf8")
 
 def trade_spider(i):
     mycursor = conn.cursor()
@@ -94,17 +94,19 @@ def allergiespider(url, lastproductid):
             for word in words:
                 allergie = word[:-1]
                 print(allergie)
-                myCursor.execute("SELECT * FROM allergies WHERE name=%s;", allergie)
+                myCursor.execute("SELECT * FROM allergies WHERE name LIKE %s;", allergie)
                 id = myCursor.fetchall()
 
                 if id:
                     for t in id:
                         line = ' '.join(str(x) for x in t)
                     lastallergieid = line.split(' ')[0]
+                    product_allergie_relatietabel(lastproductid,lastallergieid)
                 else:
-                    myCursor.execute("""INSERT INTO allergies(name) VALUES(%s) """, allergie)
+                    myCursor.execute("""INSERT INTO temp_allergies(name) VALUES(%s) """, allergie)
                     lastallergieid = myCursor.lastrowid
-                product_allergie_relatietabel(lastproductid,lastallergieid)
+                    product_allergie_temp_relatietabel(lastproductid,lastallergieid)
+
     myCursor.close()
 
 
@@ -127,6 +129,18 @@ def recept_product_relatietabel(lastrecipeid, lastproductid):
 
 
 def product_allergie_relatietabel(lastproductid, lastallergieid):
+    myCursor = conn.cursor()
+    myCursor.execute("SELECT * FROM temp_allergies_ingredients WHERE ingredient_id=%s AND allergy_id=%s;", (lastproductid, lastallergieid))
+    id = myCursor.fetchall()
+    if not id:
+        myCursor.execute("""INSERT INTO temp_allergies_ingredients(ingredient_id,allergy_id) VALUES(%s,%s) """, (lastproductid, lastallergieid))
+
+        #print('nieuwe  relatie')
+    #else:
+        #print('oude  relatie')
+
+
+def product_allergie_temp_relatietabel(lastproductid, lastallergieid):
     myCursor = conn.cursor()
     myCursor.execute("SELECT * FROM allergies_ingredients WHERE ingredient_id=%s AND allergy_id=%s;", (lastproductid, lastallergieid))
     id = myCursor.fetchall()
