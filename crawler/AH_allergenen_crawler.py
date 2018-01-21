@@ -69,7 +69,7 @@ def get_ingredienten(itemurl, lastrecipeid):
     myCursor.close()
 
 
-def Getproducten(ingredienten,lastproductid):
+def Getproducten(ingredienten, lastproductid):
     browser = webdriver.PhantomJS()
     browser.get('https://www.ah.nl/zoeken?rq='+str(ingredienten)+'&searchType=global')
     time.sleep(4)
@@ -117,14 +117,6 @@ def recept_product_relatietabel(lastrecipeid, lastproductid):
 
     if not id:
         myCursor.execute("""INSERT INTO recipes_ingredients(recipe_id,ingredient_id) VALUES(%s,%s) """, (lastrecipeid, lastproductid))
-
-        #print('nieuwe relatie')
-    #else:
-        #print('oude relatie')
-
-        #print('nieuwe relatie')
-    #else:
-        #print('oude relatie')
     myCursor.close()
 
 
@@ -135,10 +127,6 @@ def product_allergie_relatietabel(lastproductid, lastallergieid):
     if not id:
         myCursor.execute("""INSERT INTO temp_allergies_ingredients(ingredient_id,allergy_id) VALUES(%s,%s) """, (lastproductid, lastallergieid))
 
-        #print('nieuwe  relatie')
-    #else:
-        #print('oude  relatie')
-
 
 def product_allergie_temp_relatietabel(lastproductid, lastallergieid):
     myCursor = conn.cursor()
@@ -146,10 +134,6 @@ def product_allergie_temp_relatietabel(lastproductid, lastallergieid):
     id = myCursor.fetchall()
     if not id:
         myCursor.execute("""INSERT INTO allergies_ingredients(ingredient_id,allergy_id) VALUES(%s,%s) """, (lastproductid, lastallergieid))
-
-        #print('nieuwe  relatie')
-    #else:
-        #print('oude  relatie')
 
 
 def start(i):

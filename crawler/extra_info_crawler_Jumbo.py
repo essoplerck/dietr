@@ -9,12 +9,11 @@ conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvu
 myCursor= conn.cursor()
 
 
-def trade_spider(begin, eind):
+def trade_spider(begin, eind, extra_info_id, url):
 
-    extra_info_id=7
     i = begin
     while i <= eind:
-        url = 'https://www.jumbo.com/recepten/soort-gerecht/vegetarisch/?PageNumber='+str(i)
+        url = 'https://www.jumbo.com/recepten/soort-gerecht/' + url + '/?PageNumber='+str(i)
         sourcecode = requests.get(url)
         plaintext = sourcecode.text
         soup = BeautifulSoup(plaintext, "html.parser")
@@ -31,7 +30,7 @@ def trade_spider(begin, eind):
             if id:
                 for t in id:
                     line=' '.join(str(x) for x in t)
-                lastrecipeid=line.split(' ')[0]
+                lastrecipeid = line.split(' ')[0]
                 recipe_extra_info_relation(lastrecipeid, extra_info_id)
             else:
                 print("Is er niet")
@@ -45,12 +44,13 @@ def trade_spider(begin, eind):
     print(" > data inserted ")
 
 
-
 def recipe_extra_info_relation(lastrecipeid, extra_info_id):
     myCursor = conn.cursor()
     myCursor.execute("""INSERT INTO recipe_extra_info_relation(recipe_id,extra_info_id) VALUES(%s,%s) """, (lastrecipeid, extra_info_id))
 
 
-
-trade_spider(0, 137)
-
+def start():
+    trade_spider(0, 300, 3, 'hoofdgerecht')
+    trade_spider(0, 300, 4, 'voorgerecht')
+    trade_spider(0, 300, 5, 'nagerecht-~-dessert')
+    trade_spider(0, 300, 7, 'vegetarisch')

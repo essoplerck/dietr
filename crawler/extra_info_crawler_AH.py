@@ -7,16 +7,15 @@ import pymysql
 
 conn = pymysql.connect(host="185.182.57.56", user="renswnc266_test", passwd="qvuemzxu", db="renswnc266_test", use_unicode=True, charset="utf8")
 
-def trade_spider(begin,eind):
+
+def trade_spider(begin, eind, extra_info_id, url):
         mycursor = conn.cursor()
         tab = eind-begin
         i = begin
-        mycursor.execute("""INSERT INTO extra_info(name) VALUES(%s) """, 'Vegetarisch')
-        extra_info_id=mycursor.lastrowid
 
         while i <= tab:
             print(i)
-            url = 'https://www.ah.nl/allerhande/recepten-zoeken/__/N-26xv?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)
+            url = 'https://www.ah.nl/allerhande/recepten-zoeken/__/' + url + '?No=' + str(i*1000) + '&Nrpp=' + str((i+1)*1000)
             SourceCode = requests.get(url)
             PlainText = SourceCode.text
             soup = BeautifulSoup(PlainText, "html.parser")
@@ -51,9 +50,11 @@ def recipe_extra_info_relation(lastrecipeid, extra_info_id):
     myCursor.execute("""INSERT INTO recipe_extra_info_relation(recipe_id,extra_info_id) VALUES(%s,%s) """, (lastrecipeid, extra_info_id))
 
 
-try:
-    trade_spider(0, 4)
-except Exception as e:
-    print('Something went wrong: ' + repr(e) + 'starting over...')
-    trade_spider(0, 4)
+def start():
+    trade_spider(0, 10, 3, 'N-26vq')
+    trade_spider(0, 10, 4, 'N-26vr')
+    trade_spider(0, 10, 5, 'N-26vt')
+    trade_spider(0, 10, 6, 'N-26y0')
+    trade_spider(0, 10, 7, 'N-26xv')
+
 

@@ -95,10 +95,9 @@ def allergiespider(url, lastproductid):
                 print('nieuw allergeen ' + allergie)
 
 
-
 def recept_product_relatietabel(lastrecipeid, lastproductid):
     myCursor.execute("SELECT * FROM recipes_ingredients WHERE recipe_id=%s AND ingredient_id=%s;", (lastrecipeid, lastproductid))
-    id=myCursor.fetchall()
+    id = myCursor.fetchall()
 
     if not id:
         myCursor.execute("""INSERT INTO recipes_ingredients(recipe_id,ingredient_id) VALUES(%s,%s) """, (lastrecipeid, lastproductid))
@@ -106,14 +105,14 @@ def recept_product_relatietabel(lastrecipeid, lastproductid):
 
 def product_allergie_relatietabel(lastproductid, lastallergieid):
     myCursor.execute("SELECT * FROM allergies_ingredients WHERE ingredient_id=%s AND allergy_id=%s;", (lastproductid, lastallergieid))
-    id=myCursor.fetchall()
+    id = myCursor.fetchall()
     if not id:
         myCursor.execute("""INSERT INTO allergies_ingredients(ingredient_id,allergy_id) VALUES(%s,%s) """, (lastproductid, lastallergieid))
 
 
 def product_allergie_temp_relatietabel(lastproductid, lastallergieid):
     myCursor.execute("SELECT * FROM temp_allergies_ingredients WHERE ingredient_id=%s AND allergy_id=%s;", (lastproductid, lastallergieid))
-    id=myCursor.fetchall()
+    id = myCursor.fetchall()
     if not id:
         myCursor.execute("""INSERT INTO temp_allergies_ingredients(ingredient_id,allergy_id) VALUES(%s,%s) """, (lastproductid, lastallergieid))
 

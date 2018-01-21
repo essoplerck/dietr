@@ -28,3 +28,12 @@ def opschonen():
     conn.close()
     print("updated")
 
+
+def start():
+    while True:
+        try:
+            opschonen()
+            break
+        except Exception as e:
+            print('Something went wrong: ' + repr(e) + 'starting over...')
+            opschonen()
