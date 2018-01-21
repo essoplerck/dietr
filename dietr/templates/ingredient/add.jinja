@@ -1,0 +1,13 @@
+{% extends 'layout.jinja' %}
+
+{% block title %}
+  Add ingredient
+{% endblock title %}
+
+{% block carousel %}
+  <form action="{{ url_for('ingredient.add') }}" method="post">
+    {{ macros.input('name', 'Naam', required=True) }}
+
+    <button class="btn btn-primary" type="submit">Voeg ingredient toe</button>
+  </form>
+{% endblock carousel %}

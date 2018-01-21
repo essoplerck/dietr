@@ -27,7 +27,7 @@ class ProfileModel(AuthenticationModel):
                       SET username = %s
                     WHERE id = %s;'''
 
-        database.commit(query, (handle, id))
+        database.commit(query, (username, id))
 
     def set_name(self, id, first_name, middle_name, last_name):
         """Set  the name of the user."""

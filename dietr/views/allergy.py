@@ -1,6 +1,10 @@
-from flask import Blueprint
+from flask import Blueprint, render_template
+
+from dietr.models.allergy import AllergyModel
 
 blueprint = Blueprint('allergy', __name__)
+
+model = AllergyModel()
 
 
 @blueprint.route('/allergy/add', methods=['GET', 'POST'])
@@ -20,7 +24,9 @@ def remove(id):
 
 @blueprint.route('/allergy/<int:id>')
 def view(id):
-    pass
+    allergy = model.get_allergy(id)
+
+    return render_template('allergy/view.jinja', allergy=allergy)
 
 
 @blueprint.route('/allergies')

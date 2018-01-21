@@ -1,0 +1,71 @@
+{% extends 'layout.jinja' %}
+
+{% block title %}
+  Pas profiel aan
+{% endblock title %}
+
+{% block carousel %}
+  <form action="{{ url_for('profile.edit_name') }}" method="post">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        {{ macros.input('first-name', 'Voornaam',
+                        value=user.first_name,
+                        error=error.first_name,
+                        required=True) }}
+      </div>
+
+      <div class="col-3">
+        {{ macros.input('middle-name', 'Tussen voegsel',
+                        value=user.middle_name) }}
+      </div>
+
+      <div class="col-5">
+        {{ macros.input('last-name', 'Achternaam',
+                        value=user.last_name,
+                        error=error.last_name,
+                        required=True) }}
+      </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Verander naam</button>
+  </form>
+
+  <form action="{{ url_for('profile.edit_email') }}" method="post">
+    {% call macros.input('email', 'E-mail adress', 'email',
+                         value=user.email,
+                         error=error.email,
+                         required=True) %}
+      <small class="form-text text-muted">Wij delen uw e-mail adress niet met derden.</small>
+    {% endcall %}
+
+    <button class="btn btn-primary" type="submit">Verander e-mail adress</button>
+  </form>
+
+  <form action="{{ url_for('profile.edit_username') }}" method="post">
+    {{ macros.input('username', 'Gebruikers naam',
+                    value=user.username,
+                    error=error.username,
+                    required=True) }}
+
+    <button class="btn btn-primary" type="submit">Verander gebruikers naam</button>
+  </form>
+
+  <form action="{{ url_for('profile.edit_password') }}" method="post">
+    {{ macros.input('current-password', 'Huidig wachtwoord',
+                    error=error.current_password,
+                    required=True,
+                    type='password') }}
+
+    {{ macros.input('password', 'Wachtwoord',
+                    error=error.password,
+                    required=True,
+                    type='password') }}
+
+    {{ macros.input('password-verify', 'Herhaal wachtwoord',
+                    error=error.password_verify,
+                    required=True,
+                    type='password') }}
+
+    <button class="btn btn-primary" type="submit">Verander wachtwoord</button>
+  </form>
+{% endblock carousel %}

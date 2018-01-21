@@ -1,0 +1,13 @@
+{% extends 'layout.jinja' %}
+
+{% block title %}
+  Pas {{ ingredient.name }} aan
+{% endblock title %}
+
+{% block carousel %}
+  <form action="{{ url_for('ingredient.edit', id=ingredient.id) }}" method="post">
+    {{ macros.input('name', 'Naam', required=True) }}
+
+    <button class="btn btn-primary" type="submit">Pas ingredient aan</button>
+  </form>
+{% endblock carousel %}

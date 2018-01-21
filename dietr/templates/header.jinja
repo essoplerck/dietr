@@ -6,20 +6,20 @@
       <a href="{{ url_for('overview.dashboard') }}">dietr</a>
     </div>
 
-    <div class="user">
+    <div class="account">
       {% if user %}
         <a href="{{ url_for('profile.view') }}">Profiel</a>
-        <span>|</span>
+        |
         <form action="{{ url_for('authentication.logout') }}" class="form-inline" method="POST">
-          <a>Uitloggen</a>
+          <button class="btn btn-link" type="submit">Uitloggen</button>
         </form>
       {% else %}
         <a href="{{ url_for('authentication.login') }}">Inloggen</a>
-        <span>|</span>
+        |
         <a href="{{ url_for('authentication.join') }}">Account aanmaken</a>
       {% endif %}
     </div>
   </div>
 
-  {% include 'components/navigation.html' %}
+  {% include 'navigation.jinja' %}
 </header>

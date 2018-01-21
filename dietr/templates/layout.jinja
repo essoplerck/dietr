@@ -1,0 +1,42 @@
+{% import 'macros.jinja' as macros with context %}
+
+<!doctype html>
+<html>
+<head>
+  <title>{% block title -%}{%- endblock title %} - Dietr</title>
+
+  {% include 'head.jinja' %}
+</head>
+
+<body>
+  {% include 'header.jinja' %}
+
+  {% if self.carousel() %}
+    <section>
+      <div class="carousel slide" data-ride="carousel" data-interval="10000">
+        <div class="carousel-inner" role="listbox">
+          {% for index in range(1, 8) %}
+            <div class="carousel-item {% if loop.first %}active{% endif %}">
+              <img class="d-block w-100" src="{{ url_for('static', filename='images/carousel-' + index|string + '.png') }}">
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="carousel-caption">
+          {% block carousel %}{% endblock %}
+        </div>
+      </div>
+    </section>
+  {% endif  %}
+
+  {% block content %}{% endblock %}
+
+  {% include 'footer.jinja' %}
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+
+  <script async src="/static/scripts/script.js"></script>
+</body>
+</html>

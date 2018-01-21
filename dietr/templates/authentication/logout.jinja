@@ -1,0 +1,13 @@
+{% extends 'layout.jija' %}
+
+{% block title %}
+  Logout
+{% endblock title %}
+
+{% block carousel %}
+  <form action="{{ url_for('authentication.logout') }}" method="post">
+    <h3>Logout</h3>
+
+    <button class="btn btn-danger" name="logout" type="submit">Logout</button>
+  </form>
+{% endblock carousel %}

@@ -1,0 +1,19 @@
+{% extends 'layout.jinja' %}
+
+{% block title %}
+  {{ ingredient.name }}
+{% endblock title %}
+
+{% block carousel %}
+  <h1>{{ ingredient.name }}</h1>
+
+  {% if ingredient.allergens %}
+    <ul>
+      {% for allergen in ingredient.allergens %}
+        <li>
+          <a href="{{ url_for('allergy.view', id=allergen.id) }}">{{ allergen.name }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock carousel %}

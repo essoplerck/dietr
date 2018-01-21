@@ -1,0 +1,54 @@
+{% extends 'layout.jinja' %}
+
+{% block title %}
+  Registreren
+{% endblock title %}
+
+{% block carousel %}
+  <form action="{{ url_for('authentication.join') }}" method="post">
+    <div class="row justify-content-md-center">
+      <div class="col-4">
+        {{ macros.input('first-name', 'Voornaam',
+                        value=user.first_name,
+                        error=error.first_name,
+                        required=True) }}
+      </div>
+
+      <div class="col-3">
+        {{ macros.input('middle-name', 'Tussen voegsel',
+                        value=user.middle_name) }}
+      </div>
+
+      <div class="col-5">
+        {{ macros.input('last-name', 'Achternaam',
+                        value=user.last_name,
+                        error=error.last_name,
+                        required=True) }}
+      </div>
+    </div>
+
+    {% call macros.input('email', 'E-mail adress', 'email',
+                         value=user.email,
+                         error=error.email,
+                         required=True) %}
+      <small class="form-text text-muted">Wij delen uw e-mail adress niet met derden.</small>
+    {% endcall %}
+
+    {{ macros.input('username', 'Gebruikers naam',
+                    value=user.username,
+                    error=error.username,
+                    required=True) }}
+
+    {{ macros.input('password', 'Wachtwoord',
+                    error=error.password,
+                    required=True,
+                    type='password') }}
+
+    {{ macros.input('password-verify', 'Herhaal wachtwoord',
+                    error=error.password_verify,
+                    required=True,
+                    type='password') }}
+
+    <button class="btn btn-primary" type="submit">Register</button>
+  </form>
+{% endblock carousel %}

@@ -1,10 +1,10 @@
-{% extends 'layout.html' %}
+{% extends 'layout.jinja' %}
 
-{% block title -%}
-  Edit {{ roommate.name }}
-{%- endblock title %}
+{% block title %}
+  Pas {{ roommate.name }} aan
+{% endblock title %}
 
-{% block content %}
+{% block carousel %}
   <template id="template-remove">
     <li>
       <a></a>
@@ -76,4 +76,4 @@
 
     <ul id="preferences-search"></ul>
   </section>
-{% endblock content %}
+{% endblock carousel %}

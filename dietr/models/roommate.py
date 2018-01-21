@@ -28,7 +28,7 @@ class Roommate:
 
 
 class RoommateModel:
-    def add_person(self, handle, first_name, middle_name, last_name):
+    def add_roommate(self, handle, first_name, middle_name, last_name):
         """Add a roommate to the database."""
         user_id = session['user']
 

@@ -1,21 +1,24 @@
 let script = window.script || {};
 
 script.request = (url, method = 'GET') => {
+  // Set headers
   let headers = new Headers();
 
+  // Return a promise
   return fetch(url, {
     method: method
   }).then(response => {
     let status = response.status,
         type   = response.headers.get("content-type");
 
+    // Check if response is valid
     if (type && type.includes('application/json')) {
+      // Return JSON
       return response.json();
     }
 
     throw new TypeError('Response is not JSON');
-  })
-  .catch(error => {});
+  }).catch(error => {});
 }
 
 class Allergy {
@@ -36,7 +39,7 @@ class Allergy {
 
 script.allergy = new Allergy();
 
-class Ingredient {
+class Ingredient extends Allergy {
   get(id) {
     return script.request(`/api/ingredients/${id}`);
   }
@@ -119,6 +122,7 @@ script.controllers = {
         });
       }
 
+      // Add a new allergy
       function add(el) {
         let href = el.previousElementSibling.href,
             id  = new URL(href).pathname.split('/')[2];
@@ -140,6 +144,7 @@ script.controllers = {
         });
       }
 
+      // Remove an allery
       function del(el) {
         let href = el.previousElementSibling.href,
             id  = new URL(href).pathname.split('/')[2];
@@ -149,12 +154,18 @@ script.controllers = {
         });
       }
     })(document.querySelector('#allergies-wrapper'));
+  },
+
+  user: document => {
+
   }
 };
 
 script.router = ((controller, location) => {
   let routes = {
-    '\/roommate\/[0-9]+\/edit': controller.roommate
+    '\/roommate\/[0-9]+': controller.roommate,
+    '\/roommate\/[0-9]+\/edit': controller.roommate,
+    '\/profile\/.*': controller.user
   };
 
   for (route in routes) {

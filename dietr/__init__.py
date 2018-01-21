@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Flask, g, session
+from flask import Flask, g, render_template, session
 from htmlmin.main import minify
 
 from dietr.sessions import RedisSessionInterface
@@ -41,7 +41,7 @@ def connect():
 
     # @TODO move to seperate method
     if 'user' in session:
-        g.user = model.get_user(session['user'])
+        g.user = model.get_user()
 
 
 @app.context_processor
@@ -54,6 +54,21 @@ def add_context():
     user = g.user if 'user' in session else None
 
     return dict(user=user, year=year)
+
+
+@app.errorhandler(403)
+def forbidden(error):
+    return render_template('error/forbidden.jinja'), 403
+
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template('error/internal_server_error.jinja'), 500
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('error/not_found.jinja'), 404
 
 
 from dietr.views import api

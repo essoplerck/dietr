@@ -1,7 +1,9 @@
-from flask import Blueprint, request, redirect, render_template, session
+from flask import (Blueprint, redirect, render_template, request, session,
+                   url_for)
 
-from dietr.utils import login_required
 from dietr.models.authentication import AuthenticationModel
+from dietr.models.user import User
+from dietr.utils import login_required
 
 blueprint = Blueprint('authentication', __name__)
 
@@ -25,11 +27,12 @@ def login():
             # Add user session key
             session['user'] = user.id
 
-            return redirect('/dashboard'), 302
+            return redirect(url_for('overview.dashboard'))
 
         else:
-            error['login']: 'Password or username is incorect'
-    return render_template('/authentication/login.html', error=error)
+            error['password'] = 'Password or username is incorect'
+            print(error)
+    return render_template('/authentication/login.jinja', error=error)
 
 
 @blueprint.route('/logout', methods=['GET', 'POST'])
@@ -41,27 +44,28 @@ def logout():
         session.pop('user', None)
 
         # Redirect user
-        return redirect('/dashboard'), 302
-    return render_template('/authentication/logout.html')
+        return redirect(url_for('overview.dashboard'))
+    return render_template('/authentication/logout.jinja')
 
 
 @blueprint.route('/join', methods=['GET', 'POST'])
 def join():
     '''The join action allows users to register.'''
     error = {}
+    user = None
 
     if request.method == 'POST':
-        # Get handle and mail adress
+        # Get username and email adress
         username = request.form['username']
         email = request.form['email']
 
         # Check if user exit
         count = model.does_user_exist(username, email)
 
-        if count[0]:
+        if count['username_count']:
             error['username'] = 'This username is already in use.'
 
-        if count[1]:
+        if count['email_count']:
             error['email'] = 'There already is a user with this email address.'
 
         first_name = request.form['first-name']
@@ -70,7 +74,7 @@ def join():
 
         # Check if user has enterd a name
         if not first_name:
-            error['frist-name'] = 'You have not entered a first name.'
+            error['first-name'] = 'You have not entered a first name.'
 
         if not last_name:
             error['last-name'] = 'You have not entered a last name.'
@@ -84,9 +88,7 @@ def join():
             error['password'] = 'Your password is too short.'
 
         if not password == password_verify:
-            error['password'] = 'Passwords do not match'
-
-        print(error)
+            error['password_verify'] = 'Passwords do not match'
 
         # Check for errors
         if not error:
@@ -99,7 +101,21 @@ def join():
             # Add user id to sesson
             session['user'] = user.id
 
-            return redirect('/dashboard'), 302
+            return redirect(url_for('overview.dashboard'))
 
-    # Return template
-    return render_template('/authentication/join.html', error=error)
+        # Pass all data to template so the user does not have to refill it
+        user = User(0, username, email, first_name, middle_name, last_name, 0)
+    return render_template('/authentication/join.jinja', error=error, user=user)
+
+
+@blueprint.route('/reset', methods=['GET', 'POST'])
+def reset():
+    """Allow users to reset their password via email."""
+    error = {}
+
+    if request.method == 'POST':
+        email = request.form['email']
+
+        # Expand if the future if we have more time
+        pass
+    return render_template('/authentication/reset.jinja', error=error)

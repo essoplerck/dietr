@@ -1,0 +1,24 @@
+{% macro input(name, placeholder, type='text', value=None, error=None, required=False) %}
+  <div class="form-group">
+    <label class="float-left">{{ placeholder }}</label>
+    <input class="form-control {% if error %}is-invalid{% endif %}"
+           name="{{ name }}"
+           placeholder="{{ placeholder }}"
+           {% if required %}
+             required
+           {% endif %}
+           type="{{ type }}"
+           {% if value %}
+             value="{{ value }}"
+           {% endif %}>
+    {% if error %}
+      <div class="invalid-feedback">
+        {{ error }}
+      </div>
+    {% endif %}
+
+    {% if caller %}
+      {{ caller() }}
+    {% endif %}
+  </div>
+{% endmacro %}

@@ -34,8 +34,7 @@ def view(id):
 
     ingredient.allergens = model.get_allergens(id)
 
-    # Return the template
-    return render_template('ingredient/view.html', ingredient=ingredient)
+    return render_template('ingredient/view.jinja', ingredient=ingredient)
 
 
 @blueprint.route('/ingredients')

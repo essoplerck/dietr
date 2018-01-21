@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 
+from flask import session
+
 from dietr.database import database
 
 
@@ -14,6 +16,7 @@ class User:
     hash: str
     allergies: list = field(default_factory=list, init=False)
     preferences: list = field(default_factory=list, init=False)
+    roommates: list = field(default_factory=list, init=False)
 
     @property
     def name(self):
@@ -25,8 +28,10 @@ class User:
 
 
 class UserModel:
-    def get_user(self, id):
+    def get_user(self):
         """Get a user form the database."""
+        user_id = session['user']
+
         query = '''SELECT id,
                           username,
                           email,
@@ -36,4 +41,4 @@ class UserModel:
                     WHERE id = %s'''
 
         # Convert dict to an user object
-        return User(**database.fetch(query, id))
+        return User(**database.fetch(query, user_id))

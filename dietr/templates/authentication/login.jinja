@@ -1,0 +1,25 @@
+{% extends 'layout.jinja' %}
+
+{% block title %}
+  Inloggen
+{% endblock title %}
+
+{% block carousel %}
+  <form action="{{ url_for('authentication.login') }}" method="post">
+    {{ macros.input('username', 'Gebruikers naam',
+                    value=username,
+                    required=True) }}
+
+    {{ macros.input('password', 'Wachtwoord',
+                    error=error.password,
+                    required=True,
+                    type='password') }}
+
+    <p>
+      Ben je je wachtwoord vergeten?
+      <a href="{{ url_for('authentication.reset') }}">Wachtwoord resetten</a>
+    </p>
+
+    <button class="btn btn-primary" type="submit">Login</button>
+  </form>
+{% endblock carousel %}
