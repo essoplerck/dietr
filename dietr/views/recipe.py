@@ -7,6 +7,7 @@ blueprint = Blueprint('recipes', __name__)
 
 model = RecipeModel()
 
+
 @blueprint.route('/recipes', defaults={'page' : 1, 'limit' : 20})
 @blueprint.route('/recipes/page/<int:page>/show<int:limit>')
 def recepten(page, limit):
@@ -32,6 +33,7 @@ def recepten(page, limit):
     user = model.user
 
     return render_template('/recipes/recepten.html', recipes = recipes, pagination = pagination, user = user)
+
 
 @blueprint.route('/recepten/page/')
 def redirectrecept():
