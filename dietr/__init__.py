@@ -2,6 +2,8 @@ from datetime import datetime
 
 from flask import Flask, g, render_template, session
 from htmlmin.main import minify
+from flask import redirect
+from flask import request, url_for
 
 from dietr.sessions import RedisSessionInterface
 from dietr.models.user import UserModel

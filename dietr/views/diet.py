@@ -1,5 +1,4 @@
-from flask import (Blueprint, g, redirect, render_template, request, session,
-                   url_for)
+from flask import Blueprint, render_template, request
 
 from dietr.models.diet import DietModel
 
@@ -14,5 +13,4 @@ def view():
     user.allergies = model.get_allergies()
     user.preferences = model.get_preferences()
 
-    print(user)
-    pass
+    return render_template('diet/view.jinja', user=user)

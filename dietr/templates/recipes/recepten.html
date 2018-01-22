@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+  <title>Recepten</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+  <script src="https://use.fontawesome.com/456a2c2bb3.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="header">
+	  <div class="img"></div>
+	  <div class="title">
+	    <a href="Home.html">dietr</a>
+	  </div>
+	  <div id="Niet_ingelogd" class="account">
+	    <a href="/login">Inloggen</a>
+		<a>|</a>
+	    <a href="/join">Account aanmaken</a>
+	  </div>
+	  <div id="Ingelogd" class="account">
+	    <a href="Profiel.html">Gebruiker</a>
+		<a>|</a>
+	    <a href="Home.html">Uitloggen</a>
+	  </div>
+	</div>
+
+	<ul class="nav nav-pills afh">
+      <li class="nav-item">
+        <a class="nav-link" href="Home.html">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="Recepten.html">Recepten</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="Koelkast_leegmaken.html">Koelkast leegmaken</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="Allergieen_en_dieten.html">Allergieën en diëten</a>
+      </li>
+	  <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profiel</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="Profiel.html">Profiel</a>
+		  <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="Account.html">Account</a>
+          <a class="dropdown-item" href="Personen.html">Personen</a>
+        </div>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="Over_ons.html">Over ons</a>
+      </li>
+	  <li id="search-bar" class="ml-auto">
+        <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Zoeken" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Zoeken</button>
+        </form>
+	  </li>
+	</ul>
+  </header>
+
+  <section>
+    <div class="back-color recipes row">
+      <div class="col-2 left-col-padding border-right">
+	    <h3>Categorieën</h3>
+		<hr>
+    {% if user.roommates %}
+	    <h4>Personen</h4>
+        <div class="form-check">
+          {% for roommate in user.roommates %}
+            <label class="form-check-label">
+                <input id="{{ roommate.id }}" class="form-check-input" type="checkbox" value="True" checked>
+                {{ roommate.first_name }}
+            </label>
+          {% endfor %}
+		      </div>
+    {% endif %}
+		<hr>
+	    <h4>Soort gerecht</h4>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+              Ontbijt
+          </label>
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+              Lunch
+          </label>
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+              Voorgerecht
+          </label>
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+              Hoofdgerecht
+          </label>
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+              Nagerecht
+          </label>
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+              Gebak
+          </label>
+		</div>
+	  </div>
+
+	  <div class="col">
+	    <div class="row">
+		  <div class="col">
+        <div class="btn btn-primary">
+              <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Recepten weergave
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{ url_for_other_page(1, 20) }}">20</a>
+                <a class="dropdown-item" href="{{ url_for_other_page(1, 40) }}">40</a>
+                <a class="dropdown-item" href="{{ url_for_other_page(1, 100) }}">100</a>
+              </div>
+        </div>
+		  </div>
+		  <div class="col">
+		    <div class="dropdown text-right">
+              <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sorteren op
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">A-Z</a>
+                <a class="dropdown-item" href="#">Z-A</a>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+
+	    <div class="row justify-content-center">
+		  <div class="card-deck">
+        {% for recipe in recipes : %}
+	        <div class="card-block col-md-4 col-lg-3">
+			  <a href="#recipe{{ recipe.id }}" class="card clearfix" data-toggle="modal" data-target="#recipe{{ recipe.id }}">
+                <div class="card-img" style="background-image: {{ recipe.image }};"></div>
+                <div class="card-img-overlay">
+                  <h3 id="Recipe_name" class="card-title">{{ recipe.name }}</h3>
+                  <p class="card-text">Ingrediënten:
+			        <ul>
+                {% for ingredient in recipe.ingredients[0:2] : %}
+                  <li>{{ ingredient.name }}</li>
+                {% endfor %}
+                <li>...</li>
+              </ul>
+			      </p>
+                </div>
+                <div class="card-footer">
+                  <small class="text-muted">Afkomstig van: {{ recipe.source }}</small>
+                </div>
+	          </a>
+            </div>
+
+            <div class="modal fade" id="recipe{{ recipe.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header back-color">
+                      <h3 class="modal-title" id="exampleModalLongTitle">{{ recipe.name }}</h3>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body background-img">
+                      <div class="row">
+                  	  <div class="col-6">
+          				<p>Ingrediënten</p>
+          			    <ul>
+                      {% for ingredient in recipe.ingredients[0:2] : %}
+                        <li>{{ ingredient.name }}</li>
+                      {% endfor %}
+                      <li>...</li>
+                    </ul>
+          		      </div>
+          			  <div class="col-6">
+          				<p>Allergenen</p>
+          				<ul>
+                    {% for allergy in recipe.allergies[0:2] : %}
+                      <li>{{ allergy.name }}</li>
+                    {% endfor %}
+                    {% if recipe.allergies|length > 3%}
+                      <li>...</li>
+                    {% endif %}
+                  </ul>
+          			  </div>
+          			</div>
+          			<div class="row">
+          			  <div class="col-12">
+          			    <div class="alert alert-success" role="alert">Let op! DIETR kan niet garanderen dat gevonden recepten bepaalde allergenen ook daadwerkelijk niet bevatten. Controleer daarom altijd zelf de ingrediënten op allergenen.</div>
+          				<p>Dit recept is afkomstig van:
+          				  <a href="{{ recipe.url }}">{{ recipe.source }}</a>
+          			    </p>
+          			  </div>
+          			</div>
+                    </div>
+                    <div class="modal-footer back-color">
+                      <button type="button" class="btn btn-primary" href="{{ recipe.url }}">Bekijk recept</button>
+                    </div>
+                  </div>
+                </div>
+          	</div>
+
+            {% endfor %}
+    	  </div>
+	    </div>
+
+	    <div class="row justify-content-center">
+	      <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              {% if pagination.has_prev %}
+                  <li class="page-item"><a class="page-link" href="{{ url_for_other_page(pagination.page - 1, pagination.per_page) }}">Vorige</a></li>
+              {% endif %}
+              {% for page in pagination.iter_pages() %}
+                {% if page %}
+                  {% if page != pagination.page %}
+                      <li class="page-item"><a class="page-link" href="{{ url_for_other_page(page, pagination.per_page) }}">{{ page }}</a></li>
+                      {% else %}
+                        <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                  {% endif %}
+                  {% else %}
+                    <li class="page-item"><span class="page-link">…</span></li>
+                  {% endif %}
+              {% endfor %}
+              {% if pagination.has_next %}
+                  <li class="page-item"><a class="page-link" href="{{ url_for_other_page(pagination.page + 1, pagination.per_page) }}">Volgende</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+		</div>
+	  </div>
+	</div>
+
+  </section>
+
+  <footer>
+	<ul class="nav justify-content-center afh">
+	  <br>
+      <a class="nav-link" href="Home.html">Home</a>
+      <a class="nav-link active" href="Recepten.html">Recepten</a>
+      <a class="nav-link" href="Koelkast_leegmaken.html">Koelkast leegmaken</a>
+	  <a class="nav-link" href="Allergieen_en_dieten.html">Allergieën en diëten</a>
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profiel</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="Profiel.html">Profiel</a>
+		  <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="Account.html">Account</a>
+          <a class="dropdown-item" href="Personen.html">Personen</a>
+        </div>
+      <a class="nav-link" href="Over_ons.html">Over ons</a>
+	</ul>
+
+    <div class="text-right">
+      <p>&reg 2017 dietr</p>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+</body>
+</html>
