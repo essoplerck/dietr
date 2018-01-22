@@ -25,13 +25,6 @@ CREATE TABLE allergies_ingredients (
                   ON DELETE CASCADE
 ) CHARSET=utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE recipes (
-    PRIMARY KEY (id),
-    id   INT(11)      NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    url  VARCHAR(255) NOT NULL
-) CHARSET=utf8 COLLATE utf8_general_ci;
-
 CREATE TABLE users (
     PRIMARY KEY (id),
     id          INT(11)      NOT NULL AUTO_INCREMENT,
@@ -46,18 +39,51 @@ CREATE TABLE users (
                 UNIQUE (id, username, email)
 ) CHARSET=utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE roommates (
+CREATE TABLE users_allergies (
     PRIMARY KEY (id),
-    id          INT(11)      NOT NULL AUTO_INCREMENT,
-    handle      INT(11)      NOT NULL,
-    user_id     INT(11)      NOT NULL,
-                CONSTRAINT delete_user_roommates -- delete if user is removed
-                FOREIGN KEY (user_id)
-                REFERENCES users (id)
-                ON DELETE CASCADE,
-    first_name  VARCHAR(255),
-    middle_name VARCHAR(255),
-    last_name   VARCHAR(255)
+    id         INT(11) NOT NULL AUTO_INCREMENT,
+    user_id    INT(11) NOT NULL,
+               CONSTRAINT delete_user_users_allergies -- delete if user is removed
+               FOREIGN KEY (user_id)
+               REFERENCES users (id)
+               ON DELETE CASCADE,
+    allergy_id INT(11) NOT NULL,
+               CONSTRAINT delete_allergy_users_allergies -- delete if allergy is removed
+               FOREIGN KEY (allergy_id)
+               REFERENCES allergies (id)
+               ON DELETE CASCADE,
+    flag       INT(2)  NOT NULL DEFAULT 0
+) CHARSET=utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE users_preferences (
+    PRIMARY KEY (id),
+    id            INT(11) NOT NULL AUTO_INCREMENT,
+    user_id       INT(11) NOT NULL,
+                  CONSTRAINT delete_user_users_preferences -- delete if user is removed
+                  FOREIGN KEY (user_id)
+                  REFERENCES users (id)
+                  ON DELETE CASCADE,
+    ingredient_id INT(11) NOT NULL,
+                  CONSTRAINT delete_ingredient_users_preferences -- delete if ingredient is removed
+                  FOREIGN KEY (ingredient_id)
+                  REFERENCES ingredients (id)
+                  ON DELETE CASCADE,
+    flag          INT(2)  NOT NULL DEFAULT 0
+) CHARSET=utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE images (
+    PRIMARY KEY (id),
+    id       INT(11)      NOT NULL AUTO_INCREMENT,
+    name     VARCHAR(255) NOT NULL,
+    url      VARCHAR(255) NOT NULL
+) CHARSET=utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE recipes (
+    PRIMARY KEY (id),
+    id       INT(11)      NOT NULL AUTO_INCREMENT,
+    image_id INT(11)               DEFAULT NULL,
+    name     VARCHAR(255) NOT NULL,
+    url      VARCHAR(255) NOT NULL
 ) CHARSET=utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE recipes_ingredients (
@@ -73,6 +99,20 @@ CREATE TABLE recipes_ingredients (
                   FOREIGN KEY (ingredient_id)
                   REFERENCES ingredients (id)
                   ON DELETE CASCADE
+) CHARSET=utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE roommates (
+    PRIMARY KEY (id),
+    id          INT(11)      NOT NULL AUTO_INCREMENT,
+    handle      INT(11)      NOT NULL,
+    user_id     INT(11)      NOT NULL,
+                CONSTRAINT delete_user_roommates -- delete if user is removed
+                FOREIGN KEY (user_id)
+                REFERENCES users (id)
+                ON DELETE CASCADE,
+    first_name  VARCHAR(255),
+    middle_name VARCHAR(255),
+    last_name   VARCHAR(255)
 ) CHARSET=utf8 COLLATE utf8_general_ci;
 
 CREATE TABLE roommates_allergies (
@@ -107,34 +147,23 @@ CREATE TABLE roommates_preferences (
     flag          INT(2)  NOT NULL DEFAULT 0
 ) CHARSET=utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE users_allergies (
+CREATE TABLE types (
     PRIMARY KEY (id),
-    id         INT(11) NOT NULL AUTO_INCREMENT,
-    user_id    INT(11) NOT NULL,
-               CONSTRAINT delete_user_users_allergies -- delete if user is removed
-               FOREIGN KEY (user_id)
-               REFERENCES users (id)
-               ON DELETE CASCADE,
-    allergy_id INT(11) NOT NULL,
-               CONSTRAINT delete_allergy_users_allergies -- delete if allergy is removed
-               FOREIGN KEY (allergy_id)
-               REFERENCES allergies (id)
-               ON DELETE CASCADE,
-    flag       INT(2)  NOT NULL DEFAULT 0
+    id   INT(11)      NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL
 ) CHARSET=utf8 COLLATE utf8_general_ci;
 
-CREATE TABLE users_preferences (
+CREATE TABLE types_recipes (
     PRIMARY KEY (id),
-    id            INT(11) NOT NULL AUTO_INCREMENT,
-    user_id       INT(11) NOT NULL,
-                  CONSTRAINT delete_user_users_preferences -- delete if user is removed
-                  FOREIGN KEY (user_id)
-                  REFERENCES users (id)
-                  ON DELETE CASCADE,
-    ingredient_id INT(11) NOT NULL,
-                  CONSTRAINT delete_ingredient_users_preferences -- delete if ingredient is removed
-                  FOREIGN KEY (ingredient_id)
-                  REFERENCES ingredients (id)
-                  ON DELETE CASCADE,
-    flag          INT(2)  NOT NULL DEFAULT 0
+    id        INT(11) NOT NULL AUTO_INCREMENT,
+    type_id   INT(11) NOT NULL,
+              CONSTRAINT delete_type_types_recipes -- delete if roommate is removed
+              FOREIGN KEY (type_id)
+              REFERENCES types (id)
+              ON DELETE CASCADE,
+    recipe_id INT(11) NOT NULL,
+              CONSTRAINT delete_recipe_types_recipes -- delete if allergy is removed
+              FOREIGN KEY (recipe_id)
+              REFERENCES recipes (id)
+              ON DELETE CASCADE
 ) CHARSET=utf8 COLLATE utf8_general_ci;
