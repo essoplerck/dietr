@@ -3,8 +3,7 @@ from flask import session
 from dietr.database import database
 from dietr.models.allergy import Allergy
 from dietr.models.ingredient import Ingredient
-from dietr.models.roommate import Roommate
-from dietr.models.user import User, UserModel
+from dietr.models.user import UserModel
 
 
 class DietModel(UserModel):
