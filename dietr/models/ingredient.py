@@ -64,6 +64,21 @@ class IngredientModel:
         # Convert the list of dicts to a list of ingredient objects
         return [Ingredient(**ingredient) for ingredient in ingredients]
 
+    def get_recipe_ingredients(self, recipe_id):
+        """Get all ingredients from the database and return a list of instances
+        of the ingredient class.
+        """
+        query = '''SELECT ingredients.id as id, ingredients.name as name
+                     FROM ingredients, recipes_ingredients
+                     WHERE ingredients.id = recipes_ingredients.ingredient_id
+                     AND recipes_ingredients.recipe_id = %s
+                    ORDER BY name'''
+
+        ingredients = database.fetch_all(query, recipe_id)
+
+        # Convert the list of dicts to a list of ingredient objects
+        return [Ingredient(**ingredient) for ingredient in ingredients]
+
     def set_ingredient(self, id, name):
         """Set the name of an ingredient."""
         query = '''UPDATE ingredients

@@ -3,6 +3,7 @@ from dataclasses import dataclass, field
 from flask import session
 
 from dietr.database import database
+from dietr.models.allergy import Allergy
 
 
 @dataclass
@@ -15,6 +16,7 @@ class User:
     last_name: str
     hash: str
     allergies: list = field(default_factory=list, init=False)
+    roommates: list = field(default_factory=list, init=False)
     preferences: list = field(default_factory=list, init=False)
     roommates: list = field(default_factory=list, init=False)
 
@@ -42,3 +44,19 @@ class UserModel:
 
         # Convert dict to an user object
         return User(**database.fetch(query, user_id))
+
+    def get_allergies(self, id):
+        """Get all allergies for a user from the database and return a list
+        of instances of the allergy class.
+        """
+        query = '''SELECT allergies.id, allergies.name
+                     FROM allergies, users_allergies
+                    WHERE users_allergies.user_id = %s
+                      AND users_allergies.allergy_id = allergies.id'''
+
+        allergies = database.fetch_all(query, id)
+
+        # Convert the list of dicts to a list of allergy objects
+        if allergies:
+            return [Allergy(**allergy) for allergy in allergies]
+        return None
