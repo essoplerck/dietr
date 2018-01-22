@@ -57,13 +57,6 @@ def add_context():
 
     return dict(user=user, year=year)
 
-def url_for_other_page(page, limit):
-    args = request.view_args.copy()
-    args['page'] = page
-    args['limit'] = limit
-    return url_for(request.endpoint, **args)
-app.jinja_env.globals['url_for_other_page'] = url_for_other_page
-
 
 @app.errorhandler(403)
 def forbidden(error):
@@ -91,11 +84,7 @@ from dietr.views import ingredient
 from dietr.views import overview
 from dietr.views import pantry
 from dietr.views import profile
-<<<<<<< HEAD
 from dietr.views import recipe
-=======
-from dietr.views import recipes
->>>>>>> recepten
 from dietr.views import roommate
 
 app.register_blueprint(allergy.blueprint)
@@ -105,9 +94,5 @@ app.register_blueprint(ingredient.blueprint)
 app.register_blueprint(overview.blueprint)
 app.register_blueprint(pantry.blueprint)
 app.register_blueprint(profile.blueprint)
-<<<<<<< HEAD
 app.register_blueprint(recipe.blueprint)
-=======
-app.register_blueprint(recipes.blueprint)
->>>>>>> recepten
 app.register_blueprint(roommate.blueprint)
