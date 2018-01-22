@@ -1,16 +1,22 @@
 {% extends 'layout.jinja' %}
 
 {% block title %}
-  Reset wachtwoord
+  Wachtwoord aanpassen
 {% endblock title %}
 
 {% block carousel %}
-  <form action="{{ url_for('authentication.reset') }}" method="post">
-    {{ macros.input('email', 'E-mail adress',
-                    error=error.password,
-                    required=True,
-                    type='email') }}
-
-    <button class="btn btn-primary" type="submit">Reset wachtwoord</button>
-  </form>
+  <h1>Wachtwoord aanpassen</h1>
+  <br>
+  <div class="row justify-content-md-center">
+    <div class="col-8">
+      <form action="{{ url_for('authentication.reset') }}" method="post">
+        {{ macros.input('email', 'E-mailadres',
+                        error=error.password,
+                        required=True,
+                        type='email') }}
+        <br>
+        <button class="btn btn-primary btn-lg" type="submit">Wachtwoord aanpassen</button>
+      </form>
+    </div>
+  </div>
 {% endblock carousel %}

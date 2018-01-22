@@ -152,7 +152,7 @@ header .afh .dropdown-item.active:hover {
 footer .afh a,
 footer .afh .nav-link.dropdown-toggle a,
 footer .afh .nav-link.dropdown-toggle .dropdown-menu .dropdown-item a,
-a:not([href]):not([tabindex]) {
+footer a:not([href]):not([tabindex]) {
   color: rgb(20,100,20);
 }
 
@@ -172,8 +172,8 @@ footer .afh .nav-link:focus,
 footer .afh .nav-link .dropdown-toggle:focus,
 footer .afh .nav-link:hover,
 footer .afh .nav-link .dropdown-toggle:hover,
-a:not([href]):not([tabindex]):focus,
-a:not([href]):not([tabindex]):hover {
+footer a:not([href]):not([tabindex]):focus,
+footer a:not([href]):not([tabindex]):hover {
   color: rgb(20,100,20);
   box-shadow: 2px 2px 2px grey;
   border-color: transparent;
@@ -212,6 +212,7 @@ footer .afh .dropdown-item.active:hover {
   outline-color: transparent;
 }
 
+/*Buttons*/
 .btn-primary {
   background-color: rgb(20,230,160);
   border-color: transparent;
@@ -259,6 +260,7 @@ footer .afh .dropdown-item.active:hover {
   outline-color: transparent;
 }
 
+/*Header*/
 header .img {
   background-image: url(/static/images/header.png);
   background-size: cover;
@@ -314,6 +316,7 @@ header .ml-auto {
   margin: 6px 20px 5px 0;
 }
 
+/*Footer*/
 footer {
   background-color: rgb(225,245,225);
   text-align: center;
@@ -327,9 +330,10 @@ footer .text-right {
   margin-right: 30px;
 }
 
+/*Carousel*/
 section .carousel.slide .d-block {
   width: 1000px;
-  height: 520px;
+  min-height: 520px;
   background-size: cover;
   background-position: 0 center;
   background-repeat: no-repeat;
@@ -340,7 +344,7 @@ and (min-width: 0)
 and (max-width: 942px) {
   section .carousel.slide .d-block {
     width: 1000px;
-    height: 520px;
+    min-height: 520px;
     background-size: 0 cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -369,6 +373,7 @@ section .form-text {
   margin-top: -10px;
 }
 
+/*Recipe page*/
 section .recipes .card-deck {
   text-align: left;
   width: 100%;
@@ -451,14 +456,7 @@ section .background-img {
   background-image: url(/static/images/slideshow_1.png);
 }
 
-section .pantry .card-body {
-  padding: 5px;
-}
-
-section .pantry .form-inline .form-control-lg {
-  width: 400px;
-}
-
+/*Allergies and diets page*/
 section .row .card.back-color h3 {
   margin: 6px 0 6px 10px;
 }
@@ -481,10 +479,12 @@ section .back-color.row.justify-content-center {
   margin-bottom: 20px;
 }
 
+/*Account page*/
 section .row.justify-content-md-center label {
   margin: 0 0 0 2px;
 }
 
+/*Person page*/
 section .card-header {
   background-color: rgb(225,245,225);
 }
@@ -501,11 +501,13 @@ section .fa-plus {
   margin-top: 6px;
 }
 
+/*Log in page*/
 section a,
 section a:hover {
   color: black;
 }
 
+/*Error page*/
 section .error h1 {
   font-size: 100px;
 }

@@ -1,13 +1,12 @@
 {% extends 'layout.jinja' %}
 
 {% block title %}
-  Verwijder {{ ingredient.name }}
+  {{ ingredient.name }} verwijderen
 {% endblock title %}
 
 {% block carousel %}
   <form action="{{ url_for('ingredient.remove', id=ingredient.id) }}" method="post">
     <h3>Verwijder {{ ingredient.name }}</h3>
-
-    <button class="btn btn-danger" type="submit">Verwijder ingredient</button>
+    <button class="btn btn-primary btn-lg" type="submit">Ingrediënt verwijderen</button>
   </form>
 {% endblock carousel %}

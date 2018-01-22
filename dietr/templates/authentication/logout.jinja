@@ -1,13 +1,17 @@
 {% extends 'layout.jija' %}
 
 {% block title %}
-  Logout
+  Uitloggen
 {% endblock title %}
 
 {% block carousel %}
-  <form action="{{ url_for('authentication.logout') }}" method="post">
-    <h3>Logout</h3>
-
-    <button class="btn btn-danger" name="logout" type="submit">Logout</button>
-  </form>
+  <div class="row justify-content-md-center">
+    <div class="col-8">
+      <form action="{{ url_for('authentication.logout') }}" method="post">
+        <h1>Uitloggen</h1>
+        <br>
+        <button class="btn btn-primary btn-lg" name="logout" type="submit">Uitloggen</button>
+      </form>
+    </div
+  </div>
 {% endblock carousel %}
