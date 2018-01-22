@@ -15,11 +15,11 @@ model = RecipeModel()
 @blueprint.route('/recipes/page/<int:page>/show<int:limit>')
 def view(page, limit):
     #Checks if the url doesn't ask for a non-excisting limit
-    if limit != 100 and limit != 40 and limit != 20:
+    if limit not in [20, 40, 100]:
         limit = 20
         page = 1
 
-        return redirect('/recepten/')
+        return redirect(url_for('recipes.view', page=page, limit=limit))
 
     start = model.lowest_id + (limit * (page - 1))
 
