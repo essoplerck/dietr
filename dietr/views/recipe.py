@@ -3,7 +3,7 @@ from flask import Blueprint, request, render_template, url_for, redirect
 from dietr.models.recipe import RecipeModel
 from dietr.pagination import Pagination
 
-blueprint = Blueprint('recipes', __name__)
+blueprint = Blueprint('recipe', __name__)
 
 model = RecipeModel()
 
