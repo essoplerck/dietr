@@ -64,6 +64,7 @@ class User {
   }
 
   addAllergy(id) {
+    console.log(`${this.allergy}${id}`)
     return script.request(`${this.allergy}${id}`, 'POST');
   }
 
@@ -80,7 +81,7 @@ class User {
   }
 }
 
-script.roommate = new User();
+script.user = new User();
 
 class Roommate extends User {
   constructor() {
@@ -99,48 +100,58 @@ class Roommate extends User {
 script.roommate = new Roommate();
 
 script.controllers = {
-  roommate: document => {
+  diet: document => {
     let templateRemove = document.querySelector('#template-remove'),
-        templateSearch = document.querySelector('#template-search');
+        templateAdd = document.querySelector('#template-add');
 
     (wrapper => {
       function search(query) {
         script.allergy.search(query).then(response => {
           // clear children of search outout
+          let results = wrapper.querySelector('#allergies-search');
 
-          for (allergy in JSON.parse(response)) {
-            let clone  = document.importNode(templateRemove.content, true),
+          response.forEach(allergy => {
+            console.log(allergy)
+            let clone  = document.importNode(templateAdd.content, true),
                 link   = clone.querySelector('a'),
                 button = clone.querySelector('.btn');
 
-            link.href      = `/allergy/${allergy.id}`;
-            link.innerText = allergy.name;
+            link.href      = `/allergy/${allergy['id']}`;
+            link.innerText = allergy['name'];
 
-            // add event listener to button
-            // append clone to search area
-          }
+            button.onclick = evt => {
+              add(link);
+            };
+
+            results.append(clone);
+          });
         });
       }
 
       // Add a new allergy
       function add(el) {
-        let href = el.previousElementSibling.href,
+        let allergies = wrapper.querySelector('#allergies');
+
+        let href = el.href,
             id  = new URL(href).pathname.split('/')[2];
 
-        script.roommate.addAllergy(id).then(response => {
+        script.user.addAllergy(id).then(response => {
           el.parentElement.remove();
 
           let clone  = document.importNode(templateRemove.content, true),
               link   = clone.querySelector('a'),
               button = clone.querySelector('.btn');
 
-          link.href = `/allergies/${response.id}`;
-          link.innerText = response.name;
+          link.href = `/allergies/${id}`;
+          link.innerText = el.innerText;
 
-          button.onClick(evt => {
+          button.onclick = evt => {
             // remove parentElement
             // add to list of allergies
-          })
+          }
+
+          console.log(clone)
+          allergies.append(clone);
         });
       }
 
@@ -149,9 +160,27 @@ script.controllers = {
         let href = el.previousElementSibling.href,
             id  = new URL(href).pathname.split('/')[2];
 
-        script.roommate.removeAllergy(id).then(response => {
+        script.diet.removeAllergy(id).then(response => {
           el.parentElement.remove();
         });
+      }
+
+      let buttons = wrapper.querySelectorAll('a.btn');
+
+      buttons.forEach(button => {
+        console.log(button)
+      })
+
+      console.log(buttons)
+
+      let button = wrapper.querySelector('button'),
+          input  = button.previousElementSibling;
+
+      button.onclick =evt => {
+        let query = input.value;
+        console.log(query)
+
+        search(query);
       }
     })(document.querySelector('#allergies-wrapper'));
   },
@@ -165,7 +194,7 @@ script.router = ((controller, location) => {
   let routes = {
     '\/roommate\/[0-9]+': controller.roommate,
     '\/roommate\/[0-9]+\/edit': controller.roommate,
-    '\/profile\/.*': controller.user
+    '\/diet': controller.diet
   };
 
   for (route in routes) {
