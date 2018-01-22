@@ -59,4 +59,5 @@ class UserModel:
         # Convert the list of dicts to a list of allergy objects
         if allergies:
             return [Allergy(**allergy) for allergy in allergies]
+            
         return None
