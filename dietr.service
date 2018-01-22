@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI instance to serve dietr.io
+After=network.target
+
+[Service]
+User=dietr
+Group=www-data
+WorkingDirectory=/home/dietr/dietr
+Environment="PATH=/home/dietr/dietr/dietr-env/bin"
+ExecStart=/home/dietr/dietr/dietr-env/bin/uwsgi --ini dietr.ini
+
+[Install]
+WantedBy=multi-user.target
