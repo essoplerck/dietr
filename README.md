@@ -6,8 +6,6 @@
 [![license][image-license]](LICENSE)
 [![website][image-website]](https://dietr.io)
 
----
-
 ![header image](header.png)
 
 Dietr is a web app that allows users to search recipes and takes in account of their allergies and preferences. It also allows users to add roommates and check for their allergies and preferences. All allergies are gatherd from external sources using a custom made crawler.
