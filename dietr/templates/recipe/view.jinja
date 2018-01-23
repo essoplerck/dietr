@@ -178,7 +178,7 @@
               {% endif %}
 
               {% for page in pagination.iter_pages() %}
-                {% if page  and %}
+                {% if page %}
                   {% if page != pagination.page %}
                     <li class="page-item"><a class="page-link" href="{{ url_for_other_page(page, pagination.per_page) }}">{{ page }}</a></li>
                   {% else %}
