@@ -84,7 +84,7 @@ del os
 
 ## Releases
 
-- `v0.1.0` Initial release
+- `v0.5.0-alpha` Inital release
 
 A detailed changelog can be found [here](CHANGELOG.md).
 
