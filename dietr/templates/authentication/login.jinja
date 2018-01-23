@@ -5,15 +5,23 @@
 {% endblock title %}
 
 {% block carousel %}
-  <div class="row justify-content-md-center">
-    <div class="col-8">
-      <h1>Inloggen</h1>
-      <br>
-      <form action="{{ url_for('authentication.login') }}" method="post">
-        {{ macros.input('username', 'Gebruikersnaam',
+  <h1>Inloggen</h1>
+  <br>
+
+  <form action="{{ url_for('authentication.login') }}" method="post">
+    <div class="form-group row justify-content-md-center">
+      <div class="col-10">
+        {{ macros.input('username',
+                        placeholder='Gebruikersnaam',
                         value=username,
                         required=True) }}
-        {{ macros.input('password', 'Wachtwoord',
+      </div>
+    </div>
+
+    <div class="form-group row justify-content-md-center">
+      <div class="col-10">
+        {{ macros.input('password',
+                        placeholder='Wachtwoord',
                         error=error.password,
                         required=True,
                         type='password') }}
@@ -21,8 +29,9 @@
           Ben je je wachtwoord vergeten?
           <a href="{{ url_for('authentication.reset') }}">Wachtwoord resetten</a>
         </p>
-        <button class="btn btn-primary btn-lg" type="submit">Inloggen</button>
-      </form>
+      </div>
     </div>
-  </div>
+
+    <button class="btn btn-primary btn-lg" type="submit">Inloggen</button>
+  </form>
 {% endblock carousel %}

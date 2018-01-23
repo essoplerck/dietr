@@ -7,46 +7,72 @@
 {% block carousel %}
   <h1>Registreren</h1>
   <br>
+
   <form action="{{ url_for('authentication.join') }}" method="post">
-    <div class="row justify-content-md-center">
+    <div class="form-group row justify-content-md-center">
       <div class="col-3">
-        {{ macros.input('first-name', 'Voornaam',
-                        value=user.first_name,
-                        error=error.first_name,
-                        required=True) }}
-      </div>
-      <div class="col-2">
-        {{ macros.input('middle-name', 'Tussenvoegsel',
-                        value=user.middle_name) }}
+        {{ macros.input_label('first-name',
+                              placeholder='Voornaam',
+                              value=user.first_name,
+                              error=error.first_name,
+                              required=True) }}
       </div>
       <div class="col-3">
-        {{ macros.input('last-name', 'Achternaam',
-                        value=user.last_name,
-                        error=error.last_name,
-                        required=True) }}
+        {{ macros.input_label('middle-name',
+                              placeholder='Tussenvoegsel',
+                              value=user.middle_name) }}
       </div>
-      <div class="col-8">
-        {% call macros.input('email', 'E-mailadres', 'email',
-                             value=user.email,
-                             error=error.email,
-                             required=True) %}
-          <small>Wij delen uw e-mailadres niet met derden.</small>
-        {% endcall %}
-        {{ macros.input('username', 'Gebruikersnaam',
-                        value=user.username,
-                        error=error.username,
-                        required=True) }}
-        {{ macros.input('password', 'Wachtwoord',
-                        error=error.password,
-                        required=True,
-                        type='password') }}
-        {{ macros.input('password-verify', 'Herhaal wachtwoord',
-                        error=error.password_verify,
-                        required=True,
-                        type='password') }}
-          <br>
-          <button class="btn btn-primary btn-lg" type="submit">Registreren</button>
+      <div class="col-4">
+        {{ macros.input_label('last-name',
+                              placeholder='Achternaam',
+                              value=user.last_name,
+                              error=error.last_name,
+                              required=True) }}
       </div>
     </div>
+
+    <div class="form-group row justify-content-md-center">
+      <div class="col-10">
+        {{ macros.input_label('email',
+                              placeholder='E-mailadres',
+                              value=user.email,
+                              error=error.email,
+                              type='email',
+                              required=True) }}
+        <small>Wij delen uw e-mailadres niet met derden.</small>
+      </div>
+    </div>
+
+    <div class="form-group row justify-content-md-center">
+      <div class="col-10">
+        {{ macros.input_label('username',
+                              placeholder='Gebruikersnaam',
+                              value=user.username,
+                              error=error.username,
+                              required=True) }}
+      </div>
+    </div>
+
+    <div class="form-group row justify-content-md-center">
+      <div class="col-10">
+        {{ macros.input_label('password',
+                              placeholder='Wachtwoord',
+                              error=error.password,
+                              required=True,
+                              type='password') }}
+      </div>
+    </div>
+
+    <div class="form-group row justify-content-md-center">
+      <div class="col-10">
+        {{ macros.input_label('password-verify',
+                              placeholder='Herhaal wachtwoord',
+                              error=error.password_verify,
+                              required=True,
+                              type='password') }}
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-lg" type="submit">Registreren</button>
   </form>
 {% endblock carousel %}

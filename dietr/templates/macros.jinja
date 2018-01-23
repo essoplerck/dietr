@@ -16,12 +16,18 @@
       {{ error }}
     </div>
   {% endif %}
-
-  {% if caller %}
-    {{ caller() }}
-  {% endif %}
 {% endmacro %}
 
-{% macro input_label(name, placeholder, type='text', value=None, error=None, required=False) %}
+{% macro input_label(name, placeholder=None, value=None, error=None, type='text', required=False) %}
   <label class="float-left">{{ placeholder }}</label>
+
+  {{ input(name, placeholder, value, error, type, required) }}
+{% endmacro %}
+
+{% macro column(width=12) %}
+  <div class="col-{{ width}}">
+    {% if caller %}
+      {{ caller() }}
+    {% endif %}
+  </div>
 {% endmacro %}
