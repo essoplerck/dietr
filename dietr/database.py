@@ -18,7 +18,7 @@ class Database:
 
     def connect(self):
         """Connecto to the database."""
-        self.connection = sql.connect(database='renswnc266_development',
+        self.connection = sql.connect(database='renswnc266_production',
                                       host='185.182.57.56',
                                       user='renswnc266_dietr',
                                       password='qvuemzxu',

@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, url_for, redirect
 
 from dietr.models.recipe import RecipeModel
 from dietr.pagination import Pagination
+from dietr.utils import login_required
 
 blueprint = Blueprint('recipe', __name__)
 
@@ -13,8 +14,9 @@ model = RecipeModel()
     'limit':  20
 })
 @blueprint.route('/recipes/page/<int:page>/show<int:limit>')
+@login_required
 def view(page, limit):
-    #Checks if the url doesn't ask for a non-excisting limit
+    # Checks if the url doesn't ask for a non-excisting limit
     if limit not in [20, 40, 100]:
         limit = 20
         page = 1
@@ -30,7 +32,7 @@ def view(page, limit):
 
     pagination = Pagination(page, limit, recipe_count)
 
-    #Checks if the url doesn't ask for a non-excisting page and redirects to the last page
+    # Check if page exits
     if page > pagination.pages:
         page = pagination.pages
 
@@ -39,4 +41,5 @@ def view(page, limit):
     recipes = model.create_list(limit, start)
     user = model.user
 
-    return render_template('/recipes/recepten.html', recipes=recipes, pagination=pagination, user=user)
+    return render_template('/recipe/view.jinja', recipes=recipes, user=user,
+                           pagination=pagination)

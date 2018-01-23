@@ -1,0 +1,202 @@
+{% extends 'layout.jinja' %}
+
+{% block title %}
+  Recepten
+{% endblock title %}
+
+{% block content %}
+  <section>
+    <div class="back-color recipes row">
+      <div class="col-2 left-col-padding border-right">
+        <h3>Categorieën</h3>
+        <hr>
+
+        {% if user.roommates %}
+          <h4>Personen</h4>
+            <div class="form-check">
+              <label class="form-check-label">
+                {% for roommate in user.roommates %}
+                  <input id="{{ roommate.id }}" class="form-check-input" type="checkbox" value="True" checked>
+                {{ roommate.first_name }}
+            </label>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <hr>
+
+        <h4>Soort gerecht</h4>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Ontbijt
+          </label>
+
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Lunch
+          </label>
+
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Voorgerecht
+          </label>
+
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Hoofdgerecht
+          </label>
+
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Nagerecht
+          </label>
+
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Gebak
+          </label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <div class="btn btn-primary">
+              <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Recepten weergave
+              </button>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{{ url_for_other_page(1, 20) }}">20</a>
+                <a class="dropdown-item" href="{{ url_for_other_page(1, 40) }}">40</a>
+                <a class="dropdown-item" href="{{ url_for_other_page(1, 100) }}">100</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="dropdown text-right">
+              <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Sorteren op
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">A-Z</a>
+                <a class="dropdown-item" href="#">Z-A</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <div class="card-deck">
+            {% for recipe in recipes : %}
+              <div class="card-block col-md-4 col-lg-3">
+                <a href="#recipe{{ recipe.id }}" class="card clearfix" data-toggle="modal" data-target="#recipe{{ recipe.id }}">
+                  <div class="card-img" style="background-image: {{ recipe.image }};"></div>
+                  <div class="card-img-overlay">
+                    <h3 id="Recipe_name" class="card-title">{{ recipe.name }}</h3>
+                      <p class="card-text">Ingrediënten:
+                        <ul>
+                          {% for ingredient in recipe.ingredients[0:2] : %}
+                            <li>{{ ingredient.name }}</li>
+                          {% endfor %}
+                          <li>...</li>
+                      </ul>
+                    </p>
+                  </div>
+
+                  <div class="card-footer">
+                    <small class="text-muted">Afkomstig van: {{ recipe.source }}</small>
+                  </div>
+                </a>
+              </div>
+
+              <div class="modal fade" id="recipe{{ recipe.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header back-color">
+                      <h3 class="modal-title" id="exampleModalLongTitle">{{ recipe.name }}</h3>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+
+                    <div class="modal-body background-img">
+                      <div class="row">
+                        <div class="col-6">
+                          <p>Ingrediënten</p>
+                            <ul>
+                              {% for ingredient in recipe.ingredients[0:2] %}
+                                <li>{{ ingredient.name }}</li>
+                              {% endfor %}
+
+                              <li>...</li>
+                          </ul>
+                        </div>
+
+                        <div class="col-6">
+                          <p>Allergenen</p>
+                          <ul>
+                            {% for allergy in recipe.allergies[0:2] %}
+                              <li>{{ allergy.name }}</li>
+                            {% endfor %}
+
+                            {% if recipe.allergies|length > 3 %}
+                              <li>...</li>
+                            {% endif %}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="alert alert-success" role="alert">Let op! DIETR kan niet garanderen dat gevonden recepten bepaalde allergenen ook daadwerkelijk niet bevatten. Controleer daarom altijd zelf de ingrediënten op allergenen.</div>
+
+                          <p>Dit recept is afkomstig van:
+                            <a href="{{ recipe.url }}">{{ recipe.source }}</a>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer back-color">
+                      <button type="button" class="btn btn-primary" href="{{ recipe.url }}">Bekijk recept</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="row justify-content-center">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+              {% if pagination.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for_other_page(pagination.page - 1, pagination.per_page) }}">Vorige</a></li>
+              {% endif %}
+
+              {% for page in pagination.iter_pages() %}
+                {% if page %}
+                  {% if page != pagination.page %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for_other_page(page, pagination.per_page) }}">{{ page }}</a></li>
+                  {% else %}
+                    <li class="page-item active"><span class="page-link">{{ page }}</span></li>
+                  {% endif %}
+                {% else %}
+                  <li class="page-item"><span class="page-link">…</span></li>
+                {% endif %}
+              {% endfor %}
+
+              {% if pagination.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for_other_page(pagination.page + 1, pagination.per_page) }}">Volgende</a></li>
+              {% endif %}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+  </section>
+{% endblock content %}
