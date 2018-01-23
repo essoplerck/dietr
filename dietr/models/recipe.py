@@ -6,15 +6,13 @@ from dietr.database import database
 
 from dietr.models.roommate import RoommateModel
 from dietr.models.user import UserModel
-from dietr.models.ingredient import IngredientModel
-from dietr.models.allergy import AllergyModel
+from dietr.models.ingredient import Ingredient
 from dietr.models.allergy import Allergy
 
 #Contains all the necessary database calls
 roommate_model = RoommateModel()
 user_model = UserModel()
-ingredient_model = IngredientModel()
-allergy_model = AllergyModel()
+
 
 
 @dataclass
@@ -39,22 +37,22 @@ class RecipeModel:
         """Fetch the highest id in the database"""
         return int(self.get_highest_id()['id'])
 
+
     @property
     def lowest_id(self):
         """Fetch the highest id in the database"""
         return int(self.get_lowest_id()['id'])
 
+
     @property
     def user(self):
         """Fetch all the user information"""
-        #Retrieves all the allergies the user has from the database
-        # if 'user' in session:
-        #     user_id = session['user']
-        # else:
-        #     return None
+        if 'user' not in session:
+            return None
 
-        user = user_model.get_user(1)
-        user.allergies = user_model.get_allergies(1)
+
+        user = user_model.get_user()
+        user.allergies = user_model.get_allergies(user.id)
         #user.preferences = user.get_preferences(user.id)
         user.roommates = roommate_model.get_roommates()
 
@@ -63,6 +61,7 @@ class RecipeModel:
                 roommate.allergies = roommate_model.get_allergies(roommate.id)
                 #roommate.get_preferences(roommate.id)
         return user
+
 
     def get_recipe(self, start, stop):
         """Fetch initial recipe value's """
@@ -79,14 +78,49 @@ class RecipeModel:
                 AND recipes.id >= %s
                 ORDER BY recipes.id
                 LIMIT %s'''
+
         recipes = database.fetch_all(query, (start, stop))
 
         return [Recipe(**recipe) for recipe in recipes]
+
 
     def get_recipe_count(self):
         query = '''SELECT COUNT(*) from recipes'''
 
         return database.fetch(query)
+
+
+    def get_ingredients(self, recipe_id):
+        """Get all ingredients from the database and return a list of instances
+        of the ingredient class.
+        """
+        query = '''SELECT ingredients.id as id, ingredients.name as name
+                     FROM ingredients, recipes_ingredients
+                     WHERE ingredients.id = recipes_ingredients.ingredient_id
+                     AND recipes_ingredients.recipe_id = %s
+                    ORDER BY name'''
+
+        ingredients = database.fetch_all(query, recipe_id)
+
+        # Convert the list of dicts to a list of ingredient objects
+        return [Ingredient(**ingredient) for ingredient in ingredients]
+
+
+    def get_allergies(self, ingredient_id):
+        """Get all allergies from the database and return a list of instances
+        of the allergy class.
+        """
+        query = '''SELECT allergies.id as id,
+                        allergies.name as name
+                     FROM allergies
+                     INNER JOIN allergies_ingredients on allergies_ingredients.allergy_id = allergies.id
+                     WHERE allergies_ingredients.ingredient_id = %s
+                    ORDER BY name'''
+
+        allergies = database.fetch_all(query, ingredient_id)
+
+        # Convert the list of dicts to a list of allergy objects
+        return [Allergy(**allergy) for allergy in allergies]
 
 
     def get_lowest_id(self):
@@ -157,11 +191,11 @@ class RecipeModel:
             recipe.source = self.get_source(recipe.url)
 
             #Add all the ingredients contained in the recipe
-            recipe.ingredients = ingredient_model.get_recipe_ingredients(recipe.id)
+            recipe.ingredients = self.get_ingredients(recipe.id)
 
             #Add all the allergens contained in the ingredients
             for ingredient in recipe.ingredients:
-                allergens = allergy_model.get_ingredient_allergies(ingredient.id)
+                allergens = self.get_allergies(ingredient.id)
                 if allergens:
                     recipe.allergies += allergens
 

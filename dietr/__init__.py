@@ -72,6 +72,13 @@ def internal_server_error(error):
 def not_found(error):
     return render_template('error/not_found.jinja'), 404
 
+def url_for_other_page(page, limit):
+    args = request.view_args.copy()
+    args['page'] = page
+    args['limit'] = limit
+    return url_for(request.endpoint, **args)
+    
+app.jinja_env.globals['url_for_other_page'] = url_for_other_page
 
 from dietr.views import api
 

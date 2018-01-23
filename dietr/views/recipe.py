@@ -40,3 +40,7 @@ def view(page, limit):
     user = model.user
 
     return render_template('/recipes/recepten.html', recipes=recipes, pagination=pagination, user=user)
+
+@blueprint.route('/recipes/page/')
+def recipe_redirect():
+    redirect('/recipes/')
