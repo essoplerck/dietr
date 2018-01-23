@@ -61,7 +61,6 @@ class RedisSessionInterface(SessionInterface):
             data = self.serializer.loads(val)
 
             return self.session_class(data, sid=sid)
-
         return self.session_class(sid=sid, new=True)
 
     def save_session(self, app, session, response):

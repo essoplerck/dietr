@@ -14,7 +14,7 @@ model = RecipeModel()
 })
 @blueprint.route('/recipes/page/<int:page>/show<int:limit>')
 def view(page, limit):
-    #Checks if the url doesn't ask for a non-excisting limit
+    # Checks if the url doesn't ask for a non-excisting limit
     if limit not in [20, 40, 100]:
         limit = 20
         page = 1
@@ -30,7 +30,7 @@ def view(page, limit):
 
     pagination = Pagination(page, limit, recipe_count)
 
-    #Checks if the url doesn't ask for a non-excisting page and redirects to the last page
+    # Check if page exits
     if page > pagination.pages:
         page = pagination.pages
 
