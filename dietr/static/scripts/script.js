@@ -99,19 +99,25 @@ class Roommate extends User {
 
 script.roommate = new Roommate();
 
-script.controllers = {
-  diet: document => {
+script.elements = (location => {
+  let routes = [
+    /\/roommate\/[0-9]+/,
+    /\/roommate\/[0-9]+\/edit/,
+    /\/diet/
+  ];
+
+  if (!routes.some(route => route.test(location))) return;
     let templateRemove = document.querySelector('#template-remove'),
         templateAdd = document.querySelector('#template-add');
 
     (wrapper => {
+      let results = wrapper.querySelector('#allergies-search');
+
       function search(query) {
         script.allergy.search(query).then(response => {
           // clear children of search outout
-          let results = wrapper.querySelector('#allergies-search');
 
           response.forEach(allergy => {
-            console.log(allergy)
             let clone  = document.importNode(templateAdd.content, true),
                 link   = clone.querySelector('a'),
                 button = clone.querySelector('.btn');
@@ -146,12 +152,15 @@ script.controllers = {
           link.innerText = el.innerText;
 
           button.onclick = evt => {
-            // remove parentElement
-            // add to list of allergies
+            del(button)
           }
 
-          console.log(clone)
           allergies.append(clone);
+
+          // Remove search results
+          while (results.firstChild) {
+            results.removeChild(results.firstChild);
+          }
         });
       }
 
@@ -160,7 +169,7 @@ script.controllers = {
         let href = el.previousElementSibling.href,
             id  = new URL(href).pathname.split('/')[2];
 
-        script.diet.removeAllergy(id).then(response => {
+        script.user.removeAllergy(id).then(response => {
           el.parentElement.remove();
         });
       }
@@ -168,40 +177,21 @@ script.controllers = {
       let buttons = wrapper.querySelectorAll('a.btn');
 
       buttons.forEach(button => {
-        console.log(button)
+        button.onclick = evt => {
+          del(button);
+        }
       })
-
-      console.log(buttons)
 
       let button = wrapper.querySelector('button'),
           input  = button.previousElementSibling;
 
       button.onclick =evt => {
         let query = input.value;
-        console.log(query)
+
+        // Rest search value
+        input.value = '';
 
         search(query);
       }
     })(document.querySelector('#allergies-wrapper'));
-  },
-
-  user: document => {
-
-  }
-};
-
-script.router = ((controller, location) => {
-  let routes = {
-    '\/roommate\/[0-9]+': controller.roommate,
-    '\/roommate\/[0-9]+\/edit': controller.roommate,
-    '\/diet': controller.diet
-  };
-
-  for (route in routes) {
-    let expression = new RegExp(route);
-
-    if (location.match(expression)) {
-      routes[route](document);
-    }
-  }
-})(script.controllers, window.location.pathname);
+})(window.location.pathname)
