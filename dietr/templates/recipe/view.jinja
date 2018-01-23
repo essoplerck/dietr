@@ -93,7 +93,7 @@
             {% for recipe in recipes : %}
               <div class="card-block col-md-4 col-lg-3">
                 <a href="#recipe{{ recipe.id }}" class="card clearfix" data-toggle="modal" data-target="#recipe{{ recipe.id }}">
-                  <div class="card-img" style="background-image: {{ recipe.image }};"></div>
+                  <div class="card-img" style="background-image: url({{ url_for('static', filename='images/ingredients/' + recipe.image) }})"></div>
                   <div class="card-img-overlay">
                     <h3 id="Recipe_name" class="card-title">{{ recipe.name }}</h3>
                       <p class="card-text">Ingrediënten:
