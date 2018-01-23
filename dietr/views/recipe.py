@@ -41,4 +41,5 @@ def view(page, limit):
     recipes = model.create_list(limit, start)
     user = model.user
 
-    return render_template('/recipes/recepten.html', recipes=recipes, pagination=pagination, user=user)
+    return render_template('/recipe/view.jinja', recipes=recipes, user=user,
+                           pagination=pagination)
