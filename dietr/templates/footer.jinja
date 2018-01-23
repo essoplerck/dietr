@@ -1,39 +1,16 @@
 <footer>
-  <ul class="nav justify-content-center">
-    <li>
-      <a class="nav-link active" href="{{ url_for('overview.dashboard') }}">Home</a>
-    </li>
-
-    <li>
+  <ul class="nav justify-content-center afh">
+      <a class="nav-link" href="{{ url_for('overview.dashboard') }}">Home</a>
       <a class="nav-link" href="{{ url_for('recipe.view') }}">Recepten</a>
-    </li>
-
-    <li>
-      <a class="nav-link" href="{{ url_for('pantry.view') }}">Koelkast leegmaken</a>
-    </li>
-
-    <li>
       <a class="nav-link" href="{{ url_for('diet.view') }}">Allergieën en dieetwensen</a>
-    </li>
-
-    <li>
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profiel</a>
-    </li>
-
-    <li>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="{{ url_for('profile.view') }}">Profiel</a>
-
         <span class="dropdown-divider"></span>
-
-        <a class="dropdown-item" href="{{ url_for('diet.view') }}">Dieet</a>
+        <a class="dropdown-item" href="{{ url_for('profile.edit') }}">Account</a>
         <a class="dropdown-item" href="{{ url_for('roommate.overview') }}">Personen</a>
       </div>
-    </li>
-
-    <li>
       <a class="nav-link" href="{{ url_for('overview.about') }}">Over ons</a>
-    </li>
   </ul>
 
   <div class="text-right">

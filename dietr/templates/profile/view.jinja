@@ -6,19 +6,16 @@
 
 {% block carousel %}
   <h1>Profiel</h1>
-
   <br>
-
   <h2>Wil je je profiel aanpassen?</h2>
-  <a class="btn btn-primary" href="{{ url_for('profile.edit') }}">Profiel aanpassen</a>
-
   <br>
-
-  <h2>Wil je je kamergenoten aanpassen?</h2>
-  <a class="btn btn-light" href="{{ url_for('roommate.overview') }}">Kamergenoten bekijken</a>
-
+  <a class="btn btn-primary btn-lg" href="{{ url_for('profile.edit') }}">Profiel aanpassen</a>
+  <br><br>
+  <h2>Wil je je personen aanpassen?</h2>
   <br>
-
-  <h2>Wil je je dieët aanpassen?</h2>
-  <a class="btn btn-light" href="{{ url_for('diet.view') }}">Dieët bekijken</a>
+  <a class="btn btn-primary btn-lg" href="{{ url_for('roommate.overview') }}">Personen aanpassen</a>
+  <br><br>
+  <h2>Wil je je allergieën of diëten aanpassen?</h2>
+  <br>
+  <a class="btn btn-primary btn-lg" href="{{ url_for('diet.view') }}">Allergieën of diëten aanpassen</a>
 {% endblock carousel %}

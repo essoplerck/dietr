@@ -1,18 +1,16 @@
 <header>
   <div class="header">
     <div class="img"></div>
-
     <div class="title">
       <a href="{{ url_for('overview.dashboard') }}">dietr</a>
     </div>
-
     <div class="account">
       {% if user %}
         <a href="{{ url_for('profile.view') }}">Profiel</a>
         |
-        <form action="{{ url_for('authentication.logout') }}" class="form-inline" method="POST">
-          <button class="btn btn-link" type="submit">Uitloggen</button>
-        </form>
+        <a href="#" action="{{ url_for('authentication.logout') }}" method="POST">
+          Uitloggen
+        </a>
       {% else %}
         <a href="{{ url_for('authentication.login') }}">Inloggen</a>
         |

@@ -1,7 +1,7 @@
 {% extends 'layout.jinja' %}
 
 {% block title %}
-  Dashboard
+  Home
 {% endblock title %}
 
 {% block carousel %}
@@ -11,11 +11,17 @@
     <br>
 
     <h2>Zoek een gepersonaliseerd recept!</h2>
+
+    <br>
+
     <a class="btn btn-primary btn-lg" href="{{ url_for('recipe.view') }}">Recept zoeken</a>
 
     <br><br><br>
 
     <h2>Wil je eerst nog je profiel aanpassen?</h2>
+
+    <br>
+
     <a class="btn btn-primary btn-lg" href="{{ url_for('profile.edit') }}">Profiel aanpassen</a>
   {% else %}
     <h1>Kies je dieet en weet wat je eet!</h1>
@@ -23,11 +29,17 @@
     <br>
 
     <h2>Maak nu een account aan!</h2>
+
+    <br>
+
     <a class="btn btn-primary btn-lg" href="{{ url_for('authentication.join') }}">Account aanmaken</a>
 
     <br><br><br>
 
     <h2>Heb je al een account?</h2>
+
+    <br>
+
     <a class="btn btn-primary btn-lg" href="{{ url_for('authentication.login') }}">Inloggen</a>
   {% endif %}
 {% endblock carousel %}
