@@ -2,7 +2,6 @@
   <ul class="nav justify-content-center afh">
       <a class="nav-link" href="{{ url_for('overview.dashboard') }}">Home</a>
       <a class="nav-link" href="{{ url_for('recipe.view') }}">Recepten</a>
-      <a class="nav-link" href="{{ url_for('pantry.view') }}">Koelkast leegmaken</a>
       <a class="nav-link" href="{{ url_for('diet.view') }}">Allergieën en dieetwensen</a>
       <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profiel</a>
       <div class="dropdown-menu">
@@ -10,7 +9,6 @@
         <span class="dropdown-divider"></span>
         <a class="dropdown-item" href="{{ url_for('profile.edit') }}">Account</a>
         <a class="dropdown-item" href="{{ url_for('roommate.overview') }}">Personen</a>
-        <a class="dropdown-item" href="{{ url_for('diet.view') }}">Dieet</a>
       </div>
       <a class="nav-link" href="{{ url_for('overview.about') }}">Over ons</a>
   </ul>
