@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, url_for, redirect
 
 from dietr.models.recipe import RecipeModel
 from dietr.pagination import Pagination
+from dietr.utils import login_required
 
 blueprint = Blueprint('recipe', __name__)
 
@@ -13,6 +14,7 @@ model = RecipeModel()
     'limit':  20
 })
 @blueprint.route('/recipes/page/<int:page>/show<int:limit>')
+@login_required
 def view(page, limit):
     # Checks if the url doesn't ask for a non-excisting limit
     if limit not in [20, 40, 100]:
