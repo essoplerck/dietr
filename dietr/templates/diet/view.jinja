@@ -15,7 +15,7 @@
 
 {% block carousel %}
   <h1>Allergieën en diëten</h1>
-  <br>
+  <br><br>
 
   {#<div class="row justify-content-center">
     {% for roommate in roommates %}
@@ -91,22 +91,31 @@
 {% endblock carousel %}
 
 {% block content %}
+  <br>
   <div class="back-color row justify-content-center">
     <form class="form-inline">
-      <div class="dropdown text-right">
-        <button class="btn btn-primary btn-margin dropdown-toggle" data-toggle="dropdown">
-          Zoeken naar
-        </button>
+      <div class="row">
+        <div class="col">
+          <div class="dropdown text-right">
+            <button class="btn btn-primary btn-margin dropdown-toggle" data-toggle="dropdown">
+              Zoeken naar
+            </button>
 
-        <div class="dropdown-menu">
-          <a class="dropdown-item">Allergie</a>
-          <a class="dropdown-item">Dieet</a>
-          <a class="dropdown-item">Ingrediënt</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item">Allergie</a>
+              <a class="dropdown-item">Dieet</a>
+              <a class="dropdown-item">Ingrediënt</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          {{ macros.input('search', placeholder='Zoeken', type='search') }}
+        </div>
+        <div class="col">
+          <button class="btn btn-primary" id="search-button">Zoeken</button>
         </div>
       </div>
-
-      {{ macros.input('search', placeholder='Zoeken', type='search') }}
-      <button class="btn btn-primary" id="search-button">Zoeken</button>
     </form>
   </div>
 
