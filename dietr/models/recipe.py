@@ -55,7 +55,7 @@ class RecipeModel:
             return None
         '''
 
-        user = user_model.get_user(1)
+        user = user_model.get_user()
         user.allergies = user_model.get_allergies(1)
         #user.preferences = user.get_preferences(user.id)
         user.roommates = roommate_model.get_roommates()

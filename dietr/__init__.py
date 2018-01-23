@@ -73,6 +73,15 @@ def not_found(error):
     return render_template('error/not_found.jinja'), 404
 
 
+def url_for_other_page(page, limit):
+    args = request.view_args.copy()
+
+    return url_for(request.endpoint, page=page, limit=limit)
+
+
+# @TODO Move to add contect method
+app.jinja_env.globals['url_for_other_page'] = url_for_other_page
+
 from dietr.views import api
 
 app.register_blueprint(api.blueprint)
