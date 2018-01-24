@@ -54,22 +54,14 @@ SERVER_NAME = 'dietr.io:80'
 PREFERRED_URL_SCHEME = 'https'
 ```
 
-Open the database config using `$ sudo nano dietr/database.py` and replace the lines that specify the `self.connection` in the connect method:
-
-```python
-self.connection = sql.connect(database='renswnc266_production',
-                              host='185.182.57.56',
-                              user='renswnc266_dietr',
-                              password='qvuemzxu',
-                              cursorclass=sql.cursors.DictCursor)
-```
-
 This project requires a relis server to run at `127.0.0.1:6379`. To run redis
 run the following command in a separte prompt:
 
 ```bash
 $ redis-server
 ```
+
+This project also requires a MySQL server to be active at `127.0.0.1`.
 
 Change the **SECRET_KEY** to ensure the safety of the program.
 
@@ -85,6 +77,7 @@ del os
 ## Releases
 
 - `v0.5.0-alpha` Inital release
+- `v0.5.1-alpha` Minor bug fixes and prep for demo
 
 A detailed changelog can be found [here](CHANGELOG.md).
 

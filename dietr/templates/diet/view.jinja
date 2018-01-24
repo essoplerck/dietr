@@ -1,59 +1,136 @@
 {% extends 'layout.jinja' %}
 
 {% block title %}
-  Dieët
+  Allergieën en diëten
 {% endblock title %}
 
+{% block templates %}
+  <template id="template-item">
+    <div class="row">
+      <div class="col-1">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      </div>
+      <div class="col">
+        <a></a>
+      </div>
+    </div>
+  </template>
+
+  <template id="template-result">
+    <div class="row">
+      <div class="col-1">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      </div>
+      <div class="col">
+        <a></a>
+      </div>
+    </div>
+  </template>
+{% endblock templates %}
+
 {% block carousel %}
-  <template id="template-remove">
-    <li>
-      <a></a>
-      <a class="btn btn-warning">Remove</a>
-    </li>
-  </template>
+  <h1>Allergieën en diëten</h1>
+  <br>
 
-  <template id="template-add">
-    <li>
-      <a></a>
-      <a class="btn btn-primary">Add</a>
-    </li>
-  </template>
+  {#<div class="row justify-content-center">
+    {% for roommate in roommates %}
+      <button class="btn btn-primary btn-lg btn-margin" href="{{ url_for('roommate.view', hanlde=roommate.handle) }}">{{ roommate.name }}</button>
+    {% endfor %}
+  </div>#}
 
-  <h3>Dieët aanpassen</h3>
+  <div class="row justify-content-center">
+    <div class="col-3 text-left">
+      <div class="row">
+        <div class="col-10">
+          <h2>Allergieën</h2>
+        </div>
+      </div>
 
-  <section id="allergies-wrapper">
-    <h3>Allergies</h3>
+      <div class="form-check" id="allergies">
+        {% for allergy in user.allergies %}
+          <div class="row">
+            <div class="col-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </div>
+            <div class="col">
+              <a href="{{ url_for('allergy.view', id=allergy.id) }}">{{ allergy.name }}</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
 
-    <ul id="allergies">
-      {% for allergy in user.allergies %}
-        <li>
-          <a href="{{ url_for('allergy.view', id=allergy.id) }}">{{ allergy.name }}</a>
-          <a class="btn btn-warning">Remove</a>
-        </li>
-      {% endfor %}
-    </ul>
+    <div class="col-1 border-right"></div>
 
-    <input type="text">
-    <button class="btn btn-primary" type="search">Search</button>
+    <div class="col-3 text-left">
+      <div class="row">
+        <div class="col-10">
+          <h2>Diëten</h2>
+        </div>
+      </div>
 
-    <ul id="allergies-search"></ul>
-  </section>
+      <div class="form-check"></div>
+    </div>
 
-  <section id="preferences-wrapper">
-    <h3>Preferences</h3>
+    <div class="form-check" id="diets"></div>
 
-    <ul id="preferences">
-      {% for ingredient in user.preferences %}
-        <li>
-          <a href="{{ url_for('ingredient.view', id=ingredient.id) }}">{{ ingredient.name }}</a>
-          <a class="btn btn-warning">Remove</a>
-        </li>
-      {% endfor %}
-    </ul>
+    <div class="col-1 border-right"></div>
 
-    <input type="text">
-    <button class="btn btn-primary" type="search">Search</button>
+    <div class="col-3 text-left">
+      <div class="row">
+        <div class="col-10">
+          <h2>Ingrediënten</h2>
+        </div>
+      </div>
 
-    <ul id="preferences-search"></ul>
-  </section>
+      <div class="form-check" id="ingredients">
+        {% for ingredient in user.preferences %}
+          <div class="row">
+            <div class="col-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
+            </div>
+            <div class="col">
+              <a href="{{ url_for('ingredient.view', id=ingredient.id) }}">{{ ingredient.name }}</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 {% endblock carousel %}
+
+{% block content %}
+  <section>
+    <div class="back-color row justify-content-center">
+      <form class="form-inline" id="search">
+        <div class="row">
+          <div class="col">
+            <div class="dropdown text-right">
+              <button class="btn btn-primary btn-margin dropdown-toggle" data-toggle="dropdown">
+                Zoeken naar
+              </button>
+
+              <div class="dropdown-menu">
+                <a class="dropdown-item">Allergie</a>
+                <a class="dropdown-item">Dieet</a>
+                <a class="dropdown-item">Ingrediënt</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            {{ macros.input('search', placeholder='Zoeken', type='search') }}
+          </div>
+          <div class="col">
+            <button class="btn btn-primary">Zoeken</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-6" id="results"></div>
+      </div>
+    </div>
+
+  </section>
+{% endblock content %}

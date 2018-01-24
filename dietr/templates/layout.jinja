@@ -3,7 +3,7 @@
 <!doctype html>
 <html>
 <head>
-  <title>{% block title -%}{%- endblock title %} - Dietr</title>
+  <title>{% block title %}{% endblock title %} - Dietr</title>
 
   {% include 'head.jinja' %}
 </head>
@@ -23,13 +23,15 @@
         </div>
 
         <div class="carousel-caption">
-          {% block carousel %}{% endblock %}
+          {% block carousel %}{% endblock carousel %}
         </div>
       </div>
     </section>
   {% endif  %}
 
-  {% block content %}{% endblock %}
+  {% block content %}{% endblock content %}
+
+  {% block templates %}{% endblock templates %}
 
   {% include 'footer.jinja' %}
 

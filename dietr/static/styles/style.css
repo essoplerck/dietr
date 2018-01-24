@@ -335,7 +335,7 @@ footer .text-right {
 /*Carousel*/
 section .carousel.slide .d-block {
   width: 1000px;
-  min-height: 520px;
+  max-height: 800px;
   background-size: cover;
   background-position: 0 center;
   background-repeat: no-repeat;
@@ -346,7 +346,7 @@ and (min-width: 0)
 and (max-width: 942px) {
   section .carousel.slide .d-block {
     width: 1000px;
-    min-height: 520px;
+    max-height: 800px;
     background-size: 0 cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -397,7 +397,7 @@ section .recipes .card-block {
 }
 
 section .card-img {
-  height: 175px;
+  height: 350px;
   opacity: 0.3;
   background-repeat: no-repeat;
   background-size: cover;

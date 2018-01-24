@@ -12,19 +12,30 @@ model = RoommateModel()
 @login_required
 def add():
     """The add action allows users to add an roommate."""
+    error = {}
+
     if request.method == 'POST':
         first_name = request.form['first-name']
         middle_name = request.form['middle-name']
         last_name = request.form['last-name']
 
-        # Get account specific indentifier
-        handle = model.get_count()
+        # Check if user has enterd a name
+        if not first_name:
+            error['first-name'] = 'You have not entered a first name.'
 
-        model.add_roommate(handle, first_name, middle_name, last_name)
+        if not last_name:
+            error['last-name'] = 'You have not entered a last name.'
 
-        # Redirect to roommate page
-        return redirect(url_for('roommate.roommate', handle=handle))
-    return render_template('/roommate/add.jinja')
+        # Check for errors
+        if not error:
+            # Get account specific indentifier
+            handle = model.get_count()
+
+            model.add_roommate(handle, first_name, middle_name, last_name)
+
+            # Redirect to roommate page
+            return redirect(url_for('roommate.roommate', handle=handle))
+    return render_template('/roommate/add.jinja', error=error)
 
 
 @blueprint.route('/roommate/<int:handle>/edit', methods=['GET', 'POST'])
