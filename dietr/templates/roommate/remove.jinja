@@ -1,9 +1,14 @@
 {% extends 'layout.jinja' %}
 
 {% block title %}
-  Edit {{ roommate.name }}
+  Verwijder {{ roommate.name }}
 {% endblock title %}
 
 {% block carousel %}
-     {% include 'mixins/remove.html' %}
+  <h1>Verwijder {{ roommate.name }}</h1>
+  <br>
+
+  <form action="{{ url_for('roommate.remove', handle=roommate.handle)}}" method="post">
+    <button class="btn btn-primary btn-lg" type="submit">Verwijderen</button>
+  </form>
 {% endblock carousel %}

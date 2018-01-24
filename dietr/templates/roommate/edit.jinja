@@ -4,76 +4,28 @@
   Pas {{ roommate.name }} aan
 {% endblock title %}
 
-{% block carousel %}
-  <template id="template-remove">
-    <li>
-      <a></a>
-      <a class="btn btn-warning">Remove</a>
-    </li>
+{% block templates %}
+  <template id="template-item">
+    <div class="row">
+      <div class="col-1">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      </div>
+      <div class="col">
+        <a></a>
+      </div>
+    </div>
   </template>
 
-  <template id="template-add">
-    <li>
-      <a></a>
-      <a class="btn btn-primary">Add</a>
-    </li>
+  <template id="template-result">
+    <div class="row">
+      <div class="col-1">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      </div>
+      <div class="col">
+        <a></a>
+      </div>
+    </div>
   </template>
+{% endblock templates %}
 
-  <section>
-    <form action="{{ url_for('roommate.edit', handle=roommate.handle) }}" method="post">
-      <label>First name</label>
-      <input name="first-name" required type="text" value="{{ roommate.first_name }}">
-      <hr>
-
-      <label>Middle name</label>
-      {% if roommate.middle_name -%}
-        <input name="middle-name" type="text" value="{{ roommate.middle_name }}">
-      {%- else -%}
-        <input name="middle-name" type="text">
-      {%- endif %}
-      <hr>
-
-      <label>Last name</label>
-      <input name="last-name" required type="text" value="{{ roommate.last_name }}">
-      <hr>
-
-      <button class="btn btn-primary" type="submit">Edit</button>
-    </form>
-  </section>
-
-  <section id="allergies-wrapper">
-    <h3>Allergies</h3>
-
-    <ul id="allergies">
-      {% for allergy in roommate.allergies %}
-        <li>
-          <a href="{{ url_for('allergy.view', id=allergy.id) }}">{{ allergy.name }}</a>
-          <a class="btn btn-warning">Remove</a>
-        </li>
-      {% endfor %}
-    </ul>
-
-    <input type="text">
-    <button class="btn btn-primary" type="search">Search</button>
-
-    <ul id="allergies-search"></ul>
-  </section>
-
-  <section id="preferences-wrapper">
-    <h3>Preferences</h3>
-
-    <ul id="preferences">
-      {% for ingredient in roommate.preferences %}
-        <li>
-          <a href="{{ url_for('ingredient.view', id=ingredient.id) }}">{{ ingredient.name }}</a>
-          <a class="btn btn-warning">Remove</a>
-        </li>
-      {% endfor %}
-    </ul>
-
-    <input type="text">
-    <button class="btn btn-primary" type="search">Search</button>
-
-    <ul id="preferences-search"></ul>
-  </section>
-{% endblock carousel %}
+{% block carousel %}{% endblock carousel %}
