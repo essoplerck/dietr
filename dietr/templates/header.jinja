@@ -6,9 +6,13 @@
     </div>
     <div class="account">
       {% if user %}
-        <a href="{{ url_for('profile.view') }}">Profiel</a>
-        |
-        <a href="{{ url_for('authentication.logout') }}">Uitloggen</a>
+        <div class="row">
+          <a href="{{ url_for('profile.view') }}">Profiel</a>
+          <div style="padding: 0 5px;">|</div>
+          <form action="{{ url_for('authentication.logout') }}" method="post">
+            <a href="{{ url_for('authentication.logout') }}">Uitloggen</a>
+          </form>
+        </div>
       {% else %}
         <a href="{{ url_for('authentication.login') }}">Inloggen</a>
         |

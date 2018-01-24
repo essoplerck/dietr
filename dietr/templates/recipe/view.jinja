@@ -14,14 +14,14 @@
         {% if user.roommates %}
           <h4>Personen</h4>
             <div class="form-check">
-              <label class="form-check-label">
-                {% for roommate in user.roommates %}
+              {% for roommate in user.roommates %}
+                <label class="form-check-label">
                   <input id="{{ roommate.id }}" class="form-check-input" type="checkbox" value="True" checked>
-                {{ roommate.first_name }}
-            </label>
+                  {{ roommate.first_name }}
+                </label>
             {% endfor %}
             </div>
-            <button class="btn" type="button" id="extra_confirm" data-toggle=""> Bevestig </button>
+            <button class="btn btn-primary" type="button" id="extra_confirm" data-toggle="">Bevestig</button>
         {% endif %}
 
         <hr>
@@ -53,7 +53,8 @@
             Veganistisch
           </label>
 
-          <button class="btn" type="button" id="extra_confirm" data-toggle=""> Bevestig </button>
+          <br>
+          <button class="btn btn-primary" type="button" id="extra_confirm" data-toggle="">Bevestig</button>
 
         </div>
       </div>

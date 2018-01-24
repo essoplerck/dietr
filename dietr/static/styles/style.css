@@ -87,7 +87,6 @@ header .afh .dropdown-item a {
   cursor: pointer;
 }
 
-header .nav.nav-pills.afh,
 header .afh .nav-link,
 header .afh .show>.nav-link {
   font-size: 20px;
@@ -434,7 +433,8 @@ section .pagination {
   margin: -20px 0 20px 0;
 }
 
-section .pagination li {
+section .pagination li,
+section .form-check-label li {
   list-style-type: none;
 }
 
