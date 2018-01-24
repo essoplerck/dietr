@@ -5,19 +5,27 @@
 {% endblock title %}
 
 {% block carousel %}
+  <h1>Voeg kamergenoot toe</h1>
+  <br>
+
   <form action="{{ url_for('roommate.add') }}" method="post">
-    <label>Voornaam</label>
-    <input name="first-name" required type="text">
-    <hr>
-
-    <label>Tussenvoegsel</label>
-    <input name="middle-name" type="text">
-    <hr>
-
-    <label>Achternaam</label>
-    <input name="last-name" required type="text">
-    <hr>
-
-    <button class="btn btn-primary" type="submit">Persoon toevoegen</button>
+    <div class="form-group row justify-content-md-center">
+      <div class="col-3">
+        {{ macros.input_label('first-name',
+                              placeholder='Voornaam',
+                              error=error.first_name,
+                              required=True) }}
+      </div>
+      <div class="col-3">
+        {{ macros.input_label('middle-name',
+                              placeholder='Tussenvoegsel') }}
+      </div>
+      <div class="col-4">
+        {{ macros.input_label('last-name',
+                              placeholder='Achternaam',
+                              error=error.last_name,
+                              required=True) }}
+      </div>
+    </div>
   </form>
 {% endblock carousel %}

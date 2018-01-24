@@ -5,13 +5,10 @@
 {% endblock title %}
 
 {% block carousel %}
-  <div class="row justify-content-md-center">
-    <div class="col-8">
-      <form action="{{ url_for('authentication.logout') }}" method="post">
-        <h1>Uitloggen</h1>
-        <br>
-        <button class="btn btn-primary btn-lg" name="logout" type="submit">Uitloggen</button>
-      </form>
-    </div
-  </div>
+  <h1>Uitloggen</h1>
+  <br>
+
+  <form action="{{ url_for('authentication.logout') }}" method="post">
+    <button class="btn btn-primary btn-lg" name="logout" type="submit">Uitloggen</button>
+  </form>
 {% endblock carousel %}
