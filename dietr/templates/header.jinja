@@ -8,9 +8,7 @@
       {% if user %}
         <a href="{{ url_for('profile.view') }}">Profiel</a>
         |
-        <a href="#" action="{{ url_for('authentication.logout') }}" method="POST">
-          Uitloggen
-        </a>
+        <a href="{{ url_for('authentication.logout') }}">Uitloggen</a>
       {% else %}
         <a href="{{ url_for('authentication.login') }}">Inloggen</a>
         |

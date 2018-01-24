@@ -4,18 +4,33 @@
   Allergieën en diëten
 {% endblock title %}
 
-{% block template %}
-  <template id="template-remove"></template>
-
-  <template id="template-search-result">
-    <a></a>
-    <a class="btn btn-primary">Voeg toe</a>
+{% block templates %}
+  <template id="template-item">
+    <div class="row">
+      <div class="col-1">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      </div>
+      <div class="col">
+        <a></a>
+      </div>
+    </div>
   </template>
-{% endblock template %}
+
+  <template id="template-result">
+    <div class="row">
+      <div class="col-1">
+        <i class="fa fa-trash-o" aria-hidden="true"></i>
+      </div>
+      <div class="col">
+        <a></a>
+      </div>
+    </div>
+  </template>
+{% endblock templates %}
 
 {% block carousel %}
   <h1>Allergieën en diëten</h1>
-  <br><br>
+  <br>
 
   {#<div class="row justify-content-center">
     {% for roommate in roommates %}
@@ -31,20 +46,16 @@
         </div>
       </div>
 
-      <div class="form-check">
+      <div class="form-check" id="allergies">
         {% for allergy in user.allergies %}
-          <label class="form-check-label">
-            <div class="row">
-              <div class="col-2">
-                <a href="#">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </a>
-              </div>
-              <div class="col">
-                <h4>{{ allergy.name }}</h4>
-              </div>
+          <div class="row">
+            <div class="col-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
             </div>
-          </label>
+            <div class="col">
+              <a href="{{ url_for('allergy.view', id=allergy.id) }}">{{ allergy.name }}</a>
+            </div>
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -61,6 +72,8 @@
       <div class="form-check"></div>
     </div>
 
+    <div class="form-check" id="diets"></div>
+
     <div class="col-1 border-right"></div>
 
     <div class="col-3 text-left">
@@ -70,20 +83,16 @@
         </div>
       </div>
 
-      <div class="form-check">
+      <div class="form-check" id="ingredients">
         {% for ingredient in user.preferences %}
-          <label class="form-check-label">
-            <div class="row">
-              <div class="col-2">
-                <a href="#">
-                  <i class="fa fa-trash-o" aria-hidden="true"></i>
-                </a>
-              </div>
-              <div class="col">
-                <h4>{{ ingredient.name }}</h4>
-              </div>
+          <div class="row">
+            <div class="col-1">
+              <i class="fa fa-trash-o" aria-hidden="true"></i>
             </div>
-          </label>
+            <div class="col">
+              <a href="{{ url_for('ingredient.view', id=ingredient.id) }}">{{ ingredient.name }}</a>
+            </div>
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -91,33 +100,37 @@
 {% endblock carousel %}
 
 {% block content %}
-  <br>
-  <div class="back-color row justify-content-center">
-    <form class="form-inline">
-      <div class="row">
-        <div class="col">
-          <div class="dropdown text-right">
-            <button class="btn btn-primary btn-margin dropdown-toggle" data-toggle="dropdown">
-              Zoeken naar
-            </button>
+  <section>
+    <div class="back-color row justify-content-center">
+      <form class="form-inline" id="search">
+        <div class="row">
+          <div class="col">
+            <div class="dropdown text-right">
+              <button class="btn btn-primary btn-margin dropdown-toggle" data-toggle="dropdown">
+                Zoeken naar
+              </button>
 
-            <div class="dropdown-menu">
-              <a class="dropdown-item">Allergie</a>
-              <a class="dropdown-item">Dieet</a>
-              <a class="dropdown-item">Ingrediënt</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item">Allergie</a>
+                <a class="dropdown-item">Dieet</a>
+                <a class="dropdown-item">Ingrediënt</a>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="col">
-          {{ macros.input('search', placeholder='Zoeken', type='search') }}
+          <div class="col">
+            {{ macros.input('search', placeholder='Zoeken', type='search') }}
+          </div>
+          <div class="col">
+            <button class="btn btn-primary">Zoeken</button>
+          </div>
         </div>
-        <div class="col">
-          <button class="btn btn-primary" id="search-button">Zoeken</button>
-        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-6" id="results"></div>
       </div>
-    </form>
-  </div>
+    </div>
 
-  <div class="back-color row justify-content-center" id="search-result"></div>
+  </section>
 {% endblock content %}
