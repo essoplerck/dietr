@@ -18,10 +18,10 @@ class Database:
 
     def connect(self):
         """Connecto to the database."""
-        self.connection = sql.connect(database='production',
-                                      host='127.0.0.1',
-                                      user='root',
-                                      password='846091e0917b3c853abccc58e2f56dd5c9655d15afae13de48b24ae050e70062',
+        self.connection = sql.connect(database='renswnc266_production',
+                                      host='185.182.57.56',
+                                      user='renswnc266_dietr',
+                                      password='qvuemzxu',
                                       cursorclass=sql.cursors.DictCursor)
 
     def commit(self, query, arugments=()):
