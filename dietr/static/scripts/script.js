@@ -37,7 +37,7 @@ class Allergy {
   }
 }
 
-script.allergy = new Allergy();
+script.allergies = new Allergy();
 
 class Ingredient extends Allergy {
   get(id) {
@@ -55,7 +55,7 @@ class Ingredient extends Allergy {
   }
 }
 
-script.ingredient = new Ingredient();
+script.ingredients = new Ingredient();
 
 class User {
   constructor() {
@@ -106,92 +106,127 @@ script.elements = (location => {
     /\/diet/
   ];
 
-  if (!routes.some(route => route.test(location))) return;
-    let templateRemove = document.querySelector('#template-remove'),
-        templateAdd = document.querySelector('#template-add');
+  let page, controller;
 
-    (wrapper => {
-      let results = wrapper.querySelector('#allergies-search');
+  if (routes.some(route => route.test(location))) {
+    if (location.match(routes[2])) {
+      page = 'diet';
+    } else {
+      page = 'roommate';
+    }
 
-      function search(query) {
-        script.allergy.search(query).then(response => {
-          // clear children of search outout
+    if (page == 'diet') {
+      controller = script.user;
+    } else {
+      controller = script.roommate;
+    }
 
-          response.forEach(allergy => {
-            let clone  = document.importNode(templateAdd.content, true),
-                link   = clone.querySelector('a'),
-                button = clone.querySelector('.btn');
+    let templateItem   = document.getElementById('template-item'),
+        templateResult = document.getElementById('template-result');
 
-            link.href      = `/allergy/${allergy['id']}`;
-            link.innerText = allergy['name'];
+    // Get the search form
+    let search = document.getElementById('search');
 
-            button.onclick = evt => {
-              add(link);
-            };
+    let results = document.getElementById('results');
 
-            results.append(clone);
-          });
-        });
+    // Add a new allergy
+    function add(el, type) {
+      let output = document.getElementById(type);
+
+      let href = el.href,
+          id   = new URL(href).pathname.split('/')[2];
+
+      let promise;
+
+      if (type == 'allergies') {
+        promise = controller.addAllergy(id);
+      } else {
+        promise = controller.addPreference(id);
       }
 
-      // Add a new allergy
-      function add(el) {
-        let allergies = wrapper.querySelector('#allergies');
+      promise.then(response => {
+        el.parentElement.remove();
 
-        let href = el.href,
-            id  = new URL(href).pathname.split('/')[2];
+        let clone  = document.importNode(templateItem.content, true),
+            link   = clone.querySelector('a'),
+            button = clone.querySelector('i');
 
-        script.user.addAllergy(id).then(response => {
-          el.parentElement.remove();
+        link.href = `/allergies/${id}`;
+        link.innerText = el.innerText;
 
-          let clone  = document.importNode(templateRemove.content, true),
+        button.onclick = evt => {
+          remove(button, type)
+        }
+
+        output.append(clone);
+
+        // Remove search results
+        while (results.firstChild) {
+          results.removeChild(results.firstChild);
+        }
+      });
+    }
+
+    // Remove an allery
+    function remove(el, type) {
+      let parent = el.parentElement.parentElement
+          href   = parent.querySelector('a').href,
+          id     = new URL(href).pathname.split('/')[2];
+
+      let promise;
+
+      if (type == 'allergies') {
+        promise = controller.removeAllergy(id);
+      } else {
+        promise = controller.removePreference(id);
+      }
+
+      promise.then(response => {
+        parent.remove();
+      });
+    }
+
+    search.onsubmit = event => {
+      event.preventDefault();
+
+      // Get search query
+      let query = search.elements['search'].value;
+
+      // Get search type
+      let type = 'allergies';
+
+      // Fetch results
+      script[type].search(query).then(response => {
+        response.forEach(allergy => {
+          console.log(allergy)
+          // Import template and get nodes
+          let clone  = document.importNode(templateResult.content, true),
               link   = clone.querySelector('a'),
-              button = clone.querySelector('.btn');
+              button = clone.querySelector('i');
 
-          link.href = `/allergies/${id}`;
-          link.innerText = el.innerText;
+              console.log(clone)
+
+          link.href      = `/allergy/${allergy['id']}`;
+          link.innerText = allergy['name'];
 
           button.onclick = evt => {
-            del(button)
-          }
+            add(link, type);
+          };
 
-          allergies.append(clone);
-
-          // Remove search results
-          while (results.firstChild) {
-            results.removeChild(results.firstChild);
-          }
+          results.append(clone);
         });
-      }
+      });
+    }
 
-      // Remove an allery
-      function del(el) {
-        let href = el.previousElementSibling.href,
-            id  = new URL(href).pathname.split('/')[2];
+    ['allergies', 'diets', 'ingredients'].forEach(type => {
+      let buttons = document.querySelectorAll(`#${type} > div i`);
 
-        script.user.removeAllergy(id).then(response => {
-          el.parentElement.remove();
-        });
-      }
-
-      let buttons = wrapper.querySelectorAll('a.btn');
-
-      buttons.forEach(button => {
-        button.onclick = evt => {
-          del(button);
+      buttons.forEach(el => {
+        el.onclick = evt => {
+          remove(el, type);
         }
-      })
+      });
+    })
 
-      let button = wrapper.querySelector('button'),
-          input  = button.previousElementSibling;
-
-      button.onclick =evt => {
-        let query = input.value;
-
-        // Rest search value
-        input.value = '';
-
-        search(query);
-      }
-    })(document.querySelector('#allergies-wrapper'));
-})(window.location.pathname)
+  }
+})(window.location.pathname);
