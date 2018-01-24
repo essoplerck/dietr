@@ -7,10 +7,10 @@
     <div class="account">
       {% if user %}
         <div class="row">
-          <a href="{{ url_for('profile.view') }}">Profiel</a>
+          <a href="{{ url_for('profile.view') }}" style="padding-top: 2px;">Profiel</a>
           <div style="padding: 0 5px;">|</div>
           <form action="{{ url_for('authentication.logout') }}" method="post">
-            <a href="{{ url_for('authentication.logout') }}">Uitloggen</a>
+              <button class="btn btn-link" name="logout" type="submit" style="border: 0; padding:0; color: black; cursor: pointer;">Uitloggen</button>
           </form>
         </div>
       {% else %}
