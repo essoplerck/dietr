@@ -20,23 +20,14 @@
                 {{ roommate.first_name }}
             </label>
             {% endfor %}
-          </div>
+            </div>
+            <button class="btn" type="button" id="extra_confirm" data-toggle=""> Bevestig </button>
         {% endif %}
 
         <hr>
 
         <h4>Soort gerecht</h4>
         <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="">
-            Ontbijt
-          </label>
-
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="">
-            Lunch
-          </label>
-
           <label class="form-check-label">
             <input class="form-check-input" type="checkbox" value="">
             Voorgerecht
@@ -54,8 +45,16 @@
 
           <label class="form-check-label">
             <input class="form-check-input" type="checkbox" value="">
-            Gebak
+            Vegetarisch
           </label>
+
+          <label class="form-check-label">
+            <input class="form-check-input" type="checkbox" value="">
+            Veganistisch
+          </label>
+
+          <button class="btn" type="button" id="extra_confirm" data-toggle=""> Bevestig </button>
+
         </div>
       </div>
 
@@ -159,7 +158,7 @@
                     </div>
 
                     <div class="modal-footer back-color">
-                      <button type="button" class="btn btn-primary" href="{{ recipe.url }}">Bekijk recept</button>
+                      <a href="{{ recipe.url }}"><button type="button" class="btn btn-primary">Bekijk recept</button></a>
                     </div>
                   </div>
                 </div>

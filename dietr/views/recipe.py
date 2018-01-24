@@ -9,7 +9,7 @@ blueprint = Blueprint('recipe', __name__)
 model = RecipeModel()
 
 
-@blueprint.route('/recipes', defaults={
+@blueprint.route('/recipes', methods=['GET', 'POST'], defaults={
     'page': 1,
     'limit':  20
 })

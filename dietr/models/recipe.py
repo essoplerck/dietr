@@ -111,7 +111,7 @@ class RecipeModel:
                      FROM allergies
                      INNER JOIN allergies_ingredients on allergies_ingredients.allergy_id = allergies.id
                      WHERE allergies_ingredients.ingredient_id = %s
-                    ORDER BY name'''
+                     ORDER BY name'''
 
         allergies = database.fetch_all(query, ingredient_id)
 
@@ -136,16 +136,6 @@ class RecipeModel:
                     LIMIT 1'''
         return database.fetch(query)
 
-    '''
-    def get_recipe_id(self, name):
-        """Fetch all recipe_id's that contain name"""
-        query = SELECT id
-                     FROM recipes
-                    WHERE name
-                     LIKE %s
-
-        return database.fetch_all(query, f'%{name}%')
-    '''
 
     def create_list(self, limit, start):
         """Checks whether the returned list is long enough"""
@@ -173,7 +163,6 @@ class RecipeModel:
     def check_all_recipes(self, limit, start):
         """Return a list of recipes that is okay for the user to eat."""
         checked_recipes = []
-
         # Fetch recipes starting with 'start' and ending 'limit + 5' after start
         # Fetches a couple of more recipes to account for some empty id's
         recipes = self.get_recipe(start, limit)
@@ -186,7 +175,6 @@ class RecipeModel:
                 break
 
             # Add all the information that wasn't provided yet
-
             # Add the source of the recipe
             recipe.source = self.get_source(recipe.url)
 

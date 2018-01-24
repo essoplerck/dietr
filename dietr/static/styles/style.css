@@ -84,6 +84,7 @@ header .afh a,
 header .afh .nav-item.dropdown a,
 header .afh .dropdown-item a {
   color: rgb(20,100,20);
+  cursor: pointer;
 }
 
 header .nav.nav-pills.afh,
@@ -154,6 +155,7 @@ footer .afh .nav-link.dropdown-toggle a,
 footer .afh .nav-link.dropdown-toggle .dropdown-menu .dropdown-item a,
 footer a:not([href]):not([tabindex]) {
   color: rgb(20,100,20);
+  cursor: pointer;
 }
 
 footer .afh .nav-link.active,
