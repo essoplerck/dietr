@@ -1,6 +1,9 @@
 from dataclasses import dataclass, field
 
+from flask import session
+
 from dietr.database import database
+from dietr.models import model
 from dietr.models.allergy import Allergy
 from dietr.models.ingredient import Ingredient
 
@@ -27,7 +30,28 @@ class Recipe:
 
 
 class RecipeModel:
-    def get_recipes(self, allergy_tuple, start, limit):
+    @property
+    def user(self):
+        """Fetch all the user information."""
+        user_id = session['user']
+        user = user_model.get_user(user_id)
+
+        user.allergies = user_model.get_allergies(user.id)
+        user.preferences = user.get_preferences(user.id)
+        user.roommates = roommate_model.get_roommates()
+
+        if user.roommates:
+            for roommate in user.roommates:
+                roommate.allergies = model.roommate.get_allergies(roommate.id)
+                #roommate.get_preferences(roommate.id)
+        return user
+
+    @property
+    def user_allergies(self):
+        """Converts the user allergies from a dataclass to a tuple of id's"""
+        return tuple([allergy.id for allergy in self.user.allergies])
+
+    def get_recipe(self, allergy_tuple, start, limit):
         """Fetch all the initial information for the recipes excluding recipes
         that have one of the user allergies.
         """
@@ -49,7 +73,7 @@ class RecipeModel:
         """Fetch the total number of recipes excluding the recipes that contain
         a user allergy.
         """
-        print((allergy_tuple,))
+
         if not allergy_tuple:
             query = '''SELECT COUNT(*) AS recipe_count
                          FROM recipes'''
@@ -65,7 +89,7 @@ class RecipeModel:
                                       ON ai.ingredient_id = ri.ingredient_id
                                    WHERE ai.allergy_id IN %s)'''
 
-            return database.fetch(query, (allergy_tuple,))['recipe_count']
+            return database.fetch(query, allergy_tuple)['recipe_count']
 
     def get_extra_info(self, recipe_id):
         """Fetch all the extra info for a recipe (eg. main dish, desert, vegan)"""

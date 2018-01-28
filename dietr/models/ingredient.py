@@ -26,6 +26,17 @@ class IngredientModel:
 
         database.commit(query, id)
 
+    def get_allergens(self, ingredient_id):
+        """Get all allergens for an ingredient from the database and return a
+        list of instances of the allergy class.
+        """
+        query = '''SELECT allergies.id, allergies.name
+                     FROM allergies, allergies_ingredients
+                    WHERE allergies_ingredients.allergy_id = allergies.id
+                      AND allergies_ingredients.ingredient_id = %s'''
+
+        allergens = database.fetch_all(query, ingredient_id)
+
     def get_ingredient(self, id):
         """Get an ingredient from the database and return an instance of the
         ingredient class.
@@ -36,20 +47,6 @@ class IngredientModel:
 
         # Convert dict to an ingredient object
         return Ingredient(**database.fetch(query, id))
-
-    def get_allergens(self, id):
-        """Get all allergens for an ingredient from the database and return a
-        list of instances of the allergy class.
-        """
-        query = '''SELECT allergies.id, allergies.name
-                     FROM allergies, allergies_ingredients
-                    WHERE allergies_ingredients.allergy_id = allergies.id
-                      AND allergies_ingredients.ingredient_id = %s'''
-
-        allergens = database.fetch_all(query, id)
-
-        # Convert the list of dicts to a list of allergy objects
-        return [Allergy(**allergen) for allergen in allergens]
 
     def get_ingredients(self):
         """Get all ingredients from the database and return a list of instances
@@ -63,7 +60,6 @@ class IngredientModel:
 
         # Convert the list of dicts to a list of ingredient objects
         return [Ingredient(**ingredient) for ingredient in ingredients]
-
 
     def set_ingredient(self, id, name):
         """Set the name of an ingredient."""

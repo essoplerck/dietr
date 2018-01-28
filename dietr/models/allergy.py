@@ -45,19 +45,6 @@ class AllergyModel:
 
         allergies = database.fetch_all(query)
 
-    def get_ingredient_allergies(self, ingredient_id):
-        """Get all allergies from the database and return a list of instances
-        of the allergy class.
-        """
-        query = '''SELECT allergies.id as id,
-                        allergies.name as name
-                     FROM allergies
-                     INNER JOIN allergies_ingredients on allergies_ingredients.allergy_id = allergies.id
-                     WHERE allergies_ingredients.ingredient_id = %s
-                    ORDER BY name'''
-
-        allergies = database.fetch_all(query, ingredient_id)
-
         # Convert the list of dicts to a list of allergy objects
         return [Allergy(**allergy) for allergy in allergies]
 
