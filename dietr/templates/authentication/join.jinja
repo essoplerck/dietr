@@ -9,7 +9,7 @@
   <br>
 
   <form action="{{ url_for('authentication.join') }}" method="post">
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-3">
         {{ macros.input_label('first-name',
                               placeholder='Voornaam',
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-10">
         {{ macros.input_label('email',
                               placeholder='E-mailadres',
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-10">
         {{ macros.input_label('username',
                               placeholder='Gebruikersnaam',
@@ -53,7 +53,7 @@
       </div>
     </div>
 
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-10">
         {{ macros.input_label('password',
                               placeholder='Wachtwoord',
@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-10">
         {{ macros.input_label('password-verify',
                               placeholder='Herhaal wachtwoord',

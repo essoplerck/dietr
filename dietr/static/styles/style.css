@@ -40,32 +40,19 @@ section .back-color {
 }
 
 section .row {
-  margin-right: 0;
+  margin: 0 0;
 }
 
 section .border-right {
   border-right: 1px solid rgba(0,0,0,.1);
 }
 
-section .border-bottom {
-  border-bottom: 1px solid rgba(0,0,0,.1);
-  padding: 10px 0;
-}
-
-section .padding-top {
-  padding-top: 10px;
-}
-
-section .left-col-padding {
-  padding: 20px 40px;
-}
-
-section .right-col-padding {
-  padding: 20px;
+section .margin {
+  margin: 40px 0 -20px 0;
 }
 
 section .btn-margin {
-  margin: 5px 10px;
+  margin: 20px 2px 20px 20px;
 }
 
 section li {
@@ -238,28 +225,6 @@ footer .afh .dropdown-item.active:hover {
   color: black;
 }
 
-.ml-auto .form-control:active,
-.ml-auto .form-control:focus,
-.ml-auto .form-control:hover {
-  color: black;
-  box-shadow: 2px 2px 2px grey;
-  border-color: transparent;
-  outline-color: transparent;
-}
-
-.ml-auto .btn-outline-success:active,
-.ml-auto .btn-outline-success:focus,
-.ml-auto .btn-outline-success:hover,
-.btn-outline-success:not([disabled]):not(.disabled).active,
-.btn-outline-success:not([disabled]):not(.disabled):active,
-.show>.btn-outline-success.dropdown-toggle {
-  background-color: rgb(210,210,210);
-  color: black;
-  box-shadow: 2px 2px 2px grey;
-  border-color: transparent;
-  outline-color: transparent;
-}
-
 /*Header*/
 header .img {
   background-image: url(/static/images/header.png);
@@ -320,10 +285,6 @@ header .afh .nav-link {
   margin: 2px;
 }
 
-header .ml-auto {
-  margin: 6px 20px 5px 0;
-}
-
 /*Footer*/
 footer {
   background-color: rgb(225,245,225);
@@ -331,44 +292,20 @@ footer {
 }
 
 footer .nav a {
-  margin: 20px 10px;
+  margin: 10px 10px;
 }
 
 footer .text-right {
-  margin-right: 30px;
+  margin-right: 25px;
 }
 
 /*Carousel*/
 section .carousel.slide .d-block {
   width: 1000px;
   height: 550px;
-  background-size: cover;
+  object-fit: cover;
   background-position: 0 center;
   background-repeat: no-repeat;
-}
-
-@media screen
-and (min-width: 476px)
-and (max-width: 942px) {
-  section .carousel.slide .d-block {
-    width: 1000px;
-    height: 575px;
-    background-size: 0 cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
-}
-
-@media screen
-and (min-width: 0)
-and (max-width: 475px) {
-  section .carousel.slide .d-block {
-    width: 1000px;
-    height: 550px;
-    background-size: 0 cover;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
 }
 
 section .carousel-caption {
@@ -394,19 +331,41 @@ section .form-text {
 }
 
 /*Recipe page*/
+section .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: rgb(225,245,225);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+section .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+section .margin-top {
+  margin-top: 17px;
+}
+
 section .recipes .card-deck {
   text-align: left;
   width: 100%;
+  margin: 10px;
 }
 
 section .recipes .card-deck a:active,
 section .recipes .card-deck a:focus,
 section .recipes .card-deck a:hover {
   text-decoration: none;
-}
-
-section .recipes .card-deck {
-  margin: 20px;
 }
 
 section .recipes .card-block {
@@ -437,7 +396,7 @@ label.form-check-label {
 }
 
 section .recipes .btn-primary {
-  margin: 20px 0 0 21px;
+  margin: 20px 11px 0 21px;
 }
 
 section .recipes .dropdown {
@@ -478,36 +437,38 @@ section .background-img {
 }
 
 /*Allergies and diets page*/
-section .row .card.back-color h3 {
-  margin: 6px 0 6px 10px;
-}
-
-section .row .card.back-color .fa-trash-o {
-  float: right;
-  margin-top: 2px;
-  margin-right: 14px;
-}
-
-section .back-color.row.justify-content-center .form-inline {
-  margin: 20px;
-}
-
-section .back-color.row.justify-content-center .form-control {
-  width: 350px;
-}
-
-section .back-color.row.justify-content-center {
-  margin-bottom: 20px;
+section .row .col-12 .fa-plus {
+  padding-right: 15px;
 }
 
 /*Account page*/
-section .row.justify-content-md-center label {
+section .row.justify-content-center label {
   margin: 0 0 0 2px;
+}
+
+section .form-group .col-3 .btn-primary {
+  margin-top: 23px;
+}
+
+section .width-name {
+  padding: 6px 50px;
+}
+
+section .width-mail {
+  padding: 6px 26px 6px 27px;
+}
+
+section .width-password {
+  padding: 6px 26px;
 }
 
 /*Person page*/
 section .card-header {
   background-color: rgb(225,245,225);
+}
+
+section .card-body .row. .col {
+  padding: 0;
 }
 
 section .col .fa-trash-o {
@@ -539,4 +500,331 @@ section .error h2 {
 
 section .error h3 {
   font-size: 20px;
+}
+
+/*Responsive*/
+@media screen
+and (min-width: 476px)
+and (max-width: 942px) {
+  /*Common css*/
+  h1 {
+    font-size: 25px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 15px;
+  }
+
+  h4 {
+    font-size: 14px;
+  }
+
+  p {
+    font-size: 13px;
+  }
+
+  section small {
+    font-size: 13px;
+  }
+
+  section .btn-primary,
+  section label,
+  section .form-control {
+    font-size: 15px;
+  }
+
+  section .btn-primary .btn-lg {
+    font-size: 18px;
+  }
+
+  /*Footer*/
+  footer .nav a {
+    margin: 5px 10px;
+  }
+
+  footer .text-right {
+    margin-right: 20px;
+  }
+
+  /*Carousel*/
+  section .carousel.slide .d-block {
+    height: 530px;
+  }
+
+  /*Recipe page*/
+  section .card-img {
+    height: 320px;
+  }
+
+  section .margin-top {
+    margin-top: 17px;
+  }
+
+  section .recipes .card-deck p,
+  section .modal p {
+    font-size: 13px;
+  }
+
+  section .recipes .card-deck li,
+  section .modal li {
+    font-size: 12px;
+  }
+
+  label.form-check-label {
+    font-size: 12px;
+  }
+
+  section .alert-success {
+    font-size: 12px;
+  }
+
+  section .recipes .btn-primary {
+    margin: 20px 10px 0 21px;
+  }
+
+  section .pagination {
+    margin: -60px 0 30px 0;
+  }
+
+  /*Allergies and diets page*/
+  section .form-check .col a,
+  section .form-check .col-1 .fa-trash-o {
+    font-size: 13px;
+  }
+
+  section .row .form-inline .col {
+    padding-left: 0;
+  }
+
+  section .row .col-5 .col-1,
+  section .row .form-inline .col {
+    padding-right: 0;
+  }
+
+  section .row .col-12 .fa-plus {
+    padding-right: 15px;
+  }
+
+/*Account page*/
+  section .form-group .col-3 .btn-primary {
+    margin-top: 22px;
+    font-size: 15px;
+  }
+
+  section .width-name {
+    padding: 6px 48px 6px 47px;
+  }
+
+  section .width-mail {
+    padding: 6px 26px 6px 25px;
+  }
+
+  section .width-password {
+    padding: 6px 26px;
+  }
+
+  /*Person page*/
+  section .card-body {
+    padding: 10px;
+  }
+
+  section .card-body .row. .col {
+    padding: 0;
+  }
+
+  section .col-3 .fa-trash-o {
+    margin-top: 0;
+  }
+
+  section .col-3 .fa-trash-o.fa-2x {
+    font-size: 28px;
+  }
+
+  section .add .card {
+    height: 103px;
+  }
+
+  section .fa-plus {
+    margin-top: 2px;
+  }
+
+  /*Error page*/
+  section .error h1 {
+    font-size: 55px;
+  }
+
+  section .error h2 {
+    font-size: 20px;
+  }
+
+  section .error h3 {
+    font-size: 15px;
+  }
+}
+
+@media screen
+and (min-width: 0)
+and (max-width: 475px) {
+    /*Common css*/
+    h1 {
+      font-size: 25px;
+    }
+
+    h2 {
+      font-size: 18px;
+    }
+
+    h3 {
+      font-size: 15px;
+    }
+
+    h4 {
+      font-size: 14px;
+    }
+
+    p {
+      font-size: 13px;
+    }
+
+    section small {
+      font-size: 13px;
+    }
+
+    section .btn-primary,
+    section label,
+    section .form-control {
+      font-size: 15px;
+    }
+
+    section .btn-primary .btn-lg {
+      font-size: 18px;
+    }
+
+    /*Footer*/
+    footer .nav a {
+      margin: 5px 10px;
+    }
+
+    footer .text-right {
+      margin-right: 20px;
+    }
+
+    /*Carousel*/
+    section .carousel.slide .d-block {
+      height: 530px;
+    }
+
+    /*Recipe page*/
+    section .card-img {
+      height: 320px;
+    }
+
+    section .margin-top {
+      margin-top: 17px;
+    }
+
+    section .recipes .card-deck p,
+    section .modal p {
+      font-size: 13px;
+    }
+
+    section .recipes .card-deck li,
+    section .modal li {
+      font-size: 12px;
+    }
+
+    label.form-check-label {
+      font-size: 12px;
+    }
+
+    section .alert-success {
+      font-size: 12px;
+    }
+
+    section .recipes .btn-primary {
+      margin: 20px -4px 0 21px;
+    }
+
+    section .pagination {
+      margin: -60px 0 30px 0;
+    }
+
+    /*Allergies and diets page*/
+    section .form-check .col a,
+    section .form-check .col-1 .fa-trash-o {
+      font-size: 13px;
+    }
+
+    section .row .form-inline .col {
+      padding-left: 0;
+    }
+
+    section .row .col-5 .col-1,
+    section .row .form-inline .col {
+      padding-right: 0;
+    }
+
+    section .row .col-12 .fa-plus {
+      padding-right: 15px;
+    }
+
+    /*Account page*/
+    section .form-group .col-3 .btn-primary {
+      margin-top: 26px;
+      font-size: 10px;
+    }
+
+    section .width-name {
+      padding: 6px 35px 6px 36px;
+    }
+
+    section .width-mail {
+      padding: 6px 21px;
+    }
+
+    section .width-password {
+      padding: 6px 21px;
+    }
+
+    /*Person page*/
+    section .card-body {
+      padding: 10px;
+    }
+
+    section .card-body .row. .col {
+      padding: 0;
+    }
+
+    section .col-3 .fa-trash-o {
+      margin-top: 0;
+    }
+
+    section .col-3 .fa-trash-o.fa-2x {
+      font-size: 28px;
+    }
+
+    section .add .card {
+      height: 103px;
+    }
+
+    section .fa-plus {
+      margin-top: 2px;
+    }
+
+    /*Error page*/
+    section .error h1 {
+      font-size: 55px;
+    }
+
+    section .error h2 {
+      font-size: 20px;
+    }
+
+    section .error h3 {
+      font-size: 15px;
+    }
 }

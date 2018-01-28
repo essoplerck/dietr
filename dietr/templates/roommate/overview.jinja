@@ -34,19 +34,19 @@
 
   <div class="row">
     {% for roommate in roommates %}
-      <div class="card-block col-sm-6 col-md-6 col-lg-4">
+      <div class="card-block col-12 col-sm-6 col-md-6 col-lg-4">
         <div class="card">
           <h3 class="card-header">{{ roommate.name }}</h3>
 
           <div class="card-body">
             <div class="row">
-              <div class="col">
+              <div class="col-3" style="padding: 0; margin-top: 3px;">
                 <a href="#remove-{{ roommate.handle }}" data-toggle="modal" data-target="#remove-{{ roommate.handle }}">
                   <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
                 </a>
               </div>
 
-              <div class="col justify-content-end">
+              <div class="col row" style="justify-content: flex-end; padding: 0;">
                 <a href="#" class="btn btn-primary">Bekijken</a>
               </div>
             </div>
@@ -77,7 +77,7 @@
       </div>
     {% endfor %}
 
-    <div class="card-block col-sm-6 col-md-6 col-lg-4 add">
+    <div class="card-block col-6 col-md-6 col-lg-4 add">
       <a href="#Modal_add" data-toggle="modal" data-target="#Modal_add">
         <div class="card">
           <div class="card-body">

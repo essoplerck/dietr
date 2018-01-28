@@ -9,7 +9,7 @@
   <br>
 
   <form action="{{ url_for('profile.edit_name') }}" method="post">
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-3">
         {{ macros.input_label('first-name',
                               placeholder='Voornaam',
@@ -29,14 +29,14 @@
                               error=error.last_name,
                               required=True) }}
       </div>
-      <div class="col-3">
-        <button class="btn btn-primary" type="submit" style="margin-top: 24px; padding: 6px 50px;">Naam aanpassen</button>
+      <div class="col-3" style="padding-left: 0;">
+        <button class="btn btn-primary width-name" type="submit">Naam aanpassen</button>
       </div>
     </div>
   </form>
 
   <form action="{{ url_for('profile.edit_email') }}" method="post">
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-9">
         {{ macros.input_label('email',
                               placeholder='E-mail adres',
@@ -46,15 +46,15 @@
                               required=True) }}
         <small>Wij delen uw e-mailadres niet met derden.</small>
       </div>
-      <div class="col-3">
-        <button class="btn btn-primary" type="submit" style="margin-top: 24px; padding: 6px 26px 6px 27px;">E-mail adres aanpassen</button>
+      <div class="col-3" style="padding-left: 0;">
+        <button class="btn btn-primary width-mail" type="submit">E-mail adres aanpassen</button>
       </div>
     </div>
 
   </form>
 
   <form action="{{ url_for('profile.edit_username') }}" method="post">
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-9">
         {{ macros.input_label('username',
                               placeholder='Gebruikersnaam',
@@ -62,15 +62,15 @@
                               required=True,
                               type='password') }}
       </div>
-      <div class="col-3">
-        <button class="btn btn-primary" type="submit" style="margin-top: 24px;">Gebruikersnaam aanpassen</button>
+      <div class="col-3" style="padding-left: 0;">
+        <button class="btn btn-primary" type="submit">Gebruikersnaam aanpassen</button>
       </div>
     </div>
 
   </form>
 
   <form action="{{ url_for('profile.edit_password') }}" method="post">
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-9">
         {{ macros.input_label('current-password',
                               placeholder='Huidig wachtwoord',
@@ -81,7 +81,7 @@
       <div class="col-3"></div>
     </div>
 
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-9">
         {{ macros.input_label('password',
                               placeholder='Wachtwoord',
@@ -92,7 +92,7 @@
       <div class="col-3"></div>
     </div>
 
-    <div class="form-group row justify-content-md-center">
+    <div class="form-group row justify-content-center">
       <div class="col-9">
         {{ macros.input_label('password-verify',
                               placeholder='Herhaal wachtwoord',
@@ -100,8 +100,8 @@
                               required=True,
                               type='password') }}
       </div>
-      <div class="col-3">
-        <button class="btn btn-primary" type="submit" style="margin-top: 24px; padding: 6px 27px;">Wachtwoord aanpassen</button>
+      <div class="col-3" style="padding-left: 0;">
+        <button class="btn btn-primary width-password" type="submit">Wachtwoord aanpassen</button>
       </div>
     </div>
 
