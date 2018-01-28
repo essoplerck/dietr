@@ -21,11 +21,19 @@ def view(page, limit):
         limit = 20
         page = 1
 
-        return redirect(url_for('recipes.view', page=page, limit=limit))
+        return redirect(url_for('recipe.view', page=page, limit=limit))
 
     user = model.user
     start = limit * (page - 1)
-    recipe_count = model.get_recipe_count(model.user_allergies)
+
+    roommates_allergies = []
+    if request.method == 'POST' and user.roommates:
+        for roommate in user.roommates:
+            if request.form.get(roommate.id):
+                for allergy in roommate.allergies:
+                    roommate.allergies += allergy.id
+
+    recipe_count = model.get_recipe_count(model.user_allergies(roommates_allergies))
 
     #Add pagination
     pagination = Pagination(page, limit, recipe_count)
@@ -36,28 +44,17 @@ def view(page, limit):
 
         return redirect(f'/recepten/page/{page}/show{limit}')
 
-    recipes = model.get_recipe(model.user_allergies, start, limit)
+
+    recipes = model.get_recipe(model.user_allergies(roommates_allergies), start, limit)
 
     #Add information
     for recipe in recipes:
 
-        # Add the source of the recipe
         recipe.source = recipe.get_source
-
-        #Add the extra information
         recipe.extra_info = model.get_extra_info(recipe.id)
-
-        #Add the image
         recipe.image = model.get_image(recipe.id)
-
-        #Add all the ingredients contained in the recipe
         recipe.ingredients = model.get_ingredients(recipe.id)
-
-        # Add all the allergens contained in the ingredients
-        for ingredient in recipe.ingredients:
-            allergens = model.get_allergies(ingredient.id)
-            if allergens:
-                recipe.allergies += allergens
+        recipe.allergies = model.get_allergies(recipe.id)
 
     return render_template('/recipe/view.jinja', recipes=recipes, user=user,
                            pagination=pagination)

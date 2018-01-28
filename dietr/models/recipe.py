@@ -54,10 +54,14 @@ class RecipeModel:
                 #roommate.get_preferences(roommate.id)
         return user
 
-    @property
-    def user_allergies(self):
+
+    def user_allergies(self, roommate_allergies):
         """Converts the user allergies from a dataclass to a tuple of id's"""
-        return tuple([allergy.id for allergy in self.user.allergies])
+        allergies = [allergy.id for allergy in self.user.allergies]
+        if roommate_allergies:
+            allergies += roommate_allergies
+
+        return tuple(allergies)
 
     def get_recipe(self, allergy_tuple, start, limit):
         """Fetch all the initial information for the recipes excluding recipes that have one of the user allergies"""
@@ -126,15 +130,15 @@ class RecipeModel:
         return [Ingredient(**ingredient) for ingredient in ingredients]
 
 
-    def get_allergies(self, ingredient_id):
+    def get_allergies(self, recipe_id):
         """Get all allergies from the database and return a list of instances
         of the allergy class.
         """
-        query = '''SELECT id, name FROM allergies
-                    WHERE id IN (SELECT allergy_id FROM allergies_ingredients WHERE ingredient_id = %s)'''
+        query = '''SELECT DISTINCT id, name FROM allergies
+                    WHERE id IN (SELECT allergy_id FROM allergies_ingredients WHERE ingredient_id IN
+                               	(SELECT ingredient_id FROM recipes_ingredients WHERE recipe_id = %s))'''
 
-        allergies = database.fetch_all(query, ingredient_id)
+        allergies = database.fetch_all(query, recipe_id)
 
         # Convert the list of dicts to a list of allergy objects
         return [Allergy(**allergy) for allergy in allergies]
-        
