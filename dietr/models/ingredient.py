@@ -35,7 +35,7 @@ class IngredientModel:
                     WHERE allergies_ingredients.allergy_id = allergies.id
                       AND allergies_ingredients.ingredient_id = %s'''
 
-        allergens = database.fetch_all(query, id)
+        allergens = database.fetch_all(query, ingredient_id)
 
     def get_ingredient(self, id):
         """Get an ingredient from the database and return an instance of the
