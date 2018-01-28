@@ -21,14 +21,10 @@ class Recipe:
     name: str
     url: str
     extra: str = field(default_factory=str, init=False)
-    image: str
+    image: str = field(default_factory=str, init=False)
     source: str = field(default_factory=str, init=False)
     allergies: list = field(default_factory=list, init=False)
     ingredients: list = field(default_factory=list, init=False)
-
-    def __post_init__(self):
-        if self.image is None:
-            self.image = None
 
 
 class RecipeModel:
@@ -61,13 +57,15 @@ class RecipeModel:
                 roommate.allergies = roommate_model.get_allergies(roommate.id)
                 #roommate.get_preferences(roommate.id)
         return user
+    @property
+    def user_allergies(self):
+        return tuple([allergy.id for allergy in self.user.allergies])
 
     def get_recipe(self, allergy_tuple, start, limit):
 
         query = '''SELECT recipes.id,
                     recipes.name,
-                    recipes.url,
-                    recipes.image_id as image
+                    recipes.url
 
                     FROM recipes
 
@@ -102,16 +100,24 @@ class RecipeModel:
 
         return count['COUNT(*)']
 
+    def get_extra_info(self, recipe_id):
+        query = '''SELECT name FROM extra_info
+                    WHERE id IN (SELECT extra_info_id FROM recipes_extra_info WHERE recipe_id = %s)'''
+
+        return database.fetch(query, recipe_id)
+
+    def get_image(self, recipe_id):
+        query = '''SELECT url FROM images
+                    WHERE id IN (SELECT recipes.image_id FROM recipes WHERE id = %s)'''
+
+        return database.fetch(query, recipe_id)['url']
 
     def get_ingredients(self, recipe_id):
         """Get all ingredients from the database and return a list of instances
         of the ingredient class.
         """
-        query = '''SELECT ingredients.id as id, ingredients.name as name
-                     FROM ingredients, recipes_ingredients
-                     WHERE ingredients.id = recipes_ingredients.ingredient_id
-                     AND recipes_ingredients.recipe_id = %s
-                    ORDER BY name'''
+        query = '''SELECT id, name FROM ingredients
+                    WHERE id IN (SELECT ingredient_id FROM recipes_ingredients WHERE recipe_id = %s)'''
 
         ingredients = database.fetch_all(query, recipe_id)
 
@@ -123,12 +129,8 @@ class RecipeModel:
         """Get all allergies from the database and return a list of instances
         of the allergy class.
         """
-        query = '''SELECT allergies.id as id,
-                        allergies.name as name
-                     FROM allergies
-                     INNER JOIN allergies_ingredients on allergies_ingredients.allergy_id = allergies.id
-                     WHERE allergies_ingredients.ingredient_id = %s
-                     ORDER BY name'''
+        query = '''SELECT id, name FROM allergies
+                    WHERE id IN (SELECT allergy_id FROM allergies_ingredients WHERE ingredient_id = %s)'''
 
         allergies = database.fetch_all(query, ingredient_id)
 
@@ -145,56 +147,22 @@ class RecipeModel:
 
         return database.fetch(query)
 
-    def get_highest_id(self):
-        """Order all the id's in descending order and fetch one, i.e. the highest/last recipe"""
-        query = '''SELECT id
-                     FROM recipes
-                    ORDER BY id DESC
-                    LIMIT 1'''
-        return database.fetch(query)
-
-
-    def create_list(self, limit, start):
-        """Checks whether the returned list is long enough"""
-        start_recipe = start
-
-        recipes = self.check_all_recipes(limit, start)
-
-        while len(recipes) < limit and recipes[-1].id < self.highest_id:
-            #print(len(recipes))
-
-            start_recipe += limit
-            recipes += self.check_all_recipes(limit, start_recipe)
-        return recipes
-
-    def user_is_allergic(self, allergy_ids, user_allergies = None, roommate_allergies = None):
-        """Returns true when the user has an allergy for an ingredient contained within a recipe"""
-        # Check to see if the user has any allergies at all
-        if (user_allergies or roommate_allergies) and (user_allergies == list or roommate_allergies == list):
-            # Check if any user_allergie is contained within the recipe and return true
-            for allergy in (user_allergies or roommate_allergies):
-                if allergy.id in allergy_ids:
-                    return True
-        return False
-
-    def check_all_recipes(self, limit, start):
+    def complete_recipes(self, limit, start):
         """Return a list of recipes that is okay for the user to eat."""
-        checked_recipes = []
-        # Fetch recipes starting with 'start' and ending 'limit + 5' after start
-        # Fetches a couple of more recipes to account for some empty id's
-        recipes = self.get_recipe((1,2,3,4,5), start, limit)
-        print(self.get_recipe_count((1,2)))
 
-        #print (recipes)
+        recipes = self.get_recipe(self.user_allergies, start, limit)
 
+        #Add information
         for recipe in recipes:
-            # Checks whether the list reached the specified limit and if the counter doesn't pick a non-excistng recipe
-            if len(checked_recipes) >= limit:
-                break
 
-            # Add all the information that wasn't provided yet
             # Add the source of the recipe
             recipe.source = self.get_source(recipe.url)
+
+            #Add the extra information
+            recipe.extra_info = self.get_extra_info(recipe.id)
+
+            #Add the image
+            recipe.image = self.get_image(recipe.id)
 
             #Add all the ingredients contained in the recipe
             recipe.ingredients = self.get_ingredients(recipe.id)
@@ -205,24 +173,7 @@ class RecipeModel:
                 if allergens:
                     recipe.allergies += allergens
 
-            #Provide a value for the allergies if none is provided, AAANPASSEN
-            if not recipe.allergies:
-                recipe.allergies = [Allergy(None, 'Geen allergenen')]
-                checked_recipes.append(recipe)
-                continue
-
-            #If the user isn't logged in add the recipe without checking for allergies, YET!!!
-            if not self.user:
-                checked_recipes.append(recipe)
-                continue
-
-            if not self.user_is_allergic(recipe.allergies,
-                                         user_allergies=self.user.id) and \
-               not self.user_is_allergic(recipe.allergies,
-                                         roommate_allergies=(roommate.allergies
-                                         for roommate in self.user.roommates)):
-                checked_recipes.append(recipe)
-        return checked_recipes
+        return recipes
 
     def get_source(self, url):
         if 'http://www.jumbo.com:80/' in url:

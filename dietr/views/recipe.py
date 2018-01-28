@@ -23,13 +23,11 @@ def view(page, limit):
 
         return redirect(url_for('recipes.view', page=page, limit=limit))
 
+    user = model.user
     start = model.lowest_id + (limit * (page - 1))
+    recipe_count = model.get_recipe_count(model.user_allergies)
 
-    recipe_count = model.highest_id - model.lowest_id
-
-    print(model.lowest_id)
-    print(recipe_count)
-
+    #Add pagination
     pagination = Pagination(page, limit, recipe_count)
 
     # Check if page exits
@@ -38,8 +36,7 @@ def view(page, limit):
 
         return redirect(f'/recepten/page/{page}/show/{limit}')
 
-    recipes = model.create_list(limit, start)
-    user = model.user
+    recipes = model.complete_recipes(limit, start)
 
     return render_template('/recipe/view.jinja', recipes=recipes, user=user,
                            pagination=pagination)
