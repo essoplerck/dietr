@@ -135,12 +135,16 @@
                         <div class="col-6">
                           <p>Allergenen</p>
                           <ul>
-                            {% for allergy in recipe.allergies[0:2] %}
-                              <li>{{ allergy.name }}</li>
-                            {% endfor %}
+                            {% if recipe.allergies%}
+                              {% for allergy in recipe.allergies[0:2] %}
+                                <li>{{ allergy.name }}</li>
+                              {% endfor %}
 
-                            {% if recipe.allergies|length > 3 %}
-                              <li>...</li>
+                              {% if recipe.allergies|length > 3 %}
+                                <li>...</li>
+                              {% endif %}
+                            {% else %}
+                              <li>Geen allergenen</li>
                             {% endif %}
                           </ul>
                         </div>

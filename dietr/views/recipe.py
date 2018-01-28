@@ -24,7 +24,7 @@ def view(page, limit):
         return redirect(url_for('recipes.view', page=page, limit=limit))
 
     user = model.user
-    start = model.lowest_id + (limit * (page - 1))
+    start = limit * (page - 1)
     recipe_count = model.get_recipe_count(model.user_allergies)
 
     #Add pagination
@@ -34,7 +34,7 @@ def view(page, limit):
     if page > pagination.pages:
         page = pagination.pages
 
-        return redirect(f'/recepten/page/{page}/show/{limit}')
+        return redirect(f'/recepten/page/{page}/show{limit}')
 
     recipes = model.complete_recipes(limit, start)
 

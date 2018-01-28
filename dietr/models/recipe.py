@@ -26,20 +26,16 @@ class Recipe:
     allergies: list = field(default_factory=list, init=False)
     ingredients: list = field(default_factory=list, init=False)
 
+    @property
+    def get_source(self):
+        """Find's the source using a provided url"""
+        if 'http://www.jumbo.com:80/' in self.url:
+            return 'Jumbo Supermarkten'
+
+        else:
+            return 'Albert Heijn'
 
 class RecipeModel:
-    @property
-    def highest_id(self):
-        """Fetch the highest id in the database"""
-        return int(self.get_highest_id()['id'])
-
-
-    @property
-    def lowest_id(self):
-        """Fetch the highest id in the database"""
-        return int(self.get_lowest_id()['id'])
-
-
     @property
     def user(self):
         """Fetch all the user information"""
@@ -141,16 +137,7 @@ class RecipeModel:
 
         # Convert the list of dicts to a list of allergy objects
         return [Allergy(**allergy) for allergy in allergies]
-
-
-    def get_lowest_id(self):
-        """Find the lowest recipe in the database """
-        query ='''SELECT id
-                    FROM recipes
-                   ORDER BY id
-                   LIMIT 1'''
-
-        return database.fetch(query)
+        
 
     def complete_recipes(self, limit, start):
         """Return a list of recipes that is okay for the user to eat."""
@@ -161,7 +148,7 @@ class RecipeModel:
         for recipe in recipes:
 
             # Add the source of the recipe
-            recipe.source = self.get_source(recipe.url)
+            recipe.source = recipe.get_source
 
             #Add the extra information
             recipe.extra_info = self.get_extra_info(recipe.id)
@@ -179,11 +166,3 @@ class RecipeModel:
                     recipe.allergies += allergens
 
         return recipes
-
-    def get_source(self, url):
-        """Find's the source using a provided url"""
-        if 'http://www.jumbo.com:80/' in url:
-            return 'Jumbo Supermarkten'
-
-        else:
-            return 'Albert Heijn'
