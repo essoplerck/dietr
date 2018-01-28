@@ -20,7 +20,7 @@ class Recipe:
     id: int
     name: str
     url: str
-    extra: str
+    extra: str = field(default_factory=str, init=False)
     image: str
     source: str = field(default_factory=str, init=False)
     allergies: list = field(default_factory=list, init=False)
@@ -62,28 +62,45 @@ class RecipeModel:
                 #roommate.get_preferences(roommate.id)
         return user
 
+    def get_recipe(self, allergy_tuple, start, limit):
 
-    def get_recipe(self, start, stop):
-        """Fetch initial recipe value's """
-        query = '''SELECT recipes.id, recipes.name, recipes.url,
-                          images.url AS image, extra_info.name AS extra
-                     FROM recipes, images, recipes_extra_info, extra_info
-                    WHERE recipes.image_id = images.id
-                      AND recipes_extra_info.extra_info_id = extra_info.id
-                      AND recipes_extra_info.recipe_id = recipes.id
-                      AND recipes.id >= %s
-                    ORDER BY recipes.id
-                    LIMIT %s'''
+        query = '''SELECT recipes.id,
+                    recipes.name,
+                    recipes.url,
+                    recipes.image_id as image
 
-        recipes = database.fetch_all(query, (start, stop))
+                    FROM recipes
+
+                    WHERE recipes.id NOT IN
+                    (SELECT recipe_id FROM recipes_ingredients
+                    INNER JOIN allergies_ingredients
+                    ON allergies_ingredients.ingredient_id = recipes_ingredients.ingredient_id
+                    WHERE allergies_ingredients.allergy_id IN %s)
+
+                    LIMIT %s, %s'''
+
+        recipes = database.fetch_all(query, (allergy_tuple, start, limit))
 
         return [Recipe(**recipe) for recipe in recipes]
 
 
-    def get_recipe_count(self):
-        query = '''SELECT COUNT(*) FROM recipes'''
+    def get_recipe_count(self, allergy_tuple):
 
-        return database.fetch(query)
+        if not allergy_tuple:
+            query = '''SELECT COUNT(*) FROM recipes'''
+            count = database.fetch(query)
+        else:
+            query = '''SELECT COUNT(*)
+                        FROM (SELECT id FROM recipes
+                        WHERE recipes.id NOT IN
+                        (SELECT recipe_id FROM recipes_ingredients
+                        INNER JOIN allergies_ingredients
+                        ON allergies_ingredients.ingredient_id = recipes_ingredients.ingredient_id
+                        WHERE allergies_ingredients.allergy_id IN %s)) A'''
+
+            count = database.fetch(query, (allergy_tuple,))
+
+        return count['COUNT(*)']
 
 
     def get_ingredients(self, recipe_id):
@@ -165,7 +182,8 @@ class RecipeModel:
         checked_recipes = []
         # Fetch recipes starting with 'start' and ending 'limit + 5' after start
         # Fetches a couple of more recipes to account for some empty id's
-        recipes = self.get_recipe(start, limit)
+        recipes = self.get_recipe((1,2,3,4,5), start, limit)
+        print(self.get_recipe_count((1,2)))
 
         #print (recipes)
 

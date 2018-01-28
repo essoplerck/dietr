@@ -18,18 +18,18 @@ class Database:
 
     def connect(self):
         """Connecto to the database."""
-<<<<<<< HEAD
+
         self.connection = sql.connect(database='renswnc266_production',
                                       host='185.182.57.56',
                                       user='renswnc266_dietr',
                                       password='qvuemzxu',
-=======
-        self.connection = sql.connect(database='production',
-                                      host='127.0.0.1',
-                                      user='dietr',
-                                      password='ec71d16d4d3db2bdc20c8acf',
->>>>>>> master
                                       cursorclass=sql.cursors.DictCursor)
+
+        # self.connection = sql.connect(database='production',
+        #                               host='127.0.0.1',
+        #                               user='dietr',
+        #                               password='ec71d16d4d3db2bdc20c8acf',
+        #                               cursorclass=sql.cursors.DictCursor)
 
     def commit(self, query, arugments=()):
         """Execute a query and commit."""
