@@ -57,12 +57,14 @@ class RecipeModel:
                 roommate.allergies = roommate_model.get_allergies(roommate.id)
                 #roommate.get_preferences(roommate.id)
         return user
+
     @property
     def user_allergies(self):
+        """Converts the user allergies from a dataclass to a tuple of id's"""
         return tuple([allergy.id for allergy in self.user.allergies])
 
     def get_recipe(self, allergy_tuple, start, limit):
-
+        """Fetch all the initial information for the recipes excluding recipes that have one of the user allergies"""
         query = '''SELECT recipes.id,
                     recipes.name,
                     recipes.url
@@ -83,6 +85,7 @@ class RecipeModel:
 
 
     def get_recipe_count(self, allergy_tuple):
+        """Fetch the total number of recipes excluding the recipes that contain a user allergy"""
 
         if not allergy_tuple:
             query = '''SELECT COUNT(*) FROM recipes'''
@@ -101,19 +104,21 @@ class RecipeModel:
         return count['COUNT(*)']
 
     def get_extra_info(self, recipe_id):
+        """Fetch all the extra info for a recipe (eg. main dish, desert, vegan)"""
         query = '''SELECT name FROM extra_info
                     WHERE id IN (SELECT extra_info_id FROM recipes_extra_info WHERE recipe_id = %s)'''
 
         return database.fetch(query, recipe_id)
 
     def get_image(self, recipe_id):
+        """Fetches the image url"""
         query = '''SELECT url FROM images
                     WHERE id IN (SELECT recipes.image_id FROM recipes WHERE id = %s)'''
 
         return database.fetch(query, recipe_id)['url']
 
     def get_ingredients(self, recipe_id):
-        """Get all ingredients from the database and return a list of instances
+        """Fetch all ingredients from the database and return a list of instances
         of the ingredient class.
         """
         query = '''SELECT id, name FROM ingredients
@@ -176,6 +181,7 @@ class RecipeModel:
         return recipes
 
     def get_source(self, url):
+        """Find's the source using a provided url"""
         if 'http://www.jumbo.com:80/' in url:
             return 'Jumbo Supermarkten'
 
