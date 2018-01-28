@@ -138,31 +138,3 @@ class RecipeModel:
         # Convert the list of dicts to a list of allergy objects
         return [Allergy(**allergy) for allergy in allergies]
         
-
-    def complete_recipes(self, limit, start):
-        """Return a list of recipes that is okay for the user to eat."""
-
-        recipes = self.get_recipe(self.user_allergies, start, limit)
-
-        #Add information
-        for recipe in recipes:
-
-            # Add the source of the recipe
-            recipe.source = recipe.get_source
-
-            #Add the extra information
-            recipe.extra_info = self.get_extra_info(recipe.id)
-
-            #Add the image
-            recipe.image = self.get_image(recipe.id)
-
-            #Add all the ingredients contained in the recipe
-            recipe.ingredients = self.get_ingredients(recipe.id)
-
-            # Add all the allergens contained in the ingredients
-            for ingredient in recipe.ingredients:
-                allergens = self.get_allergies(ingredient.id)
-                if allergens:
-                    recipe.allergies += allergens
-
-        return recipes

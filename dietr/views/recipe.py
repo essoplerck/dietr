@@ -36,7 +36,28 @@ def view(page, limit):
 
         return redirect(f'/recepten/page/{page}/show{limit}')
 
-    recipes = model.complete_recipes(limit, start)
+    recipes = model.get_recipe(model.user_allergies, start, limit)
+
+    #Add information
+    for recipe in recipes:
+
+        # Add the source of the recipe
+        recipe.source = recipe.get_source
+
+        #Add the extra information
+        recipe.extra_info = model.get_extra_info(recipe.id)
+
+        #Add the image
+        recipe.image = model.get_image(recipe.id)
+
+        #Add all the ingredients contained in the recipe
+        recipe.ingredients = model.get_ingredients(recipe.id)
+
+        # Add all the allergens contained in the ingredients
+        for ingredient in recipe.ingredients:
+            allergens = model.get_allergies(ingredient.id)
+            if allergens:
+                recipe.allergies += allergens
 
     return render_template('/recipe/view.jinja', recipes=recipes, user=user,
                            pagination=pagination)
