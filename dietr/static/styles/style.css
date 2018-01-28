@@ -87,7 +87,6 @@ header .afh .dropdown-item a {
   cursor: pointer;
 }
 
-header .nav.nav-pills.afh,
 header .afh .nav-link,
 header .afh .show>.nav-link {
   font-size: 20px;
@@ -155,7 +154,6 @@ footer .afh .nav-link.dropdown-toggle a,
 footer .afh .nav-link.dropdown-toggle .dropdown-menu .dropdown-item a,
 footer a:not([href]):not([tabindex]) {
   color: rgb(20,100,20);
-  cursor: pointer;
 }
 
 footer .afh .nav-link.active,
@@ -293,6 +291,14 @@ header .title a:focus {
   outline-color: transparent;
 }
 
+header .btn.btn-link,
+header .btn.btn-link:active,
+header .btn.btn-link:focus,
+header .btn.btn-link:hover {
+  border: none;
+  background: none;
+}
+
 header .account {
   float: right;
   margin: -140px 20px 0 0;
@@ -335,18 +341,30 @@ footer .text-right {
 /*Carousel*/
 section .carousel.slide .d-block {
   width: 1000px;
-  max-height: 800px;
+  height: 550px;
   background-size: cover;
   background-position: 0 center;
   background-repeat: no-repeat;
 }
 
 @media screen
-and (min-width: 0)
+and (min-width: 476px)
 and (max-width: 942px) {
   section .carousel.slide .d-block {
     width: 1000px;
-    max-height: 800px;
+    height: 575px;
+    background-size: 0 cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+}
+
+@media screen
+and (min-width: 0)
+and (max-width: 475px) {
+  section .carousel.slide .d-block {
+    width: 1000px;
+    height: 550px;
     background-size: 0 cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -434,7 +452,8 @@ section .pagination {
   margin: -20px 0 20px 0;
 }
 
-section .pagination li {
+section .pagination li,
+section .form-check-label li {
   list-style-type: none;
 }
 

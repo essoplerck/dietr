@@ -1,18 +1,17 @@
-from flask import (Blueprint, g, redirect, render_template, request, session,
+from flask import (Blueprint, redirect, render_template, request, session,
                    url_for)
 
-from dietr.models.profile import ProfileModel
+from dietr.models import model
 from dietr.utils import login_required
 
 blueprint = Blueprint('profile', __name__)
-
-model = ProfileModel()
 
 
 @blueprint.route('/profile')
 @login_required
 def view():
-    user = g.user
+    user_id = session['user']
+    user = model.user.get_user(user_id)
 
     return render_template('/profile/view.jinja', user=user)
 
@@ -20,7 +19,8 @@ def view():
 @blueprint.route('/profile/edit')
 @login_required
 def edit():
-    user = g.user
+    user_id = session['user']
+    user = model.user.get_user(user_id)
 
     return render_template('/profile/edit.jinja', error=None, user=user)
 
@@ -29,7 +29,9 @@ def edit():
 @login_required
 def edit_name():
     error = {}
-    user = g.user
+
+    user_id = session['user']
+    user = model.user.get_user(user_id)
 
     first_name = request.form['first-name']
     middle_name = request.form['middle-name']
@@ -57,7 +59,9 @@ def edit_name():
 @login_required
 def edit_email():
     error = {}
-    user = g.user
+
+    user_id = session['user']
+    user = model.user.get_user(user_id)
 
     email = request.form['email']
 
@@ -73,7 +77,9 @@ def edit_email():
 @login_required
 def edit_username():
     error = {}
-    user = g.user
+
+    user_id = session['user']
+    user = model.user.get_user(user_id)
 
     username = request.form['username']
 
@@ -89,7 +95,9 @@ def edit_username():
 @login_required
 def edit_password():
     error = {}
-    user = g.user
+
+    user_id = session['user']
+    user = model.user.get_user(user_id)
 
     current_password = request.form['current-password']
 

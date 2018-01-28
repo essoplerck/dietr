@@ -1,20 +1,16 @@
 from datetime import datetime
 
-from flask import Flask, g, render_template, session
+from flask import Flask, redirect, render_template, request, session, url_for
 from htmlmin.main import minify
-from flask import redirect
-from flask import request, url_for
 
+from dietr.models import model
 from dietr.sessions import RedisSessionInterface
-from dietr.models.user import UserModel
 from dietr.database import database
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.config.from_object('config')
 app.session_interface = RedisSessionInterface()
-
-model = UserModel()
 
 
 @app.teardown_request
@@ -41,19 +37,19 @@ def connect():
     """Connect to the database."""
     database.connect()
 
-    # @TODO move to seperate method
-    if 'user' in session:
-        g.user = model.get_user()
-
 
 @app.context_processor
 def add_context():
     """Pass user and current year to templating engine."""
+    user = None
+
     date = datetime.now()
     year = date.year
 
     # Check if user is logged in
-    user = g.user if 'user' in session else None
+    if 'user' in session:
+        user_id = session['user']
+        user = model.user.get_user(user_id)
 
     return dict(user=user, year=year)
 
@@ -72,21 +68,12 @@ def internal_server_error(error):
 def not_found(error):
     return render_template('error/not_found.jinja'), 404
 
-def url_for_other_page(page, limit):
-    args = request.view_args.copy()
-    args['page'] = page
-    args['limit'] = limit
-    return url_for(request.endpoint, **args)
-    
-app.jinja_env.globals['url_for_other_page'] = url_for_other_page
 
 def url_for_other_page(page, limit):
-    args = request.view_args.copy()
-
     return url_for(request.endpoint, page=page, limit=limit)
 
 
-# @TODO Move to add contect method
+# @TODO Move to add context method
 app.jinja_env.globals['url_for_other_page'] = url_for_other_page
 
 from dietr.views import api

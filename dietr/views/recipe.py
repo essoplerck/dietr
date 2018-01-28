@@ -1,12 +1,11 @@
-from flask import Blueprint, request, render_template, url_for, redirect
+from flask import Blueprint, request, render_template, url_for, redirect, \
+                  session
 
-from dietr.models.recipe import RecipeModel
+from dietr.models import model
 from dietr.pagination import Pagination
 from dietr.utils import login_required
 
 blueprint = Blueprint('recipe', __name__)
-
-model = RecipeModel()
 
 
 @blueprint.route('/recipes', methods=['GET', 'POST'], defaults={
@@ -23,7 +22,18 @@ def view(page, limit):
 
         return redirect(url_for('recipe.view', page=page, limit=limit))
 
-    user = model.user
+    user_id = session['user']
+    user = model.user.get_user(user_id)
+
+    user.allergies = model.user.get_allergies(user.id)
+    user.preferences = model.user.get_preferences(user.id)
+    user.roommates = model.roommate.get_roommates(user.id)
+
+    if user.roommates:
+        for roommate in user.roommates:
+            roommate.allergies = model.roommate.get_allergies(roommate.id)
+            roommate.preferences = model.roommate.get_preferences(roommate.id)
+
     start = limit * (page - 1)
 
     roommates_allergies = []
@@ -35,7 +45,11 @@ def view(page, limit):
 
     recipe_count = model.get_recipe_count(model.user_allergies(roommates_allergies))
 
-    #Add pagination
+    allergies = tuple([allergy.id for allergy in user.allergies])
+
+    recipe_count = model.recipe.get_recipe_count(allergies)
+
+    # Add pagination
     pagination = Pagination(page, limit, recipe_count)
 
     # Check if page exits
@@ -47,7 +61,7 @@ def view(page, limit):
 
     recipes = model.get_recipe(model.user_allergies(roommates_allergies), start, limit)
 
-    #Add information
+    # Add information
     for recipe in recipes:
 
         recipe.source = recipe.get_source

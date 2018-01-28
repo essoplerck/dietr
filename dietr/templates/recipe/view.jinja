@@ -12,7 +12,7 @@
         <hr>
 
         {% if user.roommates %}
-          <h4>Personen</h4>
+          <h4>Kamergenoten</h4>
             <div class="form-check">
               <form action="{{ url_for('recipe.view') }}" method="post">
               {% for roommate in user.roommates %}
@@ -44,7 +44,15 @@
             <input class="form-check-input" type="checkbox" value="">
             Nagerecht
           </label>
+          <br>
+          <button class="btn btn-primary" type="button" id="extra_confirm" data-toggle="">Bevestig</button>
 
+        </div>
+
+        <hr>
+
+        <h4>Dieet</h4>
+        <div class="form-check">
           <label class="form-check-label">
             <input class="form-check-input" type="checkbox" value="">
             Vegetarisch
@@ -55,9 +63,9 @@
             Veganistisch
           </label>
 
-          <button class="btn" type="button" id="extra_confirm" data-toggle=""> Bevestig </button>
-
-        </div>
+          <br>
+          <button class="btn btn-primary" type="button" id="extra_confirm" data-toggle="">Bevestig</button>
+      </div>
       </div>
 
       <div class="col">

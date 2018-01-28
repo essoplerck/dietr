@@ -1,34 +1,29 @@
-<ul class="nav nav-pills afh">
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url_for('overview.dashboard') }}">Home</a>
-  </li>
+<nav class="navbar navbar-expand-lg navbar-light afh" style="background-color:rgb(20,230,160); padding: 3px;">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url_for('recipe.view') }}">Recepten</a>
-  </li>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav nav-pills afh">
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('overview.dashboard') }}">Home</a>
+      </li>
 
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url_for('diet.view') }}">Allergieën en diëten</a>
-  </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('recipe.view') }}">Recepten</a>
+      </li>
 
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profiel</a>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="{{ url_for('profile.view') }}">Profiel</a>
-      <span class="dropdown-divider"></span>
-      <a class="dropdown-item" href="{{ url_for('profile.edit') }}">Account</a>
-      <a class="dropdown-item" href="{{ url_for('roommate.overview') }}">Personen</a>
-    </div>
-  </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('diet.view') }}">Allergieën en diëten</a>
+      </li>
 
-  <li class="nav-item">
-    <a class="nav-link" href="{{ url_for('overview.about') }}">Over ons</a>
-  </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('roommate.overview') }}">Kamergenoten</a>
+      </li>
 
-  <li id="search-bar" class="ml-auto">
-    <form action="{{ url_for('overview.search') }}" class="form-inline" method="POST">
-      <input class="form-control mr-sm-2" type="search" placeholder="Zoeken" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Zoeken</button>
-    </form>
-  </li>
-</ul>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('overview.about') }}">Over ons</a>
+      </li>
+    </ul>
+  </div>
+</nav>

@@ -18,12 +18,8 @@
 
   <template id="template-result">
     <div class="row">
-      <div class="col-1">
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-      </div>
-      <div class="col">
+        <i class="fa fa-plus" aria-hidden="true" style="padding-right: 15px;"></i>
         <a></a>
-      </div>
     </div>
   </template>
 {% endblock templates %}
@@ -39,7 +35,7 @@
   </div>#}
 
   <div class="row justify-content-center">
-    <div class="col-3 text-left">
+    <div class="col-5 text-left">
       <div class="row">
         <div class="col-10">
           <h2>Allergieën</h2>
@@ -62,21 +58,7 @@
 
     <div class="col-1 border-right"></div>
 
-    <div class="col-3 text-left">
-      <div class="row">
-        <div class="col-10">
-          <h2>Diëten</h2>
-        </div>
-      </div>
-
-      <div class="form-check"></div>
-    </div>
-
-    <div class="form-check" id="diets"></div>
-
-    <div class="col-1 border-right"></div>
-
-    <div class="col-3 text-left">
+    <div class="col-5 text-left">
       <div class="row">
         <div class="col-10">
           <h2>Ingrediënten</h2>
@@ -97,40 +79,30 @@
       </div>
     </div>
   </div>
+  <br>
+  <div class="row justify-content-center">
+    <form class="form-inline" id="search">
+      <div class="row">
+        <div class="col">
+          {{ macros.input('search', placeholder='Zoeken', type='search') }}
+        </div>
+        <div class="col">
+          <button class="btn btn-primary">Zoeken</button>
+        </div>
+      </div>
+    </form>
+    </div>
+    <br>
+    <div class="row justify-content-center">
+      <div class="row">
+        <div class="col-12" id="results"></div>
+      </div>
+    </div>
+
 {% endblock carousel %}
 
 {% block content %}
   <section>
-    <div class="back-color row justify-content-center">
-      <form class="form-inline" id="search">
-        <div class="row">
-          <div class="col">
-            <div class="dropdown text-right">
-              <button class="btn btn-primary btn-margin dropdown-toggle" data-toggle="dropdown">
-                Zoeken naar
-              </button>
-
-              <div class="dropdown-menu">
-                <a class="dropdown-item">Allergie</a>
-                <a class="dropdown-item">Dieet</a>
-                <a class="dropdown-item">Ingrediënt</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            {{ macros.input('search', placeholder='Zoeken', type='search') }}
-          </div>
-          <div class="col">
-            <button class="btn btn-primary">Zoeken</button>
-          </div>
-        </div>
-      </form>
-
-      <div class="row">
-        <div class="col-6" id="results"></div>
-      </div>
-    </div>
 
   </section>
 {% endblock content %}

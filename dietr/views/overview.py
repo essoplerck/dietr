@@ -12,8 +12,3 @@ def dashboard():
 @blueprint.route('/about')
 def about():
     return render_template('overview/about.jinja')
-
-
-@blueprint.route('/search')
-def search():
-    pass
