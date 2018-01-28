@@ -1,18 +1,21 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, session
 
-from dietr.models.diet import DietModel
+from dietr.models import model
 from dietr.utils import login_required
 
 blueprint = Blueprint('diet', __name__)
-
-model = DietModel()
 
 
 @blueprint.route('/diet')
 @login_required
 def view():
-    user = model.get_user()
-    user.allergies = model.get_allergies()
-    user.preferences = model.get_preferences()
+    # Get user id from session
+    user_id = session['user']
+
+    user = model.user.get_user(user_id)
+
+    user.allergies = model.user.get_allergies(user.id)
+    user.roommates = model.roommate.get_roommates(user.id)
+    user.preferences = model.user.get_preferences(user.id)
 
     return render_template('diet/view.jinja', user=user)
