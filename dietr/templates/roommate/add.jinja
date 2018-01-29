@@ -16,10 +16,12 @@
                               error=error.first_name,
                               required=True) }}
       </div>
+
       <div class="col-3">
         {{ macros.input_label('middle-name',
                               placeholder='Tussenvoegsel') }}
       </div>
+
       <div class="col-4">
         {{ macros.input_label('last-name',
                               placeholder='Achternaam',
@@ -27,5 +29,7 @@
                               required=True) }}
       </div>
     </div>
+
+    <button class="btn btn-primary btn-lg" type="submit">Kamergenoot toevoegen</button>
   </form>
 {% endblock carousel %}

@@ -4,30 +4,6 @@
   Roommates
 {% endblock title %}
 
-{% block templates %}
-  <template id="template-item">
-    <div class="row">
-      <div class="col-1">
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-      </div>
-      <div class="col">
-        <a></a>
-      </div>
-    </div>
-  </template>
-
-  <template id="template-result">
-    <div class="row">
-      <div class="col-1">
-        <i class="fa fa-trash-o" aria-hidden="true"></i>
-      </div>
-      <div class="col">
-        <a></a>
-      </div>
-    </div>
-  </template>
-{% endblock templates %}
-
 {% block carousel %}
   <h1>Kamergenoten</h1>
   <br>
@@ -40,45 +16,23 @@
 
           <div class="card-body">
             <div class="row">
-              <div class="col-3" style="padding: 0; margin-top: 3px;">
+              <div class="col-3">
                 <a href="#remove-{{ roommate.handle }}" data-toggle="modal" data-target="#remove-{{ roommate.handle }}">
                   <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
                 </a>
               </div>
 
               <div class="col row" style="justify-content: flex-end; padding: 0;">
-                <a href="#" class="btn btn-primary">Bekijken</a>
+                <a href="{{ url_for('roommate.view', handle=roommate.handle) }}" class="btn btn-primary">Bekijken</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="modal fade" id="remove-{{ roommate.handle }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header back-color">
-              <h3 class="modal-title" id="exampleModalLongTitle">Persoon verwijderen?</h3>
-
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-
-            <div class="modal-footer back-color">
-              <a class="btn btn-primary btn-lg" href="{{ url_for('roommate.overview') }}" role="button">Annuleren</a>
-
-              <form action="{{ url_for('roommate.remove', handle=roommate.handle) }}" class="form-inline" method="POST">
-                <button class="btn btn-primary btn-lg" type="submit">Persoon verwijderen</button>
-              </form>
-            </div>
-          </div>
-        </div>hi
-      </div>
     {% endfor %}
 
     <div class="card-block col-6 col-md-6 col-lg-4 add">
-      <a href="#Modal_add" data-toggle="modal" data-target="#Modal_add">
+      <a data-toggle="modal" data-target="#roommate-add">
         <div class="card">
           <div class="card-body">
             <i class="fa fa-plus fa-5x" aria-hidden="true"></i>
@@ -86,27 +40,66 @@
         </div>
       </a>
     </div>
+{% endblock carousel %}
 
-    <div class="modal fade" id="Modal_add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+{% block content %}
+  {% for roommate in roommates %}
+    <div class="modal fade" id="remove-{{ roommate.handle }}" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header back-color">
-            <h3 class="modal-title" id="exampleModalLongTitle">Persoon toevoegen</h3>
+            <h3 class="modal-title" id="exampleModalLongTitle">Persoon verwijderen?</h3>
+
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <input type="text" class="form-control" id="exampleInput" placeholder="Naam">
-          </div>
-        </div>
+
           <div class="modal-footer back-color">
-            <a class="btn btn-primary" href="Personen.html" role="button">Annuleren</a>
-            <a class="btn btn-primary" href="#" role="button">Persoon toevoegen</a>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('roommate.overview') }}" role="button">Annuleren</a>
+
+            <form action="{{ url_for('roommate.remove', handle=roommate.handle) }}" class="form-inline" method="POST">
+              <button class="btn btn-primary btn-lg" type="submit">Persoon verwijderen</button>
+            </form>
           </div>
         </div>
       </div>
     </div>
+  {% endfor %}
+
+  <div class="modal fade" id="roommate-add" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header back-color">
+          <h3 class="modal-title">Kamergenoot toevoegen</h3>
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form action="{{ url_for('roommate.add') }}" method="post">
+            <div class="form-group">
+              {{ macros.input_label('first-name',
+                                    placeholder='Voornaam',
+                                    required=True) }}
+            </div>
+
+            <div class="form-group">
+              {{ macros.input_label('middle-name',
+                                    placeholder='Tussenvoegsel') }}
+            </div>
+
+            <div class="form-group">
+              {{ macros.input_label('last-name',
+                                    placeholder='Achternaam',
+                                    required=True) }}
+            </div>
+
+            <button class="btn btn-primary btn-lg" type="submit">Kamergenoot toevoegen</button>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-{% endblock carousel %}
+{% endblock content %}

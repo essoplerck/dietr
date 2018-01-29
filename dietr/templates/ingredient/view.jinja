@@ -6,6 +6,7 @@
 
 {% block carousel %}
   <h1>{{ ingredient.name }}</h1>
+
   {% if ingredient.allergens %}
     <ul>
       {% for allergen in ingredient.allergens %}
