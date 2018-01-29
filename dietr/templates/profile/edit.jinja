@@ -58,9 +58,9 @@
       <div class="col-9">
         {{ macros.input_label('username',
                               placeholder='Gebruikersnaam',
+                              value=user.username,
                               error=error.current_password,
-                              required=True,
-                              type='password') }}
+                              required=True) }}
       </div>
       <div class="col-3" style="padding-left: 0;">
         <button class="btn btn-primary" type="submit">Gebruikersnaam aanpassen</button>
