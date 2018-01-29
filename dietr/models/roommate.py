@@ -64,7 +64,7 @@ class RoommateModel:
         """Get the highest roommate id for an user. This is used to genereate a
         handle for a roommate.
         """
-        query = '''SELECT MAX(handle) AS handle
+        query = '''SELECT MAX(handle) + 1 AS handle
                      FROM roommates
                     WHERE user_id = %s'''
 
