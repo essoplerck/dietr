@@ -67,7 +67,6 @@ def view(page, limit):
 
         # Add all the allergens contained in the ingredients
         for ingredient in recipe.ingredients:
-            print(ingredient.id)
             allergens = model.ingredient.get_allergens(ingredient.id)
 
             if allergens:

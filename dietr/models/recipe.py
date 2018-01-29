@@ -49,12 +49,12 @@ class RecipeModel:
         """Fetch the total number of recipes excluding the recipes that contain
         a user allergy.
         """
-        print((allergy_tuple,))
         if not allergy_tuple:
             query = '''SELECT COUNT(*) AS recipe_count
                          FROM recipes'''
 
             return database.fetch(query)['recipe_count']
+
         else:
             query = '''SELECT COUNT(*) AS recipe_count
                          FROM recipes
