@@ -11,7 +11,7 @@ class Recipe:
     name: str
     url: str
     extra: str = field(default_factory=str, init=False)
-    image: str = field(default_factory=str, init=False)
+    image: str
     source: str = field(default_factory=str, init=False)
     allergies: list = field(default_factory=list, init=False)
     ingredients: list = field(default_factory=list, init=False)
@@ -37,8 +37,10 @@ class RecipeModel:
         that have one of the user allergies.
         """
 
-        query = '''SELECT recipes.id, recipes.name, recipes.url
-                     FROM recipes'''
+        query = '''SELECT recipes.id, recipes.name, recipes.url, images.url as image
+                     FROM recipes
+                     INNER JOIN images
+                     ON images.id = recipes.image_id'''
 
         course_query = ''' AND recipes.id IN
               (SELECT recipe_id
@@ -137,15 +139,6 @@ class RecipeModel:
                                    '''
 
         return database.fetch(query, recipe_id)
-
-    def get_image(self, recipe_id):
-        """Fetches the image url"""
-        query = '''SELECT url FROM images
-                    WHERE id IN (SELECT recipes.image_id
-                                    FROM recipes
-                                    WHERE id = %s)'''
-
-        return database.fetch(query, recipe_id)['url']
 
     def get_ingredients(self, recipe_id):
         """Fetch all ingredients from the database and return a list of instances

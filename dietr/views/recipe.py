@@ -83,7 +83,6 @@ def view(page, limit):
 
         recipe.source = recipe.get_source
         recipe.extra_info = model.recipe.get_extra_info(recipe.id)
-        recipe.image = model.recipe.get_image(recipe.id)
         recipe.ingredients = model.recipe.get_ingredients(recipe.id)
         recipe.allergies = model.recipe.get_allergies(recipe.id)
 
