@@ -167,3 +167,23 @@ CREATE TABLE users_preferences (
                   ON DELETE CASCADE,
     flag          INT(2)  NOT NULL DEFAULT 0
 ) CHARSET=utf8 COLLATE utf8_general_ci;
+
+CREATE UNIQUE INDEX allergies_index
+ON allergies (id);
+
+CREATE UNIQUE INDEX ingredients_index
+ON ingredients (id);
+
+CREATE UNIQUE INDEX recipes_index
+ON recipes (id);
+
+CREATE UNIQUE INDEX allergies_ingredients_index
+ON allergies_ingredients (id, allergy_id, ingredient_id);
+
+CREATE UNIQUE INDEX recipes_ingredients_index
+ON recipes_ingredients (id, recipe_id, ingredient_id);
+
+CREATE VIEW recipes_allergies AS
+SELECT recipes_ingredients.recipe_id, allergies_ingredients.allergy_id
+  FROM recipes_ingredients, allergies_ingredients
+ WHERE recipes_ingredients.ingredient_id = allergies_ingredients.ingredient_id;
