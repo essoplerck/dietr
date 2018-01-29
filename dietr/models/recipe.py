@@ -26,8 +26,13 @@ class Recipe:
             return 'Albert Heijn'
 
 
+class Order(int):
+    ASCENDING = 1
+    DESCENDING = 2
+
+
 class RecipeModel:
-    def get_recipes(self, start, limit, allergy_tuple, course, diet):
+    def get_recipes(self, start, limit, allergy_tuple, course, diet, order = Order.ASCENDING):
         """Fetch all the initial information for the recipes excluding recipes
         that have one of the user allergies.
         """
@@ -42,6 +47,12 @@ class RecipeModel:
 
         limiter = ''' LIMIT %s, %s'''
 
+        if order == Order.ASCENDING:
+            sort = ''' ORDER BY name ASC'''
+
+        else:
+            sort = ''' ORDER BY name DESC'''
+
 
         if allergy_tuple:
             query += ''' WHERE recipes.id
@@ -55,23 +66,22 @@ class RecipeModel:
             query += ''' WHERE %s'''
 
         if not course and not diet:
-            query += limiter
+            query += sort + limiter
             recipes = database.fetch_all(query, (allergy_tuple, start, limit))
 
         if course and not diet:
             query += course_query
-            query += limiter
+            query += sort + limiter
             recipes = database.fetch_all(query, (allergy_tuple, course, start, limit))
 
         if diet and not course:
             query += course_query
-            query += limiter
-            print (query)
+            query += sort + limiter
             recipes = database.fetch_all(query, (allergy_tuple, diet, start, limit))
 
         if diet and course:
             query += course_query + course_query
-            query += limiter
+            query += sort + limiter
             recipes = database.fetch_all(query, (allergy_tuple, course, diet, start, limit))
 
         return [Recipe(**recipe) for recipe in recipes]

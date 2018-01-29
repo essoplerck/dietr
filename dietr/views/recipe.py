@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, url_for, redirect, \
                   session
 
 from dietr.models import model
+from dietr.models.recipe import Order
 from dietr.pagination import Pagination
 from dietr.utils import login_required
 
@@ -25,6 +26,7 @@ def view(page, limit):
     user_id = session['user']
     user = model.user.get_user(user_id)
     start = limit * (page - 1)
+    sort = Order(1)
 
     #Get the user's information
     user.allergies = model.user.get_allergies(user.id)
@@ -36,6 +38,9 @@ def view(page, limit):
     course = []
     diet = []
     if request.method == 'POST':
+        if request.form.get('sort'):
+            sort = Order(request.form.get('sort'))
+            print(sort)
         if user.roommates:
             for roommate in user.roommates:
                 if request.form.get('roommate_' + str(roommate.id)):
@@ -71,7 +76,7 @@ def view(page, limit):
         return redirect(f'/recipes/page/{page}/show{limit}')
 
 
-    recipes = model.recipe.get_recipes(start, limit, all_allergies, course, diet)
+    recipes = model.recipe.get_recipes(start, limit, all_allergies, course, diet, sort)
 
     # Add information to the recipes
     for recipe in recipes:
@@ -83,4 +88,4 @@ def view(page, limit):
         recipe.allergies = model.recipe.get_allergies(recipe.id)
 
     return render_template('/recipe/view.jinja', recipes=recipes, user=user,
-                           pagination=pagination, checked_roommates=checked_roommates, course=course, diet=diet)
+                           pagination=pagination, checked_roommates=checked_roommates, course=course, diet=diet, sort=sort)
