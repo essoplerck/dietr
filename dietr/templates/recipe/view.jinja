@@ -17,55 +17,56 @@
               <form action="{{ url_for('recipe.view') }}" method="post">
               {% for roommate in user.roommates %}
                 <label class="form-check-label">
-                  <input name="{{ roommate.id }}" class="form-check-input" type="checkbox" value="True" unchecked>
+                  <input name="roommate_{{ roommate.id }}" class="form-check-input" type="checkbox" value="True" {{ 'checked="checked"' if roommate.id in checked_roommates else "" }}>
                   {{ roommate.first_name }}
                 </label>
               {% endfor %}
-              <button class="btn" type="submit">Bevestig</button>
-            </form>
+              <br>
+              <button class="btn btn-primary" type="submit">Bevestig</button>
           </div>
         {% endif %}
 
         <hr>
+          <h4>Soort gerecht</h4>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input name="course_4" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 4 in course else "" }} {% endif %}>
+              Voorgerecht
+            </label>
 
-        <h4>Soort gerecht</h4>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="">
-            Voorgerecht
-          </label>
+            <label class="form-check-label">
+              <input name="course_3" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 3 in course else "" }} {% endif %}>
+              Hoofdgerecht
+            </label>
 
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="">
-            Hoofdgerecht
-          </label>
+            <label class="form-check-label">
+              <input name="course_5" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 5 in course else "" }} {% endif %}>
+              Nagerecht
+            </label>
+            <br>
+            <button class="btn btn-primary" type="submit">Bevestig</button>
 
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="">
-            Nagerecht
-          </label>
-          <br>
-          <button class="btn btn-primary" type="button" id="extra_confirm" data-toggle="">Bevestig</button>
+          </div>
 
+          <hr>
+
+          <h4>Dieet</h4>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input name="diet_7" class="form-check-input" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 7 in diet else "" }} {% endif %}>
+              Vegetarisch
+            </label>
+
+            <label class="form-check-label">
+              <input name="diet_6" class="form-check-input" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 6 in diet else "" }} {% endif %}>
+              Veganistisch
+            </label>
+
+            <br>
+            <button class="btn btn-primary" type="submit">Bevestig</button>
         </div>
+      </form>
 
-        <hr>
-
-        <h4>Dieet</h4>
-        <div class="form-check">
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="">
-            Vegetarisch
-          </label>
-
-          <label class="form-check-label">
-            <input class="form-check-input" type="checkbox" value="">
-            Veganistisch
-          </label>
-
-          <br>
-          <button class="btn btn-primary" type="button" id="extra_confirm" data-toggle="">Bevestig</button>
-      </div>
       </div>
 
       <div class="col">

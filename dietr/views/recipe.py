@@ -15,7 +15,7 @@ blueprint = Blueprint('recipe', __name__)
 @blueprint.route('/recipes/page/<int:page>/show<int:limit>')
 @login_required
 def view(page, limit):
-    # Checks if the url doesn't ask for a non-excisting limit
+    # Checks if the url doesn't ask for a non-excistent limit
     if limit not in [20, 40, 100]:
         limit = 20
         page = 1
@@ -24,30 +24,42 @@ def view(page, limit):
 
     user_id = session['user']
     user = model.user.get_user(user_id)
+    start = limit * (page - 1)
 
+    #Get the user's information
     user.allergies = model.user.get_allergies(user.id)
     user.preferences = model.user.get_preferences(user.id)
     user.roommates = model.roommate.get_roommates(user.id)
+    all_allergies = [allergy.id for allergy in user.allergies]
 
-    if user.roommates:
-        for roommate in user.roommates:
-            roommate.allergies = model.roommate.get_allergies(roommate.id)
-            roommate.preferences = model.roommate.get_preferences(roommate.id)
+    checked_roommates = []
+    course = []
+    diet = []
+    if request.method == 'POST':
+        if user.roommates:
+            for roommate in user.roommates:
+                if request.form.get('roommate_' + str(roommate.id)):
+                    #roommate.preferences = model.roommate.get_preferences(roommate.id)
+                    checked_roommates.append(roommate.id)
+                    roommate.allergies = model.roommate.get_allergies(roommate.id)
+                    all_allergies += [allergy.id for allergy in roommate.allergies]
 
-    start = limit * (page - 1)
+        if request.form.get('course_3'):
+            course.append(3)
+        if request.form.get('course_4'):
+            course.append(4)
+        if request.form.get('course_5'):
+            course.append(5)
+        if request.form.get('diet_6'):
+            diet.append(6)
+        if request.form.get('diet_7'):
+            diet.append(7)
 
-    roommates_allergies = []
-    if request.method == 'POST' and user.roommates:
-        for roommate in user.roommates:
-            if request.form.get(roommate.id):
-                for allergy in roommate.allergies:
-                    roommate.allergies += allergy.id
+    all_allergies = tuple(all_allergies) if all_allergies else None
+    course = tuple(course) if course else None
+    diet = tuple(diet) if diet else None
 
-    recipe_count = model.get_recipe_count(model.user_allergies(roommates_allergies))
-
-    allergies = tuple([allergy.id for allergy in user.allergies])
-
-    recipe_count = model.recipe.get_recipe_count(allergies)
+    recipe_count = model.recipe.get_recipe_count(all_allergies, course, diet)
 
     # Add pagination
     pagination = Pagination(page, limit, recipe_count)
@@ -56,19 +68,19 @@ def view(page, limit):
     if page > pagination.pages:
         page = pagination.pages
 
-        return redirect(f'/recepten/page/{page}/show{limit}')
+        return redirect(f'/recipes/page/{page}/show{limit}')
 
 
-    recipes = model.get_recipe(model.user_allergies(roommates_allergies), start, limit)
+    recipes = model.recipe.get_recipes(start, limit, all_allergies, course, diet)
 
-    # Add information
+    # Add information to the recipes
     for recipe in recipes:
 
         recipe.source = recipe.get_source
-        recipe.extra_info = model.get_extra_info(recipe.id)
-        recipe.image = model.get_image(recipe.id)
-        recipe.ingredients = model.get_ingredients(recipe.id)
-        recipe.allergies = model.get_allergies(recipe.id)
+        recipe.extra_info = model.recipe.get_extra_info(recipe.id)
+        recipe.image = model.recipe.get_image(recipe.id)
+        recipe.ingredients = model.recipe.get_ingredients(recipe.id)
+        recipe.allergies = model.recipe.get_allergies(recipe.id)
 
     return render_template('/recipe/view.jinja', recipes=recipes, user=user,
-                           pagination=pagination)
+                           pagination=pagination, checked_roommates=checked_roommates, course=course, diet=diet)

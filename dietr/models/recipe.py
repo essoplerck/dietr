@@ -27,45 +27,95 @@ class Recipe:
 
 
 class RecipeModel:
-    def get_recipes(self, allergy_tuple, start, limit):
+    def get_recipes(self, start, limit, allergy_tuple, course, diet):
         """Fetch all the initial information for the recipes excluding recipes
         that have one of the user allergies.
         """
-        query = '''SELECT recipes.id, recipes.name, recipes.url
-                     FROM recipes
-                    WHERE recipes.id
-                      NOT IN (SELECT recipe_id
-                                FROM recipes_ingredients AS ri
-                               INNER JOIN allergies_ingredients AS ai
-                                  ON ai.ingredient_id = ri.ingredient_id
-                               WHERE ai.allergy_id IN %s)
-                    LIMIT %s, %s'''
 
-        recipes = database.fetch_all(query, (allergy_tuple, start, limit))
+        query = '''SELECT recipes.id, recipes.name, recipes.url
+                     FROM recipes'''
+
+        course_query = ''' AND recipes.id IN
+              (SELECT recipe_id
+               FROM recipes_extra_info
+               WHERE extra_info_id IN %s)'''
+
+        limiter = ''' LIMIT %s, %s'''
+
+
+        if allergy_tuple:
+            query += ''' WHERE recipes.id
+                        NOT IN (SELECT recipe_id
+                          FROM recipes_ingredients AS ri
+                    INNER JOIN allergies_ingredients AS ai
+                            ON ai.ingredient_id = ri.ingredient_id
+                         WHERE ai.allergy_id IN %s)'''
+        else:
+            allergy_tuple = 1
+            query += ''' WHERE %s'''
+
+        if not course and not diet:
+            query += limiter
+            recipes = database.fetch_all(query, (allergy_tuple, start, limit))
+
+        if course and not diet:
+            query += course_query
+            query += limiter
+            recipes = database.fetch_all(query, (allergy_tuple, course, start, limit))
+
+        if diet and not course:
+            query += course_query
+            query += limiter
+            print (query)
+            recipes = database.fetch_all(query, (allergy_tuple, diet, start, limit))
+
+        if diet and course:
+            query += course_query + course_query
+            query += limiter
+            recipes = database.fetch_all(query, (allergy_tuple, course, diet, start, limit))
 
         return [Recipe(**recipe) for recipe in recipes]
 
-    def get_recipe_count(self, allergy_tuple):
+    def get_recipe_count(self, allergy_tuple, course, diet):
         """Fetch the total number of recipes excluding the recipes that contain
         a user allergy.
         """
-        print((allergy_tuple,))
-        if not allergy_tuple:
-            query = '''SELECT COUNT(*) AS recipe_count
-                         FROM recipes'''
+        query = '''SELECT COUNT(*) AS recipe_count
+                     FROM recipes'''
 
-            return database.fetch(query)['recipe_count']
+        course_query = ''' AND recipes.id IN
+              (SELECT recipe_id
+               FROM recipes_extra_info
+               WHERE extra_info_id IN %s)'''
+
+
+        if allergy_tuple:
+            query += ''' WHERE recipes.id
+                        NOT IN (SELECT recipe_id
+                          FROM recipes_ingredients AS ri
+                    INNER JOIN allergies_ingredients AS ai
+                            ON ai.ingredient_id = ri.ingredient_id
+                         WHERE ai.allergy_id IN %s)'''
         else:
-            query = '''SELECT COUNT(*) AS recipe_count
-                         FROM recipes
-                        WHERE recipes.id
-                          NOT IN (SELECT recipe_id
-                                    FROM recipes_ingredients AS ri
-                                   INNER JOIN allergies_ingredients AS ai
-                                      ON ai.ingredient_id = ri.ingredient_id
-                                   WHERE ai.allergy_id IN %s)'''
+            allergy_tuple = 1
+            query += ''' WHERE %s'''
 
-            return database.fetch(query, (allergy_tuple,))['recipe_count']
+        if not course and not course:
+            recipes = database.fetch(query, (allergy_tuple, ))
+
+        if course and not diet:
+            query += course_query
+            recipes = database.fetch(query, (allergy_tuple, course))
+
+        if diet and not course:
+            query += course_query
+            recipes = database.fetch(query, (allergy_tuple, diet))
+
+        if diet and course:
+            query += course_query + course_query
+            recipes = database.fetch(query, (allergy_tuple, course, diet))
+
+        return recipes['recipe_count']
 
     def get_extra_info(self, recipe_id):
         """Fetch all the extra info for a recipe (eg. main dish, desert, vegan)"""
@@ -73,14 +123,17 @@ class RecipeModel:
                      FROM extra_info
                     WHERE id IN (SELECT extra_info_id
                                    FROM recipes_extra_info
-                                  WHERE recipe_id = %s)'''
+                                   WHERE recipe_id = %s)
+                                   '''
 
         return database.fetch(query, recipe_id)
 
     def get_image(self, recipe_id):
         """Fetches the image url"""
         query = '''SELECT url FROM images
-                    WHERE id IN (SELECT recipes.image_id FROM recipes WHERE id = %s)'''
+                    WHERE id IN (SELECT recipes.image_id
+                                    FROM recipes
+                                    WHERE id = %s)'''
 
         return database.fetch(query, recipe_id)['url']
 
@@ -105,8 +158,11 @@ class RecipeModel:
         of the allergy class.
         """
         query = '''SELECT DISTINCT id, name FROM allergies
-                    WHERE id IN (SELECT allergy_id FROM allergies_ingredients WHERE ingredient_id IN
-                               	(SELECT ingredient_id FROM recipes_ingredients WHERE recipe_id = %s))'''
+                    WHERE id IN (SELECT allergy_id
+                                    FROM allergies_ingredients
+                                    WHERE ingredient_id IN (SELECT ingredient_id
+                                                                FROM recipes_ingredients
+                                                                WHERE recipe_id = %s))'''
 
         allergies = database.fetch_all(query, recipe_id)
 
