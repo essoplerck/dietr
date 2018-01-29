@@ -33,7 +33,7 @@ def add():
                                         last_name)
 
             # Redirect to roommate page
-            return redirect(url_for('roommate.roommate', handle=handle))
+            return redirect(url_for('roommate.overview'))
     return render_template('/roommate/add.jinja', error=error)
 
 
@@ -74,7 +74,7 @@ def remove(handle):
         return abort(404)
 
     if request.method == 'POST':
-        model.roommate.remove_roommate(roommate.id)
+        model.roommate.delete_roommate(roommate.id)
 
         return redirect(url_for('roommate.overview'))
     return render_template('/roommate/remove.jinja', roommate=roommate)
