@@ -32,7 +32,7 @@ class Order(int):
 
 
 class RecipeModel:
-    def get_recipes(self, start, limit, allergy_tuple, course, diet, order = Order.ASCENDING):
+    def get_recipes(self, start, limit, allergy_tuple, preferences, course, diet, order = Order.ASCENDING):
         """Fetch all the initial information for the recipes excluding recipes
         that have one of the user allergies.
         """
@@ -67,28 +67,37 @@ class RecipeModel:
             allergy_tuple = 1
             query += ''' WHERE %s'''
 
+        if preferences:
+            query += ''' AND recipes.id
+                      NOT IN (SELECT recipe_id
+                                FROM recipes_ingredients
+                               WHERE ingredient_id IN %s)'''
+        else:
+            preferences = 1
+            query += ''' AND %s'''
+
         if not course and not diet:
             query += sort + limiter
-            recipes = database.fetch_all(query, (allergy_tuple, start, limit))
+            recipes = database.fetch_all(query, (allergy_tuple, preferences, start, limit))
 
         if course and not diet:
             query += course_query
             query += sort + limiter
-            recipes = database.fetch_all(query, (allergy_tuple, course, start, limit))
+            recipes = database.fetch_all(query, (allergy_tuple, preferences, course, start, limit))
 
         if diet and not course:
             query += course_query
             query += sort + limiter
-            recipes = database.fetch_all(query, (allergy_tuple, diet, start, limit))
+            recipes = database.fetch_all(query, (allergy_tuple, preferences, diet, start, limit))
 
         if diet and course:
             query += course_query + course_query
             query += sort + limiter
-            recipes = database.fetch_all(query, (allergy_tuple, course, diet, start, limit))
+            recipes = database.fetch_all(query, (allergy_tuple, preferences, course, diet, start, limit))
 
         return [Recipe(**recipe) for recipe in recipes]
 
-    def get_recipe_count(self, allergy_tuple, course, diet):
+    def get_recipe_count(self, allergy_tuple, preferences, course, diet):
         """Fetch the total number of recipes excluding the recipes that contain
         a user allergy.
         """
@@ -112,20 +121,29 @@ class RecipeModel:
             allergy_tuple = 1
             query += ''' WHERE %s'''
 
+        if preferences:
+            query += ''' AND recipes.id
+                      NOT IN (SELECT recipe_id
+                                FROM recipes_ingredients
+                               WHERE ingredient_id IN %s)'''
+        else:
+            preferences = 1
+            query += ''' AND %s'''
+
         if not course and not course:
-            recipes = database.fetch(query, (allergy_tuple, ))
+            recipes = database.fetch(query, (allergy_tuple, preferences))
 
         if course and not diet:
             query += course_query
-            recipes = database.fetch(query, (allergy_tuple, course))
+            recipes = database.fetch(query, (allergy_tuple, preferences, course))
 
         if diet and not course:
             query += course_query
-            recipes = database.fetch(query, (allergy_tuple, diet))
+            recipes = database.fetch(query, (allergy_tuple, preferences, diet))
 
         if diet and course:
             query += course_query + course_query
-            recipes = database.fetch(query, (allergy_tuple, course, diet))
+            recipes = database.fetch(query, (allergy_tuple, preferences, course, diet))
 
         return recipes['recipe_count']
 

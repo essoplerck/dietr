@@ -32,7 +32,10 @@ def view(page, limit):
     user.allergies = model.user.get_allergies(user.id)
     user.preferences = model.user.get_preferences(user.id)
     user.roommates = model.roommate.get_roommates(user.id)
-    all_allergies = [allergy.id for allergy in user.allergies]
+
+    all_allergies = [allergy.id for allergy in user.allergies] if user.allergies else []
+    all_preferences = [ingredient.id for ingredient in user.preferences] if user.preferences else []
+
 
     checked_roommates = []
     course = []
@@ -44,10 +47,13 @@ def view(page, limit):
         if user.roommates:
             for roommate in user.roommates:
                 if request.form.get('roommate_' + str(roommate.id)):
-                    #roommate.preferences = model.roommate.get_preferences(roommate.id)
                     checked_roommates.append(roommate.id)
+
+                    roommate.preferences = model.roommate.get_preferences(roommate.id)
                     roommate.allergies = model.roommate.get_allergies(roommate.id)
-                    all_allergies += [allergy.id for allergy in roommate.allergies]
+
+                    all_allergies += [allergy.id for allergy in roommate.allergies] if roommate.allergies else []
+                    all_preferences += [ingredient.id for ingredient in roommate.allergies] if roommate.preferences else []
 
         if request.form.get('course_3'):
             course.append(3)
@@ -61,10 +67,12 @@ def view(page, limit):
             diet.append(7)
 
     all_allergies = tuple(all_allergies) if all_allergies else None
+    all_preferences = tuple(all_preferences) if all_preferences else None
+    print (all_preferences)
     course = tuple(course) if course else None
     diet = tuple(diet) if diet else None
 
-    recipe_count = model.recipe.get_recipe_count(all_allergies, course, diet)
+    recipe_count = model.recipe.get_recipe_count(all_allergies, all_preferences, course, diet)
 
     # Add pagination
     pagination = Pagination(page, limit, recipe_count)
@@ -76,7 +84,7 @@ def view(page, limit):
         return redirect(f'/recipes/page/{page}/show{limit}')
 
 
-    recipes = model.recipe.get_recipes(start, limit, all_allergies, course, diet, sort)
+    recipes = model.recipe.get_recipes(start, limit, all_allergies, all_preferences, course, diet, sort)
 
     # Add information to the recipes
     for recipe in recipes:
