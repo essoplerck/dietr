@@ -6,9 +6,11 @@
 
 {% block content %}
   <section>
-    <div class="back-color recipes row">
-      <div class="col-2 left-col-padding border-right">
-        <h3>Categorieën</h3>
+  <div class="row">
+    <div id="mySidenav" class="sidenav">
+      <div style="margin-left: 20px;">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h2>Categorieën</h2>
         <hr>
 
         {% if user.roommates %}
@@ -17,34 +19,34 @@
               <form action="{{ url_for('recipe.view') }}" method="post">
               {% for roommate in user.roommates %}
                 <label class="form-check-label">
-                  <input name="roommate_{{ roommate.id }}" class="form-check-input" type="checkbox" value="True" {{ 'checked="checked"' if roommate.id in checked_roommates else "" }}>
+                  <input name="roommate_{{ roommate.id }}" class="form-check-input" type="checkbox" value="True" {{ 'checked="checked"' if roommate.id in checked_roommates else "" }} style="margin-top: -1px;">
                   {{ roommate.first_name }}
                 </label>
               {% endfor %}
               <br>
-              <button class="btn btn-primary" type="submit">Bevestig</button>
-          </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Bevestig</button>
         {% endif %}
 
         <hr>
           <h4>Soort gerecht</h4>
           <div class="form-check">
             <label class="form-check-label">
-              <input name="course_4" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 4 in course else "" }} {% endif %}>
+              <input name="course_4" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 4 in course else "" }} {% endif %} style="margin-top: -1px;">
               Voorgerecht
             </label>
 
             <label class="form-check-label">
-              <input name="course_3" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 3 in course else "" }} {% endif %}>
+              <input name="course_3" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 3 in course else "" }} {% endif %} style="margin-top: -1px;">
               Hoofdgerecht
             </label>
 
             <label class="form-check-label">
-              <input name="course_5" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 5 in course else "" }} {% endif %}>
+              <input name="course_5" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 5 in course else "" }} {% endif %} style="margin-top: -1px;">
               Nagerecht
             </label>
             <br>
-            <button class="btn btn-primary" type="submit">Bevestig</button>
+            <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Bevestig</button>
 
           </div>
 
@@ -53,25 +55,28 @@
           <h4>Dieet</h4>
           <div class="form-check">
             <label class="form-check-label">
-              <input name="diet_7" class="form-check-input" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 7 in diet else "" }} {% endif %}>
+              <input name="diet_7" class="form-check-input" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 7 in diet else "" }} {% endif %} style="margin-top: -1px;">
               Vegetarisch
             </label>
 
             <label class="form-check-label">
-              <input name="diet_6" class="form-check-input" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 6 in diet else "" }} {% endif %}>
+              <input name="diet_6" class="form-check-input" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 6 in diet else "" }} {% endif %} style="margin-top: -1px;">
               Veganistisch
             </label>
 
             <br>
-            <button class="btn btn-primary" type="submit">Bevestig</button>
+            <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Bevestig</button>
         </div>
       </form>
 
       </div>
 
-      <div class="col">
+      <div class="col recipes">
         <div class="row">
-          <div class="col">
+          <div class="col-1 margin-top">
+            <span style="font-size: 30px; cursor: pointer;" onclick="openNav()">&#9776</span>
+          </div>
+          <div class="col row" style="justify-content: flex-end;">
             <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Recepten weergave
             </button>
@@ -81,19 +86,15 @@
               <a class="dropdown-item" href="{{ url_for_other_page(1, 40) }}">40</a>
               <a class="dropdown-item" href="{{ url_for_other_page(1, 100) }}">100</a>
             </div>
-          </div>
 
-          <div class="col">
-            <div class="dropdown text-right">
-              <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Sorteren op
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <form action="{{ url_for('recipe.view') }}" method="post">
-                  <button class="dropdown-item" name="sort" value="1">A-Z</button>
-                  <button class="dropdown-item" name="sort" value="2">Z-A</button>
-                </form>
-              </div>
+            <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sorteren op
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <form action="{{ url_for('recipe.view') }}" method="post">
+                <button class="dropdown-item" name="sort" value="1">A-Z</button>
+                <button class="dropdown-item" name="sort" value="2">Z-A</button>
+              </form>
             </div>
           </div>
         </div>
@@ -101,7 +102,7 @@
         <div class="row justify-content-center">
           <div class="card-deck">
             {% for recipe in recipes : %}
-              <div class="card-block col-md-4 col-lg-3">
+              <div class="card-block col-sm-6 col-md-3 col-lg-3">
                 <a href="#recipe{{ recipe.id }}" class="card clearfix" data-toggle="modal" data-target="#recipe{{ recipe.id }}">
                   <div class="card-img" style="background-image: url({{ url_for('static', filename='images/ingredients/' + recipe.image) }})"></div>
                   <div class="card-img-overlay">
@@ -184,7 +185,7 @@
           </div>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center margin">
           <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
               {% if pagination.has_prev %}
@@ -211,6 +212,16 @@
         </div>
       </div>
     </div>
+
+    <script>
+     function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+     }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+    </script>
 
   </section>
 {% endblock content %}
