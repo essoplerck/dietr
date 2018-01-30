@@ -13,7 +13,7 @@ blueprint = Blueprint('recipe', __name__)
     'page': 1,
     'limit':  20
 })
-@blueprint.route('/recipes/page/<int:page>/show<int:limit>')
+@blueprint.route('/recipes/page/<int:page>/show/<int:limit>')
 @login_required
 def view(page, limit):
     # Checks if the url doesn't ask for a non-excistent limit
