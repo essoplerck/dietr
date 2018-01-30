@@ -3,7 +3,6 @@
 :date  2011-02-17
 :url http://flask.pocoo.org/snippets/44/
 '''
-
 from math import ceil
 
 

@@ -3,7 +3,6 @@
 :date  2017-10-11
 :url http://flask.pocoo.org/snippets/75/
 '''
-
 import pickle
 from datetime import timedelta
 from uuid import uuid4
