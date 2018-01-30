@@ -18,61 +18,57 @@ blueprint = Blueprint('recipe', __name__)
 def view(page, limit):
     # Checks if the url doesn't ask for a non-excistent limit
     if limit not in [20, 40, 100]:
-        limit = 20
-        page = 1
+        return redirect(url_for('recipe.view', page=1, limit=20))
 
-        return redirect(url_for('recipe.view', page=page, limit=limit))
+    start = limit * (page - 1)
+    order = 'ASC'
 
     user_id = session['user']
     user = model.user.get_user(user_id)
-    start = limit * (page - 1)
-    sort = Order(1)
 
-    #Get the user's information
     user.allergies = model.user.get_allergies(user.id)
     user.preferences = model.user.get_preferences(user.id)
+
+    # Make a list of allergy and ingredient ids
+    allergies = [allergy.id for allergy in user.allergies]
+    preferences = [ingredient.id for ingredient in user.preferences]
+
     user.roommates = model.roommate.get_roommates(user.id)
 
-    all_allergies = [allergy.id for allergy in user.allergies] if user.allergies else []
-    all_preferences = [ingredient.id for ingredient in user.preferences] if user.preferences else []
+    roommates = []
 
+    tags = []
 
-    checked_roommates = []
-    course = []
-    diet = []
     if request.method == 'POST':
-        if request.form.get('sort'):
-            sort = Order(request.form.get('sort'))
-            print(sort)
-        if user.roommates:
-            for roommate in user.roommates:
-                if request.form.get('roommate_' + str(roommate.id)):
-                    checked_roommates.append(roommate.id)
+        sort = request.form['sort']
 
-                    roommate.preferences = model.roommate.get_preferences(roommate.id)
-                    roommate.allergies = model.roommate.get_allergies(roommate.id)
+        for roommate in user.roommates:
+            if request.form['roommate_' + str(roommate.handle)]:
+                roommates.append(roommate.id)
 
-                    all_allergies += [allergy.id for allergy in roommate.allergies] if roommate.allergies else []
-                    all_preferences += [ingredient.id for ingredient in roommate.allergies] if roommate.preferences else []
+                roommate.allergies = model.roommate.get_allergies(user.id, roommate.handle)
+                roommate.preferences = model.roommate.get_preferences(user.id, roommate.handle)
+
+                # Append list of allergies to list
+                allergies += [allergy.id for allergy in roommate.allergies]
+                preferences += [ingredient.id for ingredient in roommate.preferences]
 
         if request.form.get('course_3'):
-            course.append(3)
+            tags.append(3)
+
         if request.form.get('course_4'):
-            course.append(4)
+            tags.append(4)
+
         if request.form.get('course_5'):
-            course.append(5)
+            tags.append(5)
+
         if request.form.get('diet_6'):
-            diet.append(6)
+            tags.append(6)
+
         if request.form.get('diet_7'):
-            diet.append(7)
+            tags.append(7)
 
-    all_allergies = tuple(all_allergies) if all_allergies else None
-    all_preferences = tuple(all_preferences) if all_preferences else None
-    print (all_preferences)
-    course = tuple(course) if course else None
-    diet = tuple(diet) if diet else None
-
-    recipe_count = model.recipe.get_recipe_count(all_allergies, all_preferences, course, diet)
+    recipe_count = model.recipe.get_recipe_count(allergies, preferences, tags)
 
     # Add pagination
     pagination = Pagination(page, limit, recipe_count)
@@ -83,16 +79,17 @@ def view(page, limit):
 
         return redirect(f'/recipes/page/{page}/show{limit}')
 
-
-    recipes = model.recipe.get_recipes(start, limit, all_allergies, all_preferences, course, diet, sort)
+    recipes = model.recipe.get_recipes(allergies, preferences, tags,
+                                       order, start, limit)
 
     # Add information to the recipes
     for recipe in recipes:
-
-        recipe.source = recipe.get_source
-        recipe.extra_info = model.recipe.get_extra_info(recipe.id)
-        recipe.ingredients = model.recipe.get_ingredients(recipe.id)
         recipe.allergies = model.recipe.get_allergies(recipe.id)
+        recipe.ingredients = model.recipe.get_ingredients(recipe.id)
+        recipe.tags = model.recipe.get_tags(recipe.id)
+
+        print(recipe)
 
     return render_template('/recipe/view.jinja', recipes=recipes, user=user,
-                           pagination=pagination, checked_roommates=checked_roommates, course=course, diet=diet, sort=sort)
+                           pagination=pagination, roommates=roommates,
+                           tags=tags, order=order)
