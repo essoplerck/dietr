@@ -110,6 +110,8 @@
                 <a href="#recipe{{ recipe.id }}" class="card clearfix" data-toggle="modal" data-target="#recipe{{ recipe.id }}">
                   {% if recipe.image %}
                     <div class="card-img" style="background-image: url({{ url_for('static', filename='images/ingredients/' + recipe.image) }})"></div>
+                  {% else %}
+                      <div class="card-img" style="background-image: url({{ url_for('static', filename='images/ingredients/zout.png') }})"></div>
                   {% endif %}
 
                   <div class="card-img-overlay">
