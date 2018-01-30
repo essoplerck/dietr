@@ -20,7 +20,7 @@
 
             {% for roommate in user.roommates %}
               <label class="form-check-label">
-                <input name="roommate_{{ roommate.id }}" class="form-check-input" type="checkbox" value="True" {{ 'checked="checked"' if roommate.id in checked_roommates else "" }} style="margin-top: -1px;">
+                <input name="roommate_{{ roommate.id }}" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {{ 'checked="checked"' if roommate.id in checked_roommates else "" }}>
                 {{ roommate.first_name }}
               </label>
             {% endfor %}
@@ -35,21 +35,21 @@
           <h4>Soort gerecht</h4>
           <div class="form-check">
             <label class="form-check-label">
-              <input name="course_4" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 4 in course else "" }} {% endif %} style="margin-top: -1px;">
+              <input name="course_4" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 4 in course else "" }} {% endif %}>
               Voorgerecht
             </label>
 
             <label class="form-check-label">
-              <input name="course_3" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 3 in course else "" }} {% endif %} style="margin-top: -1px;">
+              <input name="course_3" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 3 in course else "" }} {% endif %}>
               Hoofdgerecht
             </label>
 
             <label class="form-check-label">
-              <input name="course_5" class="form-check-input" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 5 in course else "" }} {% endif %} style="margin-top: -1px;">
+              <input name="course_5" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 5 in course else "" }} {% endif %}>
               Nagerecht
             </label>
             <br>
-            <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Bevestig</button>
+            <button class="btn btn-primary margin-top-button" type="submit">Bevestig</button>
 
           </div>
 
@@ -58,17 +58,17 @@
           <h4>Dieet</h4>
           <div class="form-check">
             <label class="form-check-label">
-              <input name="diet_7" class="form-check-input" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 7 in diet else "" }} {% endif %} style="margin-top: -1px;">
+              <input name="diet_7" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 7 in diet else "" }} {% endif %}>
               Vegetarisch
             </label>
 
             <label class="form-check-label">
-              <input name="diet_6" class="form-check-input" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 6 in diet else "" }} {% endif %} style="margin-top: -1px;">
+              <input name="diet_6" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 6 in diet else "" }} {% endif %}>
               Veganistisch
             </label>
 
             <br>
-            <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Bevestig</button>
+            <button class="btn btn-primary margin-top-button" type="submit">Bevestig</button>
         </div>
       </form>
       </div>

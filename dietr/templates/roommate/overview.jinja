@@ -16,13 +16,13 @@
 
           <div class="card-body">
             <div class="row">
-              <div class="col-3" style="padding: 0; margin-top: 3px;">
+              <div class="col-3 no-padding" style="margin-top: 3px;">
                 <a href="#remove-{{ roommate.handle }}" data-toggle="modal" data-target="#remove-{{ roommate.handle }}">
                   <i class="fa fa-trash-o fa-2x" aria-hidden="true"></i>
                 </a>
               </div>
 
-              <div class="col row" style="justify-content: flex-end; padding: 0;">
+              <div class="col row no-padding" style="justify-content: flex-end;">
                 <a href="{{ url_for('roommate.view', handle=roommate.handle) }}" class="btn btn-primary">Bekijken</a>
               </div>
             </div>

@@ -395,6 +395,14 @@ label.form-check-label {
   width: 100%;
 }
 
+section .margin-top-checkbox {
+  margin-top: 6px;
+}
+
+section .form-check .margin-top-button {
+  margin-top: 10px;
+}
+
 section .recipes .btn-primary {
   margin: 20px 11px 0 21px;
 }
@@ -450,6 +458,10 @@ section .form-group .col-3 .btn-primary {
   margin-top: 23px;
 }
 
+section .col-3.padding-left {
+  padding-left: 0;
+}
+
 section .width-name {
   padding: 6px 50px;
 }
@@ -481,6 +493,10 @@ section .add .card {
 
 section .fa-plus {
   margin-top: 6px;
+}
+
+section .no-padding {
+  padding: 0;
 }
 
 /*Log in page*/
