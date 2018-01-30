@@ -201,8 +201,16 @@ script.elements = (location => {
       // Get search query
       let query = search.elements['search'].value;
 
+      let value = document.querySelector('#type').value;
+      let type;
+
       // Get search type
-      let type = 'allergies';
+      if (value === 'Allergieën') {
+        type = 'allergies';
+      } else {
+        type = 'ingredients';
+      }
+
 
       // Fetch results
       script[type].search(query).then(response => {
