@@ -66,7 +66,7 @@ class RoommatesPreferences(Resource):
         query = '''DELETE rp
                      FROM roommates_preferences AS rp
                           INNER JOIN ingredients
-                             ON preferences.id = rp.ingredient_id
+                             ON ingredients.id = rp.ingredient_id
                           INNER JOIN roommates
                              ON roommates.id = rp.roommate_id
                     WHERE ingredients.id = %s
@@ -85,7 +85,7 @@ class RoommatesPreferences(Resource):
         '''
         user_id = 1
 
-        query = '''INSERT INTO roommates_preferences (ingredient_id, allergy_id)
+        query = '''INSERT INTO roommates_preferences (roommate_id, ingredient_id)
                    VALUES ((SELECT id
                               FROM roommates
                              WHERE handle = %s
