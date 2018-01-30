@@ -12,7 +12,7 @@ def login_required(action):
         # Check if user is logged in
         if 'user' in session:
             return action(*arg, **kwargs)
-        return redirect(url_for('authentication.login', next=request.url))
+        return redirect(url_for('authentication.login'))
     return login_decorator
 
 
