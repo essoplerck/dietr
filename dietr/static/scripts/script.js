@@ -37,6 +37,15 @@ class Allergy {
   }
 }
 
+script.nav = {
+  open: () => {
+    document.getElementById('nav').style.width = '250px';
+  },
+  close: () => {
+    document.getElementById('nav').style.width = '0';
+  }
+}
+
 script.allergies = new Allergy();
 
 class Ingredient extends Allergy {

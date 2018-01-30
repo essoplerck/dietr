@@ -37,17 +37,19 @@
       </div>
 
       <div class="form-check" id="allergies">
-        {% for allergy in user.allergies %}
-          <div class="row">
-            <div class="col-1">
-              <i class="fa fa-trash-o" aria-hidden="true"></i>
-            </div>
+        {% if user.allergies %}
+          {% for allergy in user.allergies %}
+            <div class="row">
+              <div class="col-1">
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </div>
 
-            <div class="col">
-              <a href="{{ url_for('allergy.view', id=allergy.id) }}">{{ allergy.name }}</a>
+              <div class="col">
+                <a href="{{ url_for('allergy.view', id=allergy.id) }}">{{ allergy.name }}</a>
+              </div>
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        {% endif %}
       </div>
     </div>
 
