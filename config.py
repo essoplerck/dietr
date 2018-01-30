@@ -1,30 +1,38 @@
-DEBUG = True
-TESTING = True
+class Config:
+    PROPAGATE_EXCEPTIONS = True
 
-PROPAGATE_EXCEPTIONS = True
+    SECRET_KEY = '74a77b8e30ce074028d84fc150ab7e6dcba2eb9f31424cc8'
 
-SECRET_KEY = 0x9ae505f84cee7e0bc6e592816a2bc61d34a3bda0bfb1f9bd41cbfee3856b823b
+    SESSION_COOKIE_NAME = 'session_cookie'
 
-SESSION_COOKIE_NAME = 'session_cookie'
-# SESSION_COOKIE_DOMAIN = 'dietr.io'
-SESSION_COOKIE_PATH = '/'
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SECURE = False
-SESSION_REFRESH_EACH_REQUEST = True
+    SESSION_COOKIE_PATH = '/'
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SECURE = False
+    SESSION_REFRESH_EACH_REQUEST = True
 
-LOGGER_NAME = 'logger.dietr'
-LOGGER_HANDLER_POLICY = 'always'
+    LOGGER_NAME = 'logger.dietr'
+    LOGGER_HANDLER_POLICY = 'always'
 
-# SERVER_NAME = 'dietr.io:80'
+    APPLICATION_ROOT = None
 
-APPLICATION_ROOT = None
+    PREFERRED_URL_SCHEME = 'http'
 
-PREFERRED_URL_SCHEME = 'http'
+    JSON_AS_ASCII = False
+    JSON_SORT_KEYS = True
 
-JSON_AS_ASCII = False
-JSON_SORT_KEYS = True
+    SESSION_TYPE = 'redis'
+    SESSION_REDIS = '127.0.0.1:6379'
 
-SESSION_TYPE = 'redis'
-SESSION_REDIS = '127.0.0.1:6379'
 
-TEMPLATES_AUTO_RELOAD = True
+class DevelopmentConfig(Config):
+    DEBUG = True
+    TESTING = True
+
+    TEMPLATES_AUTO_RELOAD = True
+
+
+class ProductionConfig(Config):
+    SESSION_COOKIE_DOMAIN = 'dietr.io'
+    SERVER_NAME = 'dietr.io:80'
+
+    PREFERRED_URL_SCHEME = 'https'
