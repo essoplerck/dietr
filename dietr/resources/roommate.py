@@ -21,7 +21,7 @@ class RoommatesAllergies(Resource):
         query = '''DELETE roommates_allergies
                      FROM roommates_allergies
                           INNER JOIN allergies
-                             ON allergens.id = roommates_allergies.allergy_id
+                             ON allergies.id = roommates_allergies.allergy_id
                           INNER JOIN roommates
                              ON roommates.id = roommates_allergies.roommate_id
                     WHERE allergies.id = %s
