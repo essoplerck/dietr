@@ -22,7 +22,6 @@ Dietr is a web app that allows users to search recipes and takes in account of t
 
 ```bash
 $ git clone https://github.com/essoplerck/dietr.git
-
 $ pip3 install -r requirements.txt
 ```
 
@@ -32,26 +31,22 @@ This project is build using python version `3.6`. To check your python version r
 $ python3 -V
 ```
 
-This project requires redis, use the following command to install:
+This project requires redis and MySQL, use the following command to install:
 
 ```bash
 $ sudo apt-get install redis-server
+$ sudo apt-get install mysql-server
+$ mysql_secure_installation
 ```
 
 ## Usage
 
 To run the project on a properly configured server run the following command:
 
-```bash
-$ sudo python3 dietr.py
-```
-
 When serving localy the config needs to be changed. Open the configurationu using `$ sudo nano config.py` and comment out the following lines:
 
-```python
-SESSION_COOKIE_DOMAIN = 'dietr.io'
-SERVER_NAME = 'dietr.io:80'
-PREFERRED_URL_SCHEME = 'https'
+```bash
+SECRET_KEY = 'YOUR_SECRET_KEY_HERE'
 ```
 
 This project requires a relis server to run at `127.0.0.1:6379`. To run redis
@@ -61,7 +56,25 @@ run the following command in a separte prompt:
 $ redis-server
 ```
 
-This project also requires a MySQL server to be active at `127.0.0.1`.
+This project also requires a MySQL server to be active at `127.0.0.1`. Alternativly a external server can be used. To user a external server replace the following lines:
+
+```python
+self.connection = sql.connect(database='production',
+                              host='127.0.0.1',
+                              user='dietr',
+                              password=password,
+                              cursorclass=sql.cursors.DictCursor)
+```
+
+With:
+
+```python
+self.connection = sql.connect(database='renswnc266_production',
+                              host='185.182.57.56',
+                              user='renswnc266_dietr',
+                              password='qvuemzxu',
+                              cursorclass=sql.cursors.DictCursor)
+```
 
 Change the **SECRET_KEY** to ensure the safety of the program.
 
@@ -94,7 +107,7 @@ Code and documentation copyright 2017 - 2018 dietr.io. Code released under the [
 [releases]: https://github.com/essoplerck/dietr/releases
 [website]:  https://dietr.io
 
-[image-build]:    https://img.shields.io/travis/essoplerck/dietr.svg?style=flat-square
+[image-build]:    https://app.buddy.works/essoplerck/dietr/pipelines/pipeline/70917/badge.svg?token=05660093fdfdbd745b5c89dfa8e4a152a6ea4d7e539e4f0c3ea7e98b53cb8e0d
 [image-issues]:   https://img.shields.io/github/issues/essoplerck/dietr.svg?style=flat-square
 [image-license]:  https://img.shields.io/github/license/essoplerck/dietr.svg?style=flat-square
 [image-releases]: https://img.shields.io/github/tag/essoplerck/dietr.svg?label=latest%20stable%20release&style=flat-square
