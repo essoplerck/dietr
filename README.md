@@ -45,7 +45,7 @@ To run the project on a properly configured server run the following command:
 
 When serving localy the config needs to be changed. Open the configurationu using `$ sudo nano config.py` and comment out the following lines:
 
-```bash
+```python
 SECRET_KEY = 'YOUR_SECRET_KEY_HERE'
 ```
 
