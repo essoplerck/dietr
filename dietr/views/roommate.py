@@ -22,10 +22,10 @@ def add():
 
         # Check if user has enterd a name
         if not first_name:
-            error['first-name'] = 'You have not entered a first name.'
+            error['first-name'] = 'U heeft geen voornaam ingevuld.'
 
         if not last_name:
-            error['last-name'] = 'You have not entered a last name.'
+            error['last-name'] = 'U heeft geen achternaam ingevuld.'
 
         # Check for errors
         if not error:
@@ -59,13 +59,13 @@ def edit(handle):
 
         # Check if user has enterd a name
         if not first_name:
-            error['first_name'] = 'You have not entered a first name.'
+            error['first_name'] = 'U heeft geen voornaam ingevuld.'
 
         if not middle_name:
             middle_name = None
 
         if not last_name:
-            error['last_name'] = 'You have not entered a last name.'
+            error['last_name'] = 'U heeft geen achternaam ingevuld.'
 
         # Check for errors
         if not error:

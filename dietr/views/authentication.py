@@ -30,7 +30,7 @@ def login():
             return redirect(url_for('overview.dashboard'))
 
         else:
-            error['password'] = 'Password or username is incorect'
+            error['password'] = 'Wachtwoord of gebruikers naam is onjuist'
     return render_template('/authentication/login.jinja', error=error)
 
 
@@ -59,11 +59,11 @@ def join():
 
         # Check if email is in use
         if model.user.verify_email(email):
-            error['username'] = 'This username is already in use.'
+            error['username'] = 'Deze gebruikernaam is al in gebruik.'
 
         # Check if username is in use
         if model.user.verify_username(username):
-            error['email'] = 'There already is a user with this email address.'
+            error['email'] = 'Er is al een gebruiker met dit email adress.'
 
         first_name = request.form['first-name']
         middle_name = request.form['middle-name']
@@ -71,10 +71,10 @@ def join():
 
         # Check if user has enterd a name
         if not first_name:
-            error['first-name'] = 'You have not entered a first name.'
+            error['first-name'] = 'U heeft geen voornaam ingevuld.'
 
         if not last_name:
-            error['last-name'] = 'You have not entered a last name.'
+            error['last-name'] = 'U heeft geen achternaam ingevuld.'
 
         # Fetch the passwords
         password = request.form['password']
@@ -82,10 +82,10 @@ def join():
 
         # Check password length
         if len(password) < 8:
-            error['password'] = 'Your password is too short.'
+            error['password'] = 'Uw wachtwoord is te kort, minimaal 8 tekens.'
 
         if not password == password_verify:
-            error['password_verify'] = 'Passwords do not match'
+            error['password_verify'] = 'Wachtwoorden komen niet overeen'
 
         # Check for errors
         if not error:

@@ -1,5 +1,5 @@
-from flask import (Blueprint, redirect, render_template, request, session,
-                   url_for)
+from flask import Blueprint, redirect, render_template, request, session, \
+                  url_for
 
 from dietr.models import model
 from dietr.utils import login_required
@@ -39,13 +39,13 @@ def edit_name():
 
     # Check if user has enterd a name
     if not first_name:
-        error['first_name'] = 'You have not entered a first name.'
+        error['first_name'] = 'U heeft geen voornaam ingevuld.'
 
     if not middle_name:
         middle_name = None
 
     if not last_name:
-        error['last_name'] = 'You have not entered a last name.'
+        error['last_name'] = 'U heeft geen achternaam ingevuld.'
 
     # Check for errors
     if not error:
@@ -107,14 +107,14 @@ def edit_password():
     print(model.verify_password(current_password, user.hash))
 
     if not model.verify_password(current_password, user.hash):
-        error['current_password'] = 'Incorrect password'
+        error['current_password'] = 'U heeft een fout wachtwoord ingevuld'
 
     # Check password length
     if len(password) < 8:
-        error['password'] = 'Your password is too short.'
+        error['password'] = 'Uw wachtwoord is te kort, minimaal 8 tekens.'
 
     if not password == password_verify:
-        error['password_verify'] = 'Passwords do not match'
+        error['password_verify'] = 'Wachtwoorden komen niet overeen'
 
     # Check for errors
     if not error:
