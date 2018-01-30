@@ -1,4 +1,5 @@
-from flask import Blueprint, redirect, render_template, request, session, url_for
+from flask import Blueprint, redirect, render_template, request, session, \
+                  url_for
 
 from dietr.models import model
 from dietr.utils import login_required
@@ -43,22 +44,37 @@ def edit(handle):
     """The edit action allows users to change a roommate."""
     user_id = session['user']
 
+    error = {}
+
     roommate = model.roommate.get_roommate(user_id, handle)
 
     # Check if roommate exists
     if not roommate:
         return render_template('error/not_found.html'), 404
 
-    roommate.allergies = model.roommate.get_allergies(roommate.id)
-    roommate.preferences = model.roommate.get_preferences(roommate.id)
-
     if request.method == 'POST':
         first_name = request.form['first-name']
         middle_name = request.form['middle-name']
         last_name = request.form['last-name']
 
-        model.roommate.set_roommate(handle, first_name, middle_name, last_name)
-    return render_template('/roommate/edit.jinja', roommate=roommate)
+        # Check if user has enterd a name
+        if not first_name:
+            error['first_name'] = 'You have not entered a first name.'
+
+        if not middle_name:
+            middle_name = None
+
+        if not last_name:
+            error['last_name'] = 'You have not entered a last name.'
+
+        # Check for errors
+        if not error:
+            model.roommate.set_roommate(roommate.id, first_name,
+                                        middle_name, last_name)
+
+            return redirect(url_for('roommate.view', handle=roommate.handle))
+    return render_template('/roommate/edit.jinja', roommate=roommate,
+                                                   error=error)
 
 
 @blueprint.route('/roommate/<int:handle>/remove', methods=['GET', 'POST'])

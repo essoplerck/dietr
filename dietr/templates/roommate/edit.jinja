@@ -4,4 +4,31 @@
   Pas {{ roommate.name }} aan
 {% endblock title %}
 
-{% block carousel %}{% endblock carousel %}
+{% block carousel %}
+  <form action="{{ url_for('roommate.edit', handle=roommate.handle) }}" method="post">
+    <div class="form-group row justify-content-center">
+      <div class="col-3">
+        {{ macros.input_label('first-name',
+                              placeholder='Voornaam',
+                              value=roommate.first_name,
+                              error=error.first_name,
+                              required=True) }}
+      </div>
+      <div class="col-3">
+        {{ macros.input_label('middle-name',
+                              placeholder='Tussenvoegsel',
+                              value=roommate.middle_name) }}
+      </div>
+      <div class="col-3">
+        {{ macros.input_label('last-name',
+                              placeholder='Achternaam',
+                              value=roommate.last_name,
+                              error=error.last_name,
+                              required=True) }}
+      </div>
+      <div class="col-3 padding-left">
+        <button class="btn btn-primary width-name" type="submit">Naam aanpassen</button>
+      </div>
+    </div>
+  </form>
+{% endblock carousel %}

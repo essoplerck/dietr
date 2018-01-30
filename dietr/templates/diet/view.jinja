@@ -83,11 +83,16 @@
   <div class="row justify-content-center">
     <form class="form-inline" id="search">
       <div class="row">
-        <div class="col">
-          {{ macros.input('search', placeholder='Zoeken', type='search') }}
+        <div class="form-group">
+          <select class="form-control" id="type">
+            <option>Allergieën</option>
+            <option>Ingrediënten</option>
+          </select>
         </div>
 
-        <div class="col">
+        <div class="form-group">
+          {{ macros.input('search', placeholder='Zoeken', type='search') }}
+
           <button class="btn btn-primary">Zoeken</button>
         </div>
       </div>
