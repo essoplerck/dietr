@@ -5,37 +5,6 @@ from dietr.database import database
 from dietr.models.allergy import Allergy
 from dietr.models.ingredient import Ingredient
 
-'''
-SELECT COUNT(*) AS recipe_count
-  FROM recipes
- WHERE recipes.id NOT IN (SELECT recipe_id
-                            FROM recipes_allergies
-                           WHERE allergy_id IN (0))
-   AND recipes.id NOT IN (SELECT recipe_id
-                            FROM recipes_ingredients
-                           WHERE ingredient_id IN (0))
-   AND recipes.id NOT IN (SELECT recipe_id
-                            FROM recipes_tags
-                           WHERE tag_id IN (0));
-
-SELECT recipes.id, recipes.name, recipes.url,
-       images.url AS image
-  FROM recipes
- INNER JOIN images
-    ON recipes.image_id = images.id
- WHERE recipes.id NOT IN (SELECT recipe_id
-                            FROM recipes_allergies
-                           WHERE allergy_id IN (0))
-   AND recipes.id NOT IN (SELECT recipe_id
-                            FROM recipes_ingredients
-                           WHERE ingredient_id IN (0))
-   AND recipes.id NOT IN (SELECT recipe_id
-                            FROM recipes_tags
-                           WHERE tag_id IN (0))
- ORDER BY recipes.name ASC
- LIMIT 0, 20;
-'''
-
 
 class Order(Enum):
     ASCENDING = 1
@@ -137,11 +106,11 @@ class RecipeModel:
 
     def get_tags(self, recipe_id):
         """Fetch all the extra info for a recipe (eg. main dish, desert, vegan)"""
-        query = '''SELECT id, name
+        query = '''SELECT tags.id, tags.name
                      FROM tags
-                    WHERE id IN (SELECT tag_id
-                                   FROM recipes_tags
-                                  WHERE recipe_id = %s)'''
+                    INNER JOIN recipes_tags
+                       ON recipes_tags.tag_id = tags.id
+                    WHERE recipe_id = %s'''
 
         tags = database.fetch_all(query, recipe_id)
 
@@ -149,14 +118,15 @@ class RecipeModel:
         return [Tag(**tag) for tag in tags]
 
     def get_ingredients(self, recipe_id):
-        """Fetch all ingredients from the database and return a list of instances
-        of the ingredient class.
+        """Fetch all ingredients from the database and return a list of
+        instances of the ingredient class.
         """
-        query = '''SELECT id, name
+        query = '''SELECT DISTINCT ingredients.id, ingredients.name
                      FROM ingredients
-                    WHERE id IN (SELECT ingredient_id
-                                   FROM recipes_ingredients
-                                  WHERE recipe_id = %s)'''
+                    INNER JOIN recipes_ingredients
+                       ON recipes_ingredients.ingredient_id = ingredients.id
+                    WHERE recipe_id = %s
+                    ORDER BY ingredients.name'''
 
         ingredients = database.fetch_all(query, recipe_id)
 
@@ -167,12 +137,12 @@ class RecipeModel:
         """Get all allergies from the database and return a list of instances
         of the allergy class.
         """
-        query = '''SELECT DISTINCT id, name FROM allergies
-                    WHERE id IN (SELECT allergy_id
-                                     FROM allergies_ingredients
-                                    WHERE ingredient_id IN (SELECT ingredient_id
-                                                                FROM recipes_ingredients
-                                                                WHERE recipe_id = %s))'''
+        query = '''SELECT DISTINCT allergies.id, allergies.name
+                     FROM allergies
+                    INNER JOIN recipes_allergies
+                       ON recipes_allergies.allergy_id = allergies.id
+                    WHERE recipe_id = %s
+                    ORDER BY allergies.name'''
 
         allergies = database.fetch_all(query, recipe_id)
 

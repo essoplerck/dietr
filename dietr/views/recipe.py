@@ -10,18 +10,21 @@ blueprint = Blueprint('recipe', __name__)
 
 
 @blueprint.route('/recipes', methods=['GET', 'POST'], defaults={
-    'page': 1,
-    'limit':  20
+    'page': 1
 })
-@blueprint.route('/recipes/page/<int:page>/show/<int:limit>')
+@blueprint.route('/recipes/page/<int:page>')
 @login_required
-def view(page, limit):
+def view(page, limit=20, sort='A-Z'):
     # Checks if the url doesn't ask for a non-excistent limit
     if limit not in [20, 40, 100]:
-        return redirect(url_for('recipe.view', page=1, limit=20))
+        return redirect(url_for('recipe.view', page=page, limit=20, sort=sort))
 
     start = limit * (page - 1)
-    order = 'ASC'
+
+    if sort == 'A-Z':
+        order = 'ASC'
+    else:
+        order = 'DESC'
 
     user_id = session['user']
     user = model.user.get_user(user_id)
@@ -40,32 +43,30 @@ def view(page, limit):
     tags = []
 
     if request.method == 'POST':
-        sort = request.form['sort']
-
         for roommate in user.roommates:
-            if request.form['roommate_' + str(roommate.handle)]:
+            if 'roommate-' + str(roommate.handle) in request.form.values():
                 roommates.append(roommate.id)
 
-                roommate.allergies = model.roommate.get_allergies(user.id, roommate.handle)
-                roommate.preferences = model.roommate.get_preferences(user.id, roommate.handle)
+                roommate.allergies = model.roommate.get_allergies(roommate.id)
+                roommate.preferences = model.roommate.get_preferences(roommate.id)
 
                 # Append list of allergies to list
                 allergies += [allergy.id for allergy in roommate.allergies]
                 preferences += [ingredient.id for ingredient in roommate.preferences]
 
-        if request.form.get('course_3'):
+        if 'tag-3' in request.form.values():
             tags.append(3)
 
-        if request.form.get('course_4'):
+        if 'tag-4' in request.form.values():
             tags.append(4)
 
-        if request.form.get('course_5'):
+        if 'tag-5' in request.form.values():
             tags.append(5)
 
-        if request.form.get('diet_6'):
+        if 'tag-6' in request.form.values():
             tags.append(6)
 
-        if request.form.get('diet_7'):
+        if 'tag-7' in request.form.values():
             tags.append(7)
 
     recipe_count = model.recipe.get_recipe_count(allergies, preferences, tags)
@@ -77,7 +78,7 @@ def view(page, limit):
     if page > pagination.pages:
         page = pagination.pages
 
-        return redirect(f'/recipes/page/{page}/show{limit}')
+        return redirect(url_for('recipe.view', page=page, limit=limit, sort=sort))
 
     recipes = model.recipe.get_recipes(allergies, preferences, tags,
                                        order, start, limit)
@@ -88,8 +89,6 @@ def view(page, limit):
         recipe.ingredients = model.recipe.get_ingredients(recipe.id)
         recipe.tags = model.recipe.get_tags(recipe.id)
 
-        print(recipe)
-
     return render_template('/recipe/view.jinja', recipes=recipes, user=user,
                            pagination=pagination, roommates=roommates,
-                           tags=tags, order=order)
+                           tags=tags, sort=sort, limit=limit)

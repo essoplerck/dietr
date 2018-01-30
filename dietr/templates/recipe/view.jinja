@@ -6,99 +6,91 @@
 
 {% block content %}
   <section>
-  <div class="row">
-    <div id="mySidenav" class="sidenav">
-      <div style="margin-left: 20px;">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <h2>Categorieën</h2>
-        <hr>
+    <div class="row">
+      <div id="nav" class="sidenav">
+        <div style="margin-left: 20px">
+          <a class="closebtn" onclick="script.nav.close()">&times;</a>
 
-        {% if user.roommates %}
-          <h4>Kamergenoten</h4>
-          <div class="form-check">
-            <form action="{{ url_for('recipe.view') }}" method="post">
-
-            {% for roommate in user.roommates %}
-              <label class="form-check-label">
-                <input name="roommate_{{ roommate.id }}" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {{ 'checked="checked"' if roommate.id in checked_roommates else "" }}>
-                {{ roommate.first_name }}
-              </label>
-            {% endfor %}
-
-            <br>
-          </div>
-
-          <button class="btn btn-primary" type="submit">Bevestig</button>
-        {% endif %}
-
-        <hr>
-          <h4>Soort gerecht</h4>
-          <div class="form-check">
-            <label class="form-check-label">
-              <input name="course_4" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 4 in course else "" }} {% endif %}>
-              Voorgerecht
-            </label>
-
-            <label class="form-check-label">
-              <input name="course_3" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 3 in course else "" }} {% endif %}>
-              Hoofdgerecht
-            </label>
-
-            <label class="form-check-label">
-              <input name="course_5" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if course %} {{ 'checked="checked"' if 5 in course else "" }} {% endif %}>
-              Nagerecht
-            </label>
-            <br>
-            <button class="btn btn-primary margin-top-button" type="submit">Bevestig</button>
-
-          </div>
-
+          <h2>Categorieën</h2>
           <hr>
 
-          <h4>Dieet</h4>
-          <div class="form-check">
-            <label class="form-check-label">
-              <input name="diet_7" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 7 in diet else "" }} {% endif %}>
-              Vegetarisch
-            </label>
+          <form action="{{ url_for('recipe.view') }}" method="post">
+            {% if user.roommates %}
+              <h4>Kamergenoten</h4>
 
-            <label class="form-check-label">
-              <input name="diet_6" class="form-check-input margin-top-checkbox" type="checkbox" value="True" {% if diet %} {{ 'checked="checked"' if 6 in diet else "" }} {% endif %}>
-              Veganistisch
-            </label>
+              {% for roommate in user.roommates %}
+                <div class="form-check">
+                  <label class="form-check-label" for="roommate-{{ roommate.handle }}">{{ roommate.name }}</label>
+                  <input class="form-check-input" id="roommate-{{ roommate.handle }}" name="roommate-{{ roommate.handle }}" type="checkbox" value="True">
+                </div>
+              {% endfor %}
+            {% endif %}
 
-            <br>
-            <button class="btn btn-primary margin-top-button" type="submit">Bevestig</button>
+            <hr>
+
+            <h4>Soort gerecht</h4>
+
+            <div class="form-check">
+              <label class="form-check-label" for="tag-4">Voorgerecht</label>
+              <input class="form-check-input" id="tag-4" name="tag-4" type="checkbox" value="True" {% if 4 in tags %}checked="checked"{% endif %}>
+            </div>
+
+            <div class="form-check">
+              <label class="form-check-label" for="tag-3">Hoofdgerecht</label>
+              <input class="form-check-input" id="tag-3" name="tag-3" type="checkbox" value="True" {% if 3 in tags %}checked="checked"{% endif %}>
+            <div class="form-check">
+
+            </div>
+              <label class="form-check-label" for="tag-5">Nagerecht</label>
+              <input class="form-check-input" id="tag-5" name="tag-5" type="checkbox" value="True" {% if 5 in tags %}checked="checked"{% endif %}>
+            </div>
+
+            <hr>
+
+            <h4>Dieet</h4>
+
+            <div class="form-check">
+              <label class="form-check-label" for="tag-7">Vegetarisch</label>
+              <input class="form-check-input" id="tag-7" name="tag-7" type="checkbox" value="True" {% if 7 in tags %}checked="checked"{% endif %}>
+            </div>
+
+            <div class="form-check">
+              <label class="form-check-label" for="tag-6">Veganistisch</label>
+              <input class="form-check-input" id="tag-6" name="tag-6" type="checkbox" value="True" {% if 6 in tags %}checked="checked"{% endif %}>
+            </div>
+
+            <button class="btn btn-primary" type="submit" style="margin-top: 10px;">Bevestig</button>
+          </form>
         </div>
-      </form>
-      </div>
-
       </div>
 
       <div class="col recipes">
         <div class="row">
           <div class="col-1 margin-top">
-            <span style="font-size: 30px; cursor: pointer;" onclick="openNav()">&#9776</span>
+            <span style="font-size: 30px; cursor: pointer;" onclick="script.nav.open()">&#9776</span>
           </div>
           <div class="col row" style="justify-content: flex-end;">
-            <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Recepten weergave
-            </button>
+            <div class="dropdown">
+              <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdown-limit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Recepten weergave
+              </button>
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="{{ url_for_other_page(1, 20) }}">20</a>
-              <a class="dropdown-item" href="{{ url_for_other_page(1, 40) }}">40</a>
-              <a class="dropdown-item" href="{{ url_for_other_page(1, 100) }}">100</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown-limit">
+                <a class="dropdown-item" href="{{ url_for('recipe.view', page=1, limit=20, sort=sort) }}">20</a>
+                <a class="dropdown-item" href="{{ url_for('recipe.view', page=1, limit=40, sort=sort) }}">40</a>
+                <a class="dropdown-item" href="{{ url_for('recipe.view', page=1, limit=100, sort=sort) }}">100</a>
+              </div>
+
             </div>
+            <div class="dropdown">
+              <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdown-sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sorteren op
+              </button>
 
-            <button class="btn btn-primary btn-margin dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Sorteren op
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <form action="{{ url_for('recipe.view') }}" method="post">
-                <button class="dropdown-item" name="sort" value="1">A-Z</button>
-                <button class="dropdown-item" name="sort" value="2">Z-A</button>
-              </form>
+              <div class="dropdown-menu" aria-labelledby="dropdown-sort">
+                <a class="dropdown-item" href="{{ url_for('recipe.view', page=1, limit=limit, sort='A-Z') }}">A-Z</a>
+                <a class="dropdown-item" href="{{ url_for('recipe.view', page=1, limit=limit, sort='Z-A') }}">Z-A</a>
+              </div>
             </div>
           </div>
         </div>
@@ -221,16 +213,5 @@
         </div>
       </div>
     </div>
-
-    <script>
-     function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-     }
-
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-    }
-    </script>
-
   </section>
 {% endblock content %}
