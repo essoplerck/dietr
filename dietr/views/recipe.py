@@ -14,7 +14,10 @@ blueprint = Blueprint('recipe', __name__)
 })
 @blueprint.route('/recipes/page/<int:page>')
 @login_required
-def view(page, limit=20, sort='A-Z'):
+def view(page):
+    limit = request.args.get('limit', default=20, type=int)
+    sort = request.args.get('sort', default='A-Z', type=str)
+
     # Checks if the url doesn't ask for a non-excistent limit
     if limit not in [20, 40, 100]:
         return redirect(url_for('recipe.view', page=page, limit=20, sort=sort))
