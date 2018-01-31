@@ -21,7 +21,7 @@
               {% for roommate in user.roommates %}
                 <div class="form-check">
                   <label class="form-check-label" for="roommate-{{ roommate.handle }}">{{ roommate.name }}</label>
-                  <input class="form-check-input" id="roommate-{{ roommate.handle }}" name="roommate-{{ roommate.handle }}" type="checkbox" value="True">
+                  <input class="form-check-input" id="roommate-{{ roommate.handle }}" name="roommate-{{ roommate.handle }}" type="checkbox" value="True" {% if roommate.handle in roommates %} checked="checked" {% endif %}>
                 </div>
               {% endfor %}
             {% endif %}
@@ -32,7 +32,7 @@
 
             <div class="form-check">
               <label class="form-check-label" for="tag-4">Voorgerecht</label>
-              <input class="form-check-input" id="tag-4" name="tag-4" type="checkbox" value="True" {% if 4 in tags %}checked="checked"{% endif %}>
+              <input class="form-check-input" id="tag-4" name="tag-4" type="checkbox" value="True" {% if 4 in tags %} checked="checked"{% endif %}>
             </div>
 
             <div class="form-check">

@@ -47,8 +47,8 @@ def view(page):
 
     if request.method == 'POST':
         for roommate in user.roommates:
-            if 'roommate-' + str(roommate.handle) in request.form.values():
-                roommates.append(roommate.id)
+            if 'roommate-' + str(roommate.handle) in request.form:
+                roommates.append(roommate.handle)
 
                 roommate.allergies = model.roommate.get_allergies(roommate.id)
                 roommate.preferences = model.roommate.get_preferences(roommate.id)
@@ -57,19 +57,19 @@ def view(page):
                 allergies += [allergy.id for allergy in roommate.allergies]
                 preferences += [ingredient.id for ingredient in roommate.preferences]
 
-        if 'tag-3' in request.form.values():
+        if 'tag-3' in request.form:
             tags.append(3)
 
-        if 'tag-4' in request.form.values():
+        if 'tag-4' in request.form:
             tags.append(4)
 
-        if 'tag-5' in request.form.values():
+        if 'tag-5' in request.form:
             tags.append(5)
 
-        if 'tag-6' in request.form.values():
+        if 'tag-6' in request.form:
             tags.append(6)
 
-        if 'tag-7' in request.form.values():
+        if 'tag-7' in request.form:
             tags.append(7)
 
     recipe_count = model.recipe.get_recipe_count(allergies, preferences, tags)
