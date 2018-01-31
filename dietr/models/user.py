@@ -34,7 +34,14 @@ class UserModel:
     def add_user(self, username, email, first_name, middle_name, last_name,
                  password):
         """Add a user to the database."""
-        pass
+        hash = self.generate_hash(password)
+
+        query = '''INSERT INTO users (username, email, first_name, middle_name,
+                                      last_name, hash)
+                   VALUES (%s, %s, %s, %s, %s, %s)'''
+
+        database.commit(query, (username, email, first_name, middle_name,
+                                last_name, hash))
 
     def generate_hash(self, password):
         """Generate a sha256 hash of a password."""

@@ -32,6 +32,9 @@ class RoommateModel:
         """Add a roommate to the database."""
         handle = self.get_handle(user_id)
 
+        if not handle:
+            handle = 1
+
         query = '''INSERT INTO roommates (handle, user_id, first_name,
                                           middle_name, last_name)
                    VALUES (%s, %s, %s, %s, %s)'''

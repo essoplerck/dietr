@@ -33,8 +33,8 @@ def view(page, limit=20, sort='A-Z'):
     user.preferences = model.user.get_preferences(user.id)
 
     # Make a list of allergy and ingredient ids
-    allergies = [allergy.id for allergy in user.allergies]
-    preferences = [ingredient.id for ingredient in user.preferences]
+    allergies = [allergy.id for allergy in user.allergies ] if user.allergies else []
+    preferences = [ingredient.id for ingredient in user.preferences] if user.preferences else []
 
     user.roommates = model.roommate.get_roommates(user.id)
 
