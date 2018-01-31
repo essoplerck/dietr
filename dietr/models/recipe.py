@@ -148,3 +148,41 @@ class RecipeModel:
 
         # Convert the list of dicts to a list of allergy objects
         return [Allergy(**allergy) for allergy in allergies]
+
+    def search_recipes(self, allergies, preferences, tags, search, order,
+                       start, limit):
+        """Search all recipes. Filters on allergies, preferences and tags and
+        return list of instances of the recipe class.
+        """
+        query = f'''SELECT recipes.id, recipes.name, recipes.url,
+                           images.url AS image
+                      FROM recipes
+                     INNER JOIN images
+                        ON recipes.image_id = images.id
+                     WHERE recipes.id NOT IN (SELECT recipe_id
+                                                FROM recipes_allergies
+                                               WHERE allergy_id IN %s)
+                       AND recipes.id NOT IN (SELECT recipe_id
+                                                FROM recipes_ingredients
+                                               WHERE ingredient_id IN %s)
+                       AND recipes.id NOT IN (SELECT recipe_id
+                                                FROM recipes_tags
+                                               WHERE tag_id IN %s)
+                       AND recipes.name LIKE %s
+                     ORDER BY recipes.name {order}
+                     LIMIT %s, %s'''
+
+        # Prefent passing a empy list, instead pass a non-existing id
+        if not allergies:
+            allergies = [0]
+
+        if not preferences:
+            preferences = [0]
+
+        if not tags:
+            tags = [0]
+
+        recipes = database.fetch_all(query, (allergies, preferences, tags,
+                                             f'%{search}%', start, limit))
+
+        return [Recipe(**recipe) for recipe in recipes]

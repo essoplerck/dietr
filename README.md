@@ -43,10 +43,15 @@ $ mysql_secure_installation
 
 To run the project on a properly configured server run the following command:
 
+```bash
+$ sudo python3 dietr.p
+```
+
 When serving localy the config needs to be changed. Open the configurationu using `$ sudo nano config.py` and comment out the following lines:
 
 ```python
 SECRET_KEY = 'YOUR_SECRET_KEY_HERE'
+DATABASE_PASSWORD = 'YOUR_PASSWORD_HERE'
 ```
 
 This project requires a relis server to run at `127.0.0.1:6379`. To run redis
@@ -62,7 +67,7 @@ This project also requires a MySQL server to be active at `127.0.0.1`. Alternati
 self.connection = sql.connect(database='production',
                               host='127.0.0.1',
                               user='dietr',
-                              password='YOUR_PASSWORD_HERE',
+                              password=password,
                               cursorclass=sql.cursors.DictCursor)
 ```
 
