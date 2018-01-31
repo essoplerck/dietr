@@ -9,14 +9,10 @@ prefix = '/roommates/<int:handle>'
 
 class RoommatesAllergies(Resource):
     def delete(self, handle, id):
-        # @TODO Fix bug with sessions not beign shared across domain
-        '''
         if 'user' not in session:
             abort(403)
 
         user_id = session['user']
-        '''
-        user_id = 1
 
         query = '''DELETE roommates_allergies
                      FROM roommates_allergies
@@ -31,14 +27,10 @@ class RoommatesAllergies(Resource):
         database.commit(query, (id, handle, user_id))
 
     def post(self, handle, id, flag=0):
-        # @TODO Fix bug with sessions not beign shared across domain
-        '''
         if 'user' not in session:
             abort(403)
 
         user_id = session['user']
-        '''
-        user_id = 1
 
         query = '''INSERT INTO roommates_allergies (roommate_id, allergy_id)
                    VALUES ((SELECT id
@@ -54,14 +46,10 @@ api.add_resource(RoommatesAllergies, f'{prefix}/allergies/<int:id>')
 
 class RoommatesPreferences(Resource):
     def delete(self, handle, id):
-        # @TODO Fix bug with sessions not beign shared across domain
-        '''
         if 'user' not in session:
             abort(403)
 
         user_id = session['user']
-        '''
-        user_id = 1
 
         query = '''DELETE rp
                      FROM roommates_preferences AS rp
@@ -76,14 +64,10 @@ class RoommatesPreferences(Resource):
         database.commit(query, (id, handle, user_id))
 
     def post(self, handle, id, flag=0):
-        # @TODO Fix bug with sessions not beign shared across domain
-        '''
         if 'user' not in session:
             abort(403)
 
         user_id = session['user']
-        '''
-        user_id = 1
 
         query = '''INSERT INTO roommates_preferences (roommate_id, ingredient_id)
                    VALUES ((SELECT id

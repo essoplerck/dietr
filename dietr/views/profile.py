@@ -49,7 +49,7 @@ def edit_name():
 
     # Check for errors
     if not error:
-        model.set_name(user.id, first_name, middle_name, last_name)
+        model.user.set_name(user.id, first_name, middle_name, last_name)
 
         return redirect(url_for('profile.edit'))
     return render_template('/profile/edit.jinja', error=error, user=user)
@@ -67,7 +67,7 @@ def edit_email():
 
     # Check for errors
     if not error:
-        model.set_email(id, email)
+        model.user.set_email(id, email)
 
         return redirect(url_for('profile.edit'))
     return render_template('/profile/edit.jinja', error=error, user=user)
@@ -85,7 +85,7 @@ def edit_username():
 
     # Check for errors
     if not error:
-        model.set_username(user.id, username)
+        model.user.set_username(user.id, username)
 
         return redirect(url_for('profile.edit'))
     return render_template('/profile/edit.jinja', error=error, user=user)
@@ -104,9 +104,7 @@ def edit_password():
     password = request.form['password']
     password_verify = request.form['password-verify']
 
-    print(model.verify_password(current_password, user.hash))
-
-    if not model.verify_password(current_password, user.hash):
+    if not model.user.verify_password(current_password, user.hash):
         error['current_password'] = 'U heeft een fout wachtwoord ingevuld'
 
     # Check password length
@@ -118,7 +116,7 @@ def edit_password():
 
     # Check for errors
     if not error:
-        model.set_password(user.id, password)
+        model.user.set_password(user.id, password)
 
         # Log the user out
         session.pop('user', None)
