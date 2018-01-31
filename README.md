@@ -62,7 +62,7 @@ This project also requires a MySQL server to be active at `127.0.0.1`. Alternati
 self.connection = sql.connect(database='production',
                               host='127.0.0.1',
                               user='dietr',
-                              password=password,
+                              password='YOUR_PASSWORD_HERE',
                               cursorclass=sql.cursors.DictCursor)
 ```
 

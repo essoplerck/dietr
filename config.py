@@ -1,8 +1,6 @@
 class Config:
     PROPAGATE_EXCEPTIONS = True
 
-    SECRET_KEY = '74a77b8e30ce074028d84fc150ab7e6dcba2eb9f31424cc8'
-
     SESSION_COOKIE_NAME = 'session_cookie'
 
     SESSION_COOKIE_PATH = '/'
