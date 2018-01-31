@@ -16,12 +16,12 @@ class Database:
         """Close database connection."""
         self.connection.close()
 
-    def connect(self):
+    def connect(self, password):
         """Connecto to the database."""
-        self.connection = sql.connect(database='renswnc266_production',
-                                      host='185.182.57.56',
-                                      user='renswnc266_dietr',
-                                      password='qvuemzxu',
+        self.connection = sql.connect(database='production',
+                                      host='127.0.0.1',
+                                      user='dietr',
+                                      password=password
                                       cursorclass=sql.cursors.DictCursor)
 
     def commit(self, query, arugments=()):
