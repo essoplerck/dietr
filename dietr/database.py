@@ -21,7 +21,7 @@ class Database:
         self.connection = sql.connect(database='production',
                                       host='127.0.0.1',
                                       user='dietr',
-                                      password=password
+                                      password=password,
                                       cursorclass=sql.cursors.DictCursor)
 
     def commit(self, query, arugments=()):
