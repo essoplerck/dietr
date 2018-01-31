@@ -1,6 +1,9 @@
 class Config:
     PROPAGATE_EXCEPTIONS = True
 
+    SECRET_KEY = 'YOUR_SECRET_KEY_HERE'
+    DATABASE_PASSWORD = 'YOUR_PASSWORD_HERE'
+
     SESSION_COOKIE_NAME = 'session_cookie'
 
     SESSION_COOKIE_PATH = '/'
@@ -30,7 +33,5 @@ class DevelopmentConfig(Config):
 
 
 class ProductionConfig(Config):
-    SESSION_COOKIE_DOMAIN = 'dietr.io'
-    SERVER_NAME = 'dietr.io:80'
-
-    PREFERRED_URL_SCHEME = 'https'
+    DEBUG = False
+    TESTING = False

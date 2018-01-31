@@ -9,9 +9,7 @@ from dietr.database import database
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
-app.config.from_object('config.DevelopmentConfig')
-app.config.from_pyfile('config.cfg', silent=True)
-
+app.config.from_object('config.ProductionConfig')
 app.session_interface = RedisSessionInterface()
 
 
