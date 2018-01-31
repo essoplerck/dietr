@@ -16,7 +16,7 @@ class Database:
         """Close database connection."""
         self.connection.close()
 
-    def connect(self, password):
+    def connect(self):
         """Connecto to the database."""
         self.connection = sql.connect(database='renswnc266_production',
                                       host='185.182.57.56',

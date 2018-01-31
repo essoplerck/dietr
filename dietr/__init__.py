@@ -9,7 +9,7 @@ from dietr.database import database
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
-app.config.from_object('config.ProductionConfig')
+app.config.from_object('config.DevelopmentConfig')
 app.session_interface = RedisSessionInterface()
 
 
@@ -35,7 +35,7 @@ def minify_response(response):
 @app.before_request
 def connect():
     """Connect to the database."""
-    database.connect(app.config['DATABASE_PASSWORD'])
+    database.connect()
 
 
 @app.context_processor
